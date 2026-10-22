@@ -1,0 +1,8 @@
+{
+  "url": "bundled://IBGE/estados",
+  "fetched_at": "2026-10-22T16:51:55.437471Z",
+  "sha256": "996b5032c637c39c9ed4a0f8dc8971f49772ee8e3af4db3aa5c0fe455e963ba5",
+  "states": 27,
+  "municipalities": 0,
+  "source": "bundled-official-snapshot"
+}

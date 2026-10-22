@@ -1,0 +1,36 @@
+paths:
+  raw_csv_dir: dataset
+  data_dir: data
+  marts_dir: data/marts
+  reports_dir: data/reports
+  logs_dir: logs
+  temp_dir: data/.tmp
+  duckdb_path: warehouse/olist.duckdb
+  ibge_dir: dataset/external/ibge
+
+parquet:
+  compression: snappy
+
+geolocation:
+  lat_min: -34.0
+  lat_max: 6.0
+  lng_min: -74.0
+  lng_max: -34.0
+
+quality:
+  iqr_multiplier: 1.5
+  memory_warn_mb: 1536
+  memory_fail_mb: 2048
+
+duckdb:
+  memory_limit: 1GB
+  threads: 4
+
+ibge:
+  url: https://servicodados.ibge.gov.br/api/v1/localidades
+  timeout_seconds: 10
+  retries: 2
+
+dashboard:
+  host: 127.0.0.1
+  port: 8050
