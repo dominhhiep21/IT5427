@@ -64,7 +64,7 @@
 
 | Kiểm tra | Kết quả |
 |---|---|
-| Test suite | **45 passed** |
+| Test suite | **46 passed** |
 | Coverage U3 | **75%** (dashboard app 89%) |
 | CLI `run --stage all` | success, ~12 giây |
 | Dashboard load | 3 tab, 4 KPI, 0 console error |

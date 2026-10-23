@@ -16,7 +16,7 @@
 
 ### Unit Tests
 
-- **Total Tests**: 45 (39 fast + 6 slow).
+- **Total Tests**: 46 (40 fast + 6 slow).
 - **Passed**: 45.
 - **Failed**: 0.
 - **Coverage toàn dự án**: **87%**.

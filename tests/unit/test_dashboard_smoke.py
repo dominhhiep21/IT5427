@@ -26,6 +26,12 @@ def test_dashboard_outputs_with_real_data():
     assert outputs[1] is not None
 
 
+def test_dashboard_all_status_filter():
+    outputs = build_dashboard_outputs(load_config(), {"order_status": "all"})
+    assert "15.843.553,24" in str(outputs[0])
+    assert "99.441" in str(outputs[0])
+
+
 def test_dashboard_outputs_error_state():
     config = replace(load_config(), duckdb_path=Path("missing.duckdb"))
     outputs = build_dashboard_outputs(config, {})

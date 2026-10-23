@@ -44,7 +44,7 @@ class AnalyticsService:
                 raise ValueError("Category filter requires a category alias")
             clauses.append(f"{alias_category}.category = ?")
             params.append(filters.category)
-        if status_column:
+        if status_column and filters.order_status not in (None, "", "all"):
             clauses.append(f"{status_column} = ?")
             params.append(filters.order_status)
         where = " AND " + " AND ".join(clauses) if clauses else ""
@@ -52,8 +52,7 @@ class AnalyticsService:
 
     def kpi_summary(self, filters: KpiFilters) -> dict:
         revenue_sql = """
-            SELECT COALESCE(SUM(f.item_total), 0) AS revenue,
-                   COUNT(DISTINCT f.order_id) AS orders
+            SELECT COALESCE(SUM(f.item_total), 0) AS revenue
             FROM v_fact_order_items f
             JOIN v_dim_customer c ON f.customer_id = c.customer_id
             JOIN v_dim_product p ON f.product_id = p.product_id
@@ -61,6 +60,18 @@ class AnalyticsService:
         """
         revenue_where, revenue_params = self._where(
             filters, status_column="f.order_status"
+        )
+        orders_sql = """
+            SELECT COUNT(*) AS orders
+            FROM v_fact_orders o
+            JOIN v_dim_customer c ON o.customer_id = c.customer_id
+            JOIN v_dim_date d ON o.date_key = d.date_key
+        """
+        orders_where, orders_params = self._where(
+            filters,
+            alias_fact="o",
+            alias_category="o",
+            status_column="o.order_status",
         )
         late_sql = """
             SELECT COUNT(*) AS delivered_orders,
@@ -96,6 +107,9 @@ class AnalyticsService:
             revenue_row = conn.execute(
                 revenue_sql + revenue_where, revenue_params
             ).fetchone()
+            orders_row = conn.execute(
+                orders_sql + orders_where, orders_params
+            ).fetchone()
             late_row = conn.execute(late_sql + late_where, late_params).fetchone()
             review_row = conn.execute(
                 review_sql + review_where, review_params
@@ -104,7 +118,7 @@ class AnalyticsService:
             conn.close()
 
         revenue = float(revenue_row[0] or 0)
-        orders = int(revenue_row[1] or 0)
+        orders = int(orders_row[0] or 0)
         delivered_orders = int(late_row[0] or 0)
         late_orders = int(late_row[1] or 0)
         return {

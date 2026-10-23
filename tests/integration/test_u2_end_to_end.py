@@ -51,6 +51,14 @@ def test_u2_end_to_end(real_config):
     assert summary["aov"] == 159.83
     assert summary["late_rate_pct"] == 8.11
 
+    all_status = service.kpi_summary(KpiFilters(order_status="all"))
+    assert all_status["revenue"] == 15_843_553.24
+    assert all_status["orders"] == 99_441
+
+    sp = service.kpi_summary(KpiFilters(state="SP"))
+    assert sp["orders"] == 40_501
+    assert sp["revenue"] == 5_769_703.15
+
     monthly = service.revenue_by_period(KpiFilters(), "month")
     assert monthly.loc[monthly["year"] == 2016, "is_sparse_period"].all()
 

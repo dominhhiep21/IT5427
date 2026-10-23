@@ -16,6 +16,14 @@
 
 ---
 
+## Dashboard Filter Fix and Retest
+**Timestamp**: 2026-10-23T14:09:05Z
+**User Input**: "test lại các thanh lọc giúp tôi, nó có hoạt động đúng không vậy sao tôi truy vấn cái ddc cái không"
+**AI Response**: "Tested all dashboard filters with Playwright and direct AnalyticsService calls. Found and fixed the 'Tất cả' status filter: `_where` was adding `order_status = 'all'`, returning no rows. Also changed KPI order count to use `v_fact_orders` so all-status shows 99,441 orders. Verified: default 15,419,773.75 / 96,478; all-status 15,843,553.24 / 99,441; state SP 5,769,703.15 / 40,501; region Sudeste 9,961,654.32 / 66,200; category beleza_saude 1,412,089.53 / 8,616; date 2018 8,451,584.77 / 52,783. Added regression tests. Full suite now 46 passed (40 fast + 6 slow). Note: old dashboard process had to be restarted for code changes to take effect."
+**Context**: Post-build verification - dashboard filters
+
+---
+
 ## Build and Test Stage
 **Timestamp**: 2026-10-23T07:02:00Z
 **User Input**: "Continue to Next Stage"
