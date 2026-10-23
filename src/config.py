@@ -28,12 +28,15 @@ class AppConfig:
     temp_dir: Path
     duckdb_path: Path
     ibge_dir: Path
+    inbox_dir: Path
     parquet_compression: str = "snappy"
     duckdb_memory_limit: str = "1GB"
     duckdb_threads: int = 4
     ibge_url: str = "https://servicodados.ibge.gov.br/api/v1/localidades"
     ibge_timeout_seconds: int = 10
     ibge_retries: int = 2
+    max_batch_rows: int = 10000
+    batch_timeout_seconds: int = 30
     geo_lat_min: float = -34.0
     geo_lat_max: float = 6.0
     geo_lng_min: float = -74.0
@@ -83,8 +86,10 @@ def load_config(path: Path | None = None) -> AppConfig:
     ibge_dir = _resolve(
         workspace_root, paths.get("ibge_dir", "dataset/external/ibge")
     )
+    inbox_dir = _resolve(workspace_root, paths.get("inbox_dir", "inbox"))
     duckdb_config = raw.get("duckdb", {})
     ibge_config = raw.get("ibge", {})
+    batch_config = raw.get("micro_batch", {})
 
     config = AppConfig(
         workspace_root=workspace_root,
@@ -99,6 +104,7 @@ def load_config(path: Path | None = None) -> AppConfig:
         temp_dir=temp_dir,
         duckdb_path=duckdb_path,
         ibge_dir=ibge_dir,
+        inbox_dir=inbox_dir,
         parquet_compression=parquet.get("compression", "snappy"),
         duckdb_memory_limit=duckdb_config.get("memory_limit", "1GB"),
         duckdb_threads=int(duckdb_config.get("threads", 4)),
@@ -107,6 +113,8 @@ def load_config(path: Path | None = None) -> AppConfig:
         ),
         ibge_timeout_seconds=int(ibge_config.get("timeout_seconds", 10)),
         ibge_retries=int(ibge_config.get("retries", 2)),
+        max_batch_rows=int(batch_config.get("max_rows", 10000)),
+        batch_timeout_seconds=int(batch_config.get("timeout_seconds", 30)),
         geo_lat_min=float(geo.get("lat_min", -34.0)),
         geo_lat_max=float(geo.get("lat_max", 6.0)),
         geo_lng_min=float(geo.get("lng_min", -74.0)),
@@ -128,6 +136,7 @@ def load_config(path: Path | None = None) -> AppConfig:
         config.temp_dir,
         config.duckdb_path.parent,
         config.ibge_dir,
+        config.inbox_dir,
     ):
         directory.mkdir(parents=True, exist_ok=True)
 

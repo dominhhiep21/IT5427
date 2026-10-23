@@ -7,6 +7,7 @@ paths:
   temp_dir: data/.tmp
   duckdb_path: warehouse/olist.duckdb
   ibge_dir: dataset/external/ibge
+  inbox_dir: inbox
 
 parquet:
   compression: snappy
@@ -30,6 +31,10 @@ ibge:
   url: https://servicodados.ibge.gov.br/api/v1/localidades
   timeout_seconds: 10
   retries: 2
+
+micro_batch:
+  max_rows: 10000
+  timeout_seconds: 30
 
 dashboard:
   host: 127.0.0.1
