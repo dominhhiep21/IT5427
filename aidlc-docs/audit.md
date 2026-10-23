@@ -16,6 +16,62 @@
 
 ---
 
+## U3 NFR Design Answers and Artifacts
+**Timestamp**: 2026-10-23T04:04:52Z
+**User Input**: "tôi đã trả lời xong"
+**AI Response**: "Collected 5 answers, all A: server-side callbacks, dcc.Store filter state, temp-copy transactional batch, monthly replay batches, and Vietnamese error banner with retry. Generated nfr-design-patterns.md (11 patterns + mapping) and logical-components.md (12 components with interfaces and boundaries). Awaiting approval."
+**Context**: CONSTRUCTION - U3 NFR Design complete, approval gate
+
+---
+
+## U3 NFR Requirements Approved and NFR Design Started
+**Timestamp**: 2026-10-23T03:59:20Z
+**User Input**: "Continue to Next Stage"
+**AI Response**: "U3 NFR Requirements approved. Started U3 NFR Design. Created u3-dashboard-operations-nfr-design-plan.md with patterns (server-side callbacks, agg-backed charts, transactional batch, JSON logs, localhost, accessibility) and logical components (DashboardApp, LayoutBuilder, Formatters, PipelineCLI, StageRunner, MicroBatchProcessor, UpsertService, ReplayGenerator). Asked 5 questions on callback mode, filter state, batch transaction, replay generation and error display."
+**Context**: CONSTRUCTION - U3 NFR Design, Planning
+
+---
+
+## U3 NFR Requirements Answers and Artifacts
+**Timestamp**: 2026-10-23T03:56:33Z
+**User Input**: "tôi đã trả lời xong"
+**AI Response**: "Collected 5 answers, all A: dashboard ≤3s, micro-batch ≤10k rows/≤30s, Chrome/Edge, WCAG AA + keyboard + reduced motion, JSON logs + console. Generated nfr-requirements.md (NFR-U3-01..10) and tech-stack-decisions.md (Dash/Plotly, argparse, CSS tokens, localhost, no ML). Awaiting approval."
+**Context**: CONSTRUCTION - U3 NFR Requirements complete, approval gate
+
+---
+
+## U3 Functional Design Approved and NFR Requirements Started
+**Timestamp**: 2026-10-23T03:42:25Z
+**User Input**: "Continue to Next Stage"
+**AI Response**: "U3 Functional Design approved. Started U3 NFR Requirements. Created u3-dashboard-operations-nfr-requirements-plan.md with proposed targets (dashboard ≤3s, full CLI ≤10 min, micro-batch ≤10k rows/≤30s, Chrome/Edge, WCAG AA, JSON logs) and tech stack (Dash, Plotly, argparse, DuckDB). Asked 5 questions on load time, batch limits, browser support, accessibility and log format."
+**Context**: CONSTRUCTION - U3 NFR Requirements, Planning
+
+---
+
+## U3 Functional Design Answers and Artifacts
+**Timestamp**: 2026-10-23T03:40:04Z
+**User Input**: "tôi đã trả lời xong"
+**AI Response**: "Collected 5 answers, all A: one page with 3 tabs, argparse CLI, natural-key upsert micro-batch, CSV inbox, ML deferred. Loaded frontend-design skill for dashboard visual direction. Generated business-logic-model.md (dashboard, CLI, micro-batch, replay, docs, ML deferred), business-rules.md (BR-U3-01..20), and domain-entities.md (filters, KPI cards, manifest, batch/run summaries, replay). Awaiting approval."
+**Context**: CONSTRUCTION - U3 Functional Design complete, approval gate
+
+---
+
+## U2 Code Approved and U3 Functional Design Started
+**Timestamp**: 2026-10-23T03:35:30Z
+**User Input**: "Continue to Next Stage"
+**AI Response**: "U2 code approved. Started U3 Dashboard & Operations Functional Design. Created u3-dashboard-operations-functional-design-plan.md covering a 3-tab Plotly Dash dashboard, argparse CLI, inbox CSV micro-batch with upsert, documentation and optional ML. Asked 5 questions on dashboard layout, CLI parser, micro-batch merge, inbox format and ML scope."
+**Context**: CONSTRUCTION - U3 Functional Design, Planning
+
+---
+
+## U2 Code Generation Completed
+**Timestamp**: 2026-10-22T17:07:29Z
+**User Input**: "Approve Plan"
+**AI Response**: "Implemented U2: IBGE client with cache/retry and bundled 27-state snapshot, region mapper, 5 dimensions, 4 facts, 2 daily aggregates, DuckDB connection factory/catalog (11 views), star-schema validator, KPI reconciler, integration pipeline, and analytics service. Installed duckdb 2.0.0. All 31 tests pass; U2 coverage 89%; KPI baseline matches 15,419,773.75 BRL, 96,478 orders, AOV 159.83, 7,826 late, 8.11%. KPI query median 65-233 ms. Awaiting code approval before U3 Functional Design."
+**Context**: CONSTRUCTION - U2 Code Generation complete, approval gate
+
+---
+
 ## U2 NFR Design Approved and Code Generation Planned
 **Timestamp**: 2026-10-22T16:48:05Z
 **User Input**: "Continue to Next Stage"

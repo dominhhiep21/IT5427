@@ -61,69 +61,69 @@ dataset/external/ibge/
 ## 4. Các bước thực hiện
 
 ### Step 1 — Dependency và config
-- [ ] Thêm `duckdb` vào `requirements.txt`; cài trong `.venv`, pin phiên bản.
-- [ ] Bổ sung `config.yaml`: `duckdb_path`, `marts_dir`, `duckdb_memory_limit`, `duckdb_threads`, `ibge_url`, `ibge_timeout`, `ibge_retries`.
-- [ ] Mở rộng `AppConfig`.
+- [x] Thêm `duckdb` vào `requirements.txt`; cài trong `.venv`, pin phiên bản.
+- [x] Bổ sung `config.yaml`: `duckdb_path`, `marts_dir`, `duckdb_memory_limit`, `duckdb_threads`, `ibge_url`, `ibge_timeout`, `ibge_retries`.
+- [x] Mở rộng `AppConfig`.
 - **Story**: US-08, US-19.
 
 ### Step 2 — Shared types
-- [ ] `src/common/types.py`: `KpiFilters`, `IntegrationReport`, `ValidationReport`, `KpiReconciliationReport`, `IbgeMetadata`.
+- [x] `src/common/types.py`: `KpiFilters`, `IntegrationReport`, `ValidationReport`, `KpiReconciliationReport`, `IbgeMetadata`.
 - **Story**: US-08, US-14.
 
 ### Step 3 — IBGE client + region mapper
-- [ ] `src/external/ibge.py`: cache, API, retry, metadata, `fetch_states`, `fetch_municipalities`.
-- [ ] `src/external/region.py`: `RegionMapper`, 27 state → 5 region, validate.
-- [ ] Tạo cache bootstrap `estados.json` + `metadata.json`.
+- [x] `src/external/ibge.py`: cache, API, retry, metadata, `fetch_states`, `fetch_municipalities`.
+- [x] `src/external/region.py`: `RegionMapper`, 27 state → 5 region, validate.
+- [x] Tạo cache bootstrap `estados.json` + `metadata.json`.
 - **Story**: US-19.
 
 ### Step 4 — Dimensions
-- [ ] `src/integrate/dimensions.py`: `DimensionBuilder` cho customer/product/seller/geography/date.
-- [ ] `dim_date` 774 ngày; `is_sparse_period`.
+- [x] `src/integrate/dimensions.py`: `DimensionBuilder` cho customer/product/seller/geography/date.
+- [x] `dim_date` 774 ngày; `is_sparse_period`.
 - **Story**: US-08, US-09, US-10.
 
 ### Step 5 — Facts
-- [ ] `src/integrate/facts.py`: `FactBuilder` cho order_items/orders/payments/reviews.
-- [ ] `item_total`, `delivery_days`, `is_late`, `has_*`.
+- [x] `src/integrate/facts.py`: `FactBuilder` cho order_items/orders/payments/reviews.
+- [x] `item_total`, `delivery_days`, `is_late`, `has_*`.
 - **Story**: US-08, US-10, US-14.
 
 ### Step 6 — Aggregates
-- [ ] `src/integrate/aggregates.py`: `agg_sales_daily`, `agg_delivery_daily`.
-- [ ] Grain `(date_key, state, region, category)`.
+- [x] `src/integrate/aggregates.py`: `agg_sales_daily`, `agg_delivery_daily`.
+- [x] Grain `(date_key, state, region, category)`.
 - **Story**: US-11, US-12, US-14.
 
 ### Step 7 — DuckDB connection + catalog
-- [ ] `src/integrate/connections.py`: `ConnectionFactory` read-only/write, memory limit.
-- [ ] `src/integrate/catalog.py`: tạo view `v_*` trên Parquet.
+- [x] `src/integrate/connections.py`: `ConnectionFactory` read-only/write, memory limit.
+- [x] `src/integrate/catalog.py`: tạo view `v_*` trên Parquet.
 - **Story**: US-08, US-11.
 
 ### Step 8 — Validator + KPI reconciler
-- [ ] `src/integrate/validate.py`: row counts, unique, fanout, region.
-- [ ] `src/integrate/reconcile.py`: KPI baseline, tolerance 0,01.
+- [x] `src/integrate/validate.py`: row counts, unique, fanout, region.
+- [x] `src/integrate/reconcile.py`: KPI baseline, tolerance 0,01.
 - **Story**: US-08, US-14.
 
 ### Step 9 — Integration pipeline
-- [ ] `src/integrate/pipeline.py`: build → temp → validate → promote → catalog → report.
-- [ ] Ghi `integration-report.json`, `kpi-reconciliation.json`.
+- [x] `src/integrate/pipeline.py`: build → temp → validate → promote → catalog → report.
+- [x] Ghi `integration-report.json`, `kpi-reconciliation.json`.
 - **Story**: US-08 → US-14.
 
 ### Step 10 — Analytics service
-- [ ] `src/analytics/filters.py`: `KpiFilters`.
-- [ ] `src/analytics/service.py`: `kpi_summary`, `revenue_by_period`, `revenue_by_dimension`, `top_entities`, `delivery_kpis`.
-- [ ] Chỉ SELECT; không cache.
+- [x] `src/analytics/filters.py`: `KpiFilters`.
+- [x] `src/analytics/service.py`: `kpi_summary`, `revenue_by_period`, `revenue_by_dimension`, `top_entities`, `delivery_kpis`.
+- [x] Chỉ SELECT; không cache.
 - **Story**: US-11 → US-14.
 
 ### Step 11 — Unit tests
-- [ ] Test region mapper 27/5; state lạ.
-- [ ] Test dimensions row counts/date sparse.
-- [ ] Test facts grain/item_total/late.
-- [ ] Test aggregates totals.
-- [ ] Test analytics filters/KPI.
+- [x] Test region mapper 27/5; state lạ.
+- [x] Test dimensions row counts/date sparse.
+- [x] Test facts grain/item_total/late.
+- [x] Test aggregates totals.
+- [x] Test analytics filters/KPI.
 - **Story**: US-08 → US-14, US-19.
 
 ### Step 12 — Integration tests + docs
-- [ ] `tests/integration/test_u2_end_to_end.py`: U1 cleaned → U2 → DuckDB → KPI baseline.
-- [ ] `aidlc-docs/construction/u2-integration-analytics/code/code-summary.md`.
-- [ ] Chạy `pytest`; coverage integrate/analytics ≥ 70%.
+- [x] `tests/integration/test_u2_end_to_end.py`: U1 cleaned → U2 → DuckDB → KPI baseline.
+- [x] `aidlc-docs/construction/u2-integration-analytics/code/code-summary.md`.
+- [x] Chạy `pytest`; coverage integrate/analytics ≥ 70%.
 - **Story**: US-08 → US-14.
 
 ## 5. Truy vết story
@@ -148,9 +148,9 @@ dataset/external/ibge/
 
 ## 7. Điều kiện hoàn thành
 
-- [ ] `data/marts/*.parquet` đủ 5 dim + 4 fact + 2 agg.
-- [ ] DuckDB catalog mở được, view trả đúng row counts.
-- [ ] KPI baseline khớp: 15.419.773,75; 96.478; 159,83; 7.826; 8,11%.
-- [ ] 27 state → 5 region.
-- [ ] `pytest` pass; coverage ≥ 70%.
-- [ ] Không đọc CSV trong integrate/analytics.
+- [x] `data/marts/*.parquet` đủ 5 dim + 4 fact + 2 agg.
+- [x] DuckDB catalog mở được, view trả đúng row counts.
+- [x] KPI baseline khớp: 15.419.773,75; 96.478; 159,83; 7.826; 8,11%.
+- [x] 27 state → 5 region.
+- [x] `pytest` pass; coverage ≥ 70%.
+- [x] Không đọc CSV trong integrate/analytics.
