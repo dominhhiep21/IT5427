@@ -83,6 +83,8 @@
 - Đổi heading từ Georgia sang **Cambria** để hiển thị đúng dấu tiếng Việt.
 - Việt hóa status filter, date placeholder, subtitle “đơn đã giao”.
 - Loại giai đoạn 2016 khỏi chart tỷ lệ giao trễ theo tháng (vẫn giữ badge cảnh báo) để tránh spike 100% từ 1 đơn.
+- Sửa lỗi 500 khi filter trả về rỗng: thay `monthly.apply(..., axis=1)` bằng tạo chuỗi vectorized, vì `apply` trên DataFrame rỗng trả về DataFrame thay vì Series.
+- Sửa filter trạng thái **Tất cả**: bỏ điều kiện `order_status = 'all'`; KPI số đơn lấy từ `v_fact_orders`.
 - Micro-batch upsert ở cleaned rồi rebuild U2; đảm bảo star schema luôn nhất quán.
 - Replay tạo batch theo tháng từ cleaned orders.
 

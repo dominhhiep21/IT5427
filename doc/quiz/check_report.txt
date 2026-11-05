@@ -1,0 +1,21 @@
+Tổng số câu: 500
+
+b1a: 43 câu - Nền tảng tích hợp dữ liệu & dị biệt (phần A)
+b1b: 41 câu - Nền tảng tích hợp dữ liệu & dị biệt (phần B)
+b2a: 33 câu - Ánh xạ lược đồ GAV/LAV/GLAV (phần A)
+b2b: 34 câu - Ánh xạ lược đồ & viết lại truy vấn (phần B)
+b2c: 32 câu - Ánh xạ lược đồ & viết lại truy vấn (phần C)
+b3: 50 câu - Sinh truy vấn trung gian từ lược đồ
+b4a: 33 câu - Record linkage & entity resolution (phần A)
+b4b: 32 câu - Record linkage & entity resolution (phần B)
+b4c: 36 câu - Record linkage & entity resolution (phần C)
+b5a: 45 câu - Xử lý truy vấn thích ứng (phần A)
+b5b: 47 câu - Xử lý truy vấn thích ứng (phần B)
+b6a: 45 câu - Wrapper & kỹ thuật trích xuất dữ liệu (phần A)
+b6b: 29 câu - Profiling & chọn nguồn dữ liệu (phần B)
+
+HARD PROBLEMS
+- none
+
+LENGTH CUES
+- none

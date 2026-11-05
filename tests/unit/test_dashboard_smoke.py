@@ -32,6 +32,15 @@ def test_dashboard_all_status_filter():
     assert "99.441" in str(outputs[0])
 
 
+def test_dashboard_empty_period_does_not_crash():
+    outputs = build_dashboard_outputs(
+        load_config(),
+        {"start_date": "2019-01-01", "end_date": "2019-12-31"},
+    )
+    assert len(outputs) == 9
+    assert outputs[0] is not None
+
+
 def test_dashboard_outputs_error_state():
     config = replace(load_config(), duckdb_path=Path("missing.duckdb"))
     outputs = build_dashboard_outputs(config, {})

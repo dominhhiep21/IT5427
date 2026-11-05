@@ -16,6 +16,14 @@
 
 ---
 
+## Dashboard Empty-Filter 500 Fix
+**Timestamp**: 2026-10-30T00:00:00Z
+**User Input**: "(dashboard runtime error observed during filter testing)"
+**AI Response**: "Fixed a 500 error in `build_dashboard_outputs`: `monthly.apply(..., axis=1)` returns a DataFrame when the filtered monthly result is empty, so assigning it to `monthly['period']` raised ValueError. Replaced it with vectorized string construction that works for empty DataFrames. Verified directly with date 2019 (no data), invalid state ZZ, all-status and 2018 filters. Added regression test `test_dashboard_empty_period_does_not_crash`."
+**Context**: Post-build verification - empty filter result
+
+---
+
 ## Dashboard Filter Fix and Retest
 **Timestamp**: 2026-10-23T14:09:05Z
 **User Input**: "test lại các thanh lọc giúp tôi, nó có hoạt động đúng không vậy sao tôi truy vấn cái ddc cái không"

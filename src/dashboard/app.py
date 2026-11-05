@@ -441,8 +441,10 @@ def build_dashboard_outputs(config, data):
         sparse = sparse_badge()
 
     monthly = monthly.copy()
-    monthly["period"] = monthly.apply(
-        lambda row: f"{int(row['year'])}-{int(row['month']):02d}", axis=1
+    monthly["period"] = (
+        monthly["year"].astype(int).astype(str)
+        + "-"
+        + monthly["month"].astype(int).astype(str).str.zfill(2)
     )
     category_frame = category_frame.head(12)
     delivery_state = delivery_state.sort_values("late_rate_pct", ascending=False).head(12)
