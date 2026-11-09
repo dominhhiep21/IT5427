@@ -3,11 +3,15 @@ paths:
   data_dir: data
   marts_dir: data/marts
   reports_dir: data/reports
+  integration_dir: data/integration
   logs_dir: logs
   temp_dir: data/.tmp
   duckdb_path: warehouse/olist.duckdb
   ibge_dir: dataset/external/ibge
   inbox_dir: inbox
+  mediated_schema_path: config/mediated-schema.yaml
+  integration_tab_path: config/integration-tab.yaml
+  integration_sources_path: config/integration-sources.yaml
 
 parquet:
   compression: snappy

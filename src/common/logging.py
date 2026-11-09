@@ -9,6 +9,25 @@ from pathlib import Path
 
 from src.common.types import RunContext
 
+ERROR_CODES = frozenset(
+    {
+        "file_not_found",
+        "permission_denied",
+        "decode_error",
+        "column_missing",
+        "identifier_invalid",
+        "sql_error",
+        "result_unreadable",
+    }
+)
+UNKNOWN_ERROR_CODE = "unknown"
+
+
+def normalise_error_code(code: str) -> str:
+    """Map a code outside the closed set onto `unknown` (security-design §4 limit 3)."""
+
+    return code if code in ERROR_CODES else UNKNOWN_ERROR_CODE
+
 
 def _utc_now() -> datetime:
     return datetime.now(timezone.utc)
@@ -64,3 +83,37 @@ class JsonLogger:
         self._write("INFO", "summary", message=message)
         if self.console:
             print(message)
+
+
+class NullLogger:
+    """Logger that drops every event, used when a caller passes none."""
+
+    def info(self, event: str, **fields: object) -> None: ...
+
+    def warning(self, event: str, **fields: object) -> None: ...
+
+    def error(self, event: str, error_code: str, **fields: object) -> None: ...
+
+
+def prune_logs(logs_dir: Path, logger: JsonLogger, keep: int = 10) -> int:
+    """Keep the `keep` newest .jsonl logs; never raise out of this helper."""
+
+    try:
+        logs = sorted(
+            logs_dir.glob("*.jsonl"),
+            key=lambda path: path.stat().st_mtime_ns,
+            reverse=True,
+        )
+        if len(logs) <= keep:
+            return 0
+        deleted = 0
+        for path in logs[keep:]:
+            if path == logger.run.log_path:
+                continue
+            path.unlink()
+            deleted += 1
+        logger.info("integration.logs.pruned", kept=len(logs) - deleted, deleted=deleted)
+        return deleted
+    except OSError as exc:
+        logger.warning("integration.logs.prune_failed", reason=str(exc)[:200])
+        return 0

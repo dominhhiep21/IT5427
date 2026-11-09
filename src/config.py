@@ -24,11 +24,15 @@ class AppConfig:
     cleaned_dir: Path
     marts_dir: Path
     reports_dir: Path
+    integration_dir: Path
     logs_dir: Path
     temp_dir: Path
     duckdb_path: Path
     ibge_dir: Path
     inbox_dir: Path
+    mediated_schema_path: Path
+    integration_tab_path: Path
+    integration_sources_path: Path
     parquet_compression: str = "snappy"
     duckdb_memory_limit: str = "1GB"
     duckdb_threads: int = 4
@@ -78,15 +82,22 @@ def load_config(path: Path | None = None) -> AppConfig:
     data_dir = _resolve(workspace_root, paths.get("data_dir", "data"))
     marts_dir = _resolve(workspace_root, paths.get("marts_dir", "data/marts"))
     reports_dir = _resolve(workspace_root, paths.get("reports_dir", "data/reports"))
+    integration_dir = _resolve(workspace_root, paths.get("integration_dir", "data/integration"))
     logs_dir = _resolve(workspace_root, paths.get("logs_dir", "logs"))
     temp_dir = _resolve(workspace_root, paths.get("temp_dir", "data/.tmp"))
-    duckdb_path = _resolve(
-        workspace_root, paths.get("duckdb_path", "warehouse/olist.duckdb")
-    )
-    ibge_dir = _resolve(
-        workspace_root, paths.get("ibge_dir", "dataset/external/ibge")
-    )
+    duckdb_path = _resolve(workspace_root, paths.get("duckdb_path", "warehouse/olist.duckdb"))
+    ibge_dir = _resolve(workspace_root, paths.get("ibge_dir", "dataset/external/ibge"))
     inbox_dir = _resolve(workspace_root, paths.get("inbox_dir", "inbox"))
+    mediated_schema_path = _resolve(
+        workspace_root, paths.get("mediated_schema_path", "config/mediated-schema.yaml")
+    )
+    integration_tab_path = _resolve(
+        workspace_root, paths.get("integration_tab_path", "config/integration-tab.yaml")
+    )
+    integration_sources_path = _resolve(
+        workspace_root,
+        paths.get("integration_sources_path", "config/integration-sources.yaml"),
+    )
     duckdb_config = raw.get("duckdb", {})
     ibge_config = raw.get("ibge", {})
     batch_config = raw.get("micro_batch", {})
@@ -100,17 +111,19 @@ def load_config(path: Path | None = None) -> AppConfig:
         cleaned_dir=data_dir / "cleaned",
         marts_dir=marts_dir,
         reports_dir=reports_dir,
+        integration_dir=integration_dir,
         logs_dir=logs_dir,
         temp_dir=temp_dir,
         duckdb_path=duckdb_path,
         ibge_dir=ibge_dir,
         inbox_dir=inbox_dir,
+        mediated_schema_path=mediated_schema_path,
+        integration_tab_path=integration_tab_path,
+        integration_sources_path=integration_sources_path,
         parquet_compression=parquet.get("compression", "snappy"),
         duckdb_memory_limit=duckdb_config.get("memory_limit", "1GB"),
         duckdb_threads=int(duckdb_config.get("threads", 4)),
-        ibge_url=ibge_config.get(
-            "url", "https://servicodados.ibge.gov.br/api/v1/localidades"
-        ),
+        ibge_url=ibge_config.get("url", "https://servicodados.ibge.gov.br/api/v1/localidades"),
         ibge_timeout_seconds=int(ibge_config.get("timeout_seconds", 10)),
         ibge_retries=int(ibge_config.get("retries", 2)),
         max_batch_rows=int(batch_config.get("max_rows", 10000)),
@@ -132,6 +145,7 @@ def load_config(path: Path | None = None) -> AppConfig:
         config.cleaned_dir,
         config.marts_dir,
         config.reports_dir,
+        config.integration_dir,
         config.logs_dir,
         config.temp_dir,
         config.duckdb_path.parent,
