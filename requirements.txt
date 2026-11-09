@@ -6,3 +6,8 @@ plotly==7.1.0
 PyYAML==6.0.2
 pytest==9.1.1
 pytest-cov==7.1.0
+# Thư viện thành phần UI của tab "Tích hợp" (TS-U6-1, AC5.1.1). Ghim dòng 2.x vì dòng
+# 3.x đòi dash>=4.5.0 trong khi repo ghim dash==4.4.1; 2.8.1 đã chạy thử với dash 4.4.1.
+dash-mantine-components==2.8.1
+# Lint + format gate (TS-U1-3, NFR3.1): `ruff check .` và `ruff format --check` phải sạch.
+ruff==0.17.4

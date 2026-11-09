@@ -58,7 +58,14 @@ Output:
 - `data/marts/*.parquet`
 - `warehouse/olist.duckdb`
 - `data/reports/*.json`
+- `data/integration/linkage-customer.json` + `data/integration/linkage-seller.json` — kết quả ghép bản
+  ghi (hợp đồng C5), ghi một lần sau `integrate` bởi `src/linkage/`; sinh lại bằng
+  `run --stage all` hoặc `run --stage integrate`
 - `logs/{run_id}.jsonl`
+
+`logs/` chỉ giữ **10 tệp nhật ký gần nhất**: cuối mỗi lần chạy pipeline tự dọn tệp `.jsonl` cũ
+hơn (sự kiện `integration.logs.pruned`). Muốn giữ lại để điều tra thì chép tệp ra ngoài trước
+khi chạy lần tiếp theo.
 
 ## Dashboard
 
@@ -68,11 +75,13 @@ Output:
 
 Mở `http://127.0.0.1:8050`.
 
-Dashboard có 3 tab:
+Dashboard có 4 tab:
 
 - **Tổng quan**: KPI, doanh thu theo tháng, top danh mục.
 - **Danh mục**: doanh thu theo danh mục, top sản phẩm.
 - **Giao vận**: tỷ lệ giao trễ theo bang/danh mục/tháng.
+- **Tích hợp**: thẻ "Số đơn theo tháng" đọc thẳng `dataset/`, chạy truy vấn trên DuckDB
+  in-memory nên không cần `warehouse/` và không phụ thuộc pipeline đã chạy hay chưa.
 
 ## Micro-batch
 
@@ -116,6 +125,31 @@ Lệnh chia cleaned orders theo tháng, tạo batch lịch sử trong `inbox/rep
 # Coverage
 .\.venv\Scripts\python.exe -X utf8 -m pytest --cov=src --cov-report=term
 ```
+
+## Lint và định dạng
+
+```powershell
+.\.venv\Scripts\ruff check .
+.\.venv\Scripts\ruff format --check src/integration
+```
+
+`ruff` (ghim trong `requirements.txt`) là cổng bắt buộc: `ruff check .` chạy toàn repo, còn
+`ruff format --check` chạy trên mã của đợt nâng cấp — mã cũ được dọn theo từng tệp khi có
+người sửa tới.
+
+## CI
+
+Workflow ở `.github/workflows/ci.yml`, chạy trên `windows-2022` khi push/pull request vào
+`main` và `feature/update-ui-ux`. Sáu bước: checkout → Python 3.13 (cache theo
+`requirements.txt`) → `pip install -r requirements.txt` → `ruff check .` + `ruff format --check`
+→ `python -X utf8 -m src.pipeline run --stage all` → `python -X utf8 -m pytest -m "not slow"`.
+
+Bước dựng dữ liệu là bắt buộc vì bộ test nhanh chưa hermetic (`TD-09`): năm test dashboard cần
+`warehouse/olist.duckdb` và `data/marts/`. Workflow không truyền `--refresh-ibge`, nên nó chỉ
+đọc cache IBGE đã commit; chỉ khi cache đó mất hoặc hỏng thì CI mới cần mạng.
+
+Bộ test `slow` và cổng phủ 80% **không** chạy trong CI — chúng chạy tay trước mỗi mốc phát
+hành: `python -X utf8 -m pytest --cov=src --cov-fail-under=80`.
 
 ## KPI baseline
 
