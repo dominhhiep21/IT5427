@@ -1,0 +1,26 @@
+{
+  "stage": "code-generation",
+  "unit": "u3-query-rewriter",
+  "version": 1,
+  "writes": [
+    { "path": "src/integration/rewrite.py" },
+    { "path": "src/common/kpis.py" },
+    { "path": "src/integration/models.py" },
+    { "path": "src/common/exceptions.py" },
+    { "path": "src/integration/card.py" },
+    { "path": "src/integration/load.py" },
+    { "path": "src/dashboard/app.py" },
+    { "path": "config/mediated-schema.yaml" },
+    { "path": "config/integration-sources.yaml" },
+    { "path": "config/integration-tab.yaml" },
+    { "path": "tests/unit/test_integration_rewrite.py" },
+    { "path": "tests/unit/test_common_kpis.py" },
+    { "path": "tests/unit/test_integration_model.py" },
+    { "path": "tests/unit/test_integration_selector.py" },
+    { "path": "tests/unit/test_integration_load.py" },
+    { "path": "tests/unit/test_integration_card.py" },
+    { "path": "tests/unit/test_dashboard_smoke.py" },
+    { "path": "tests/integration/test_u3_end_to_end.py" },
+    { "path": ".github/workflows/ci.yml" }
+  ]
+}

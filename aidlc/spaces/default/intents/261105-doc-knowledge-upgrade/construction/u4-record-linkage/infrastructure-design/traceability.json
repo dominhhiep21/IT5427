@@ -1,0 +1,15 @@
+{
+  "stage": "infrastructure-design",
+  "unit": "u4-record-linkage",
+  "upstream_ids": ["NFR1.1", "NFR1.2", "NFR2.1", "NFR2.2", "NFR3.1", "NFR5.1", "NFR5.2", "NFR6.1"],
+  "coverage": [
+    { "id": "NFR1.1", "status": "OK", "target": "cicd-pipeline.md §2 — bước ghép nằm trong --stage all; phần so chuỗi đã đo 8,1 giây, tổng dưới 15 giây so với ngân sách 60 giây" },
+    { "id": "NFR1.2", "status": "OK", "target": "cicd-pipeline.md §3 và §4 — hai tệp kết quả là tệp dẫn xuất, trần 10.000 cặp (BR4.10) giữ dưới 5 MB; kiểm bằng đọc lại tệp ở L3" },
+    { "id": "NFR2.1", "status": "OK", "target": "cicd-pipeline.md §1 hàng Độ phủ — pytest --cov=src --cov-fail-under=80 chạy ở local trước phát hành" },
+    { "id": "NFR2.2", "status": "OK", "target": "cicd-pipeline.md §1 hàng Test nhanh và hàng Định dạng — test của đơn vị nằm trong bộ nhanh; ci.yml phải mở rộng phạm vi định dạng cho src/linkage và tests mới" },
+    { "id": "NFR3.1", "status": "OK", "target": "cicd-pipeline.md §1 hai hàng Lint và Định dạng — ruff check toàn repo, ruff format trên phạm vi mở rộng" },
+    { "id": "NFR5.1", "status": "OK", "target": "cicd-pipeline.md §1 hàng Pipeline — QualityGate và KpiReconciler là cổng của --stage all, chạy cả ở local và CI" },
+    { "id": "NFR5.2", "status": "OK", "target": "cicd-pipeline.md §1 hàng Pipeline — cùng cổng đó khẳng định 5 KPI và số dòng 11 view không đổi" },
+    { "id": "NFR6.1", "status": "OK", "target": "cicd-pipeline.md §1, §5 và §6 — không thêm dịch vụ, cổng, biến môi trường; không secrets; workflow chạy local-first, không lời gọi mạng mới" }
+  ]
+}

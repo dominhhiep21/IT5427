@@ -5,6 +5,8 @@
 1. Kiểm tra Python: `.\.venv\Scripts\python.exe --version` (3.13).
 2. Kiểm tra dependency: `.\.venv\Scripts\python.exe -m pip install -r requirements.txt`.
 3. Chạy `run --stage all` và xem log mới nhất trong `logs/`.
+   `logs/` chỉ giữ **10 tệp gần nhất** — cuối mỗi lần chạy pipeline dọn tệp cũ hơn, nên log của
+   một lần chạy đã qua 10 lần khác thì không tìm lại được. Chép ra ngoài nếu cần giữ.
 
 ## Lỗi `SchemaError`
 
@@ -37,6 +39,14 @@
 2. Kiểm tra `warehouse/olist.duckdb` tồn tại.
 3. Mở `http://127.0.0.1:8050`.
 4. Nếu port bận, đổi `dashboard.port` trong `config.yaml`.
+
+## Tệp kết quả ghép bản ghi bị cũ
+
+- Dấu hiệu: `data/integration/linkage-customer.json` hoặc `linkage-seller.json` mang `run_id` /
+  `computed_at` không khớp lần chạy gần nhất, hoặc tệp không tồn tại sau khi nâng cấp đơn vị U4.
+- Xử lý: chạy lại `run --stage all` (hoặc `run --stage integrate` — lệnh này cũng làm mới cả hai tệp).
+  Không chép tay tệp kết quả và không sửa `summary` trong tệp.
+- Kiểm chứng: xem sự kiện `integration.linkage.completed` trong `logs/<run_id>.jsonl` của lần chạy mới.
 
 ## UnicodeEncodeError trên Windows
 

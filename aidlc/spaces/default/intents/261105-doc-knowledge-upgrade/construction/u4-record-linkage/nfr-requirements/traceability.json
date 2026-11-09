@@ -1,0 +1,13 @@
+{
+  "stage": "nfr-requirements",
+  "unit": "u4-record-linkage",
+  "upstream_ids": ["NFR1", "NFR2", "NFR3", "NFR4", "NFR5", "NFR6"],
+  "coverage": [
+    { "id": "NFR1", "status": "OK", "target": "performance-requirements.md — NFR1.1 (chặn và xét 806.705 cặp ứng viên, ≤ 60 giây cho cả lượt đọc + chấm + ghi + kiểm) và NFR1.2 (tệp ≤ 5 MB, đo cả pairs lẫn skipped)" },
+    { "id": "NFR2", "status": "OK", "target": "performance-requirements.md — NFR2.1 (phủ ≥ 80%, chưa cưỡng chế trong pytest.ini) và NFR2.2 (mỗi mô-đun mới có test riêng)" },
+    { "id": "NFR3", "status": "OK", "target": "performance-requirements.md — NFR3.1: ruff check . toàn repo và ruff format --check src/linkage tests/unit" },
+    { "id": "NFR4", "status": "N/A", "target": "đơn vị này không hiển thị gì; WCAG 2.1 AA thuộc u6-integration-ui (performance-requirements.md §Không áp dụng)" },
+    { "id": "NFR5", "status": "OK", "target": "performance-requirements.md — NFR5.1 (quality full + KpiReconciler xanh) và NFR5.2 (5 KPI lệch 0, 11 view không đổi số dòng); SR-U4-7 giữ dataset/ chỉ đọc" },
+    { "id": "NFR6", "status": "OK", "target": "performance-requirements.md — NFR6.1 (danh sách module bị cấm duy nhất: urllib, http, requests, socket) và security-requirements.md §1 SR-U4-1/SR-U4-2" }
+  ]
+}

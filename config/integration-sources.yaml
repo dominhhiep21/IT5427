@@ -1,0 +1,80 @@
+# Hồ sơ ba nguồn ứng viên và ánh xạ truy vấn → trường cần (C3/C7 của U5).
+# `tables` và `is_simulated` khai tường minh: không suy từ tên nguồn hay từ covered_fields (BR5.1).
+# `coverage` do máy dựng từ covered_fields, không gõ tay ở đây (BR5.3).
+sources:
+  - source_name: olist_csv
+    label: Olist (CSV trong dataset/)
+    tables:
+      - olist_orders_dataset
+      - olist_customers_dataset
+      - olist_order_items_dataset
+      - olist_products_dataset
+    covered_fields:
+      - don_hang.ma_don
+      - don_hang.ngay_dat
+      - don_hang.trang_thai
+      - don_hang.ma_khach
+      - don_hang.bang_giao
+      - don_hang.ngay_giao_thuc_te
+      - don_hang.ngay_giao_du_kien
+      - mat_hang.ma_don
+      - mat_hang.ma_san_pham
+      - mat_hang.so_thu_tu
+      - mat_hang.gia
+      - mat_hang.gia_van_chuyen
+      - san_pham.ma_san_pham
+      - san_pham.ten_danh_muc
+    has_data: true
+    cost_level: 3
+    latency_ms: 800
+    is_simulated: false
+
+  - source_name: ibge_cache
+    label: Cache IBGE cục bộ
+    tables: []
+    covered_fields: []
+    has_data: true
+    cost_level: 2
+    latency_ms: 200
+    is_simulated: false
+
+  - source_name: partner_simulated
+    label: Nguồn đối tác (mô phỏng)
+    tables:
+      - olist_orders_dataset
+      - olist_customers_dataset
+    covered_fields:
+      - don_hang.ma_don
+      - don_hang.ngay_dat
+      - don_hang.trang_thai
+      - don_hang.ma_khach
+      - don_hang.bang_giao
+    has_data: true
+    cost_level: 1
+    latency_ms: 50
+    is_simulated: true
+
+# Ba `query_id` của FR2.1; mã trường phải có thật trong config/mediated-schema.yaml.
+query_fields:
+  doanh_thu_theo_danh_muc:
+    - don_hang.ma_don
+    - don_hang.trang_thai
+    - mat_hang.ma_don
+    - mat_hang.gia
+    - mat_hang.gia_van_chuyen
+    - mat_hang.ma_san_pham
+    - san_pham.ma_san_pham
+    - san_pham.ten_danh_muc
+  doanh_thu_theo_thang:
+    - don_hang.ma_don
+    - don_hang.ngay_dat
+    - don_hang.trang_thai
+    - mat_hang.ma_don
+    - mat_hang.gia
+    - mat_hang.gia_van_chuyen
+  ty_le_giao_tre_theo_bang:
+    - don_hang.ma_don
+    - don_hang.ngay_giao_thuc_te
+    - don_hang.ngay_giao_du_kien
+    - don_hang.trang_thai
+    - don_hang.bang_giao

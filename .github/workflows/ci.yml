@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - feature/update-ui-ux
+  pull_request:
+    branches:
+      - main
+      - feature/update-ui-ux
+
+jobs:
+  ci:
+    # Ghim image, không dùng nhãn trôi `windows-latest`: sản phẩm chỉ chạy trên Windows.
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Cài đặt phụ thuộc
+        run: pip install -r requirements.txt
+
+      - name: Lint và định dạng
+        # `ruff check .` chạy toàn repo; phần format chỉ chạy trên mã của đợt này —
+        # mã cũ được dọn theo từng tệp khi có người sửa tới (team.md — Code Style).
+        run: |
+          ruff check .
+          ruff format --check src/dashboard/app.py src/integration/tab.py src/integration src/linkage src/common/kpis.py src/common/exceptions.py tests/unit/test_integration_tab.py tests/unit/test_integration_model.py tests/unit/test_integration_schema.py tests/unit/test_integration_load.py tests/unit/test_integration_query.py tests/unit/test_integration_card.py tests/unit/test_integration_selector.py tests/unit/test_integration_rewrite.py tests/unit/test_common_kpis.py tests/unit/test_log_pruning.py tests/unit/test_linkage_models.py tests/unit/test_linkage_index.py tests/unit/test_linkage_score.py tests/unit/test_linkage_result.py
+
+      - name: Dựng dữ liệu
+        # Bắt buộc: bộ test nhanh chưa hermetic (TD-09) nên cần warehouse/ và data/marts/.
+        # Không truyền --refresh-ibge: chỉ đọc cache đã commit trong dataset/external/ibge/.
+        run: python -X utf8 -m src.pipeline run --stage all
+
+      - name: Test nhanh
+        run: python -X utf8 -m pytest -m "not slow"
+
+      - name: Đo phủ toàn bộ
+        # Ngưỡng 80% tính trên toàn bộ bộ test (nhanh + slow): bảy mô-đun src/ chỉ có
+        # phần phủ đến từ bộ slow, nên đặt cờ lên bộ nhanh sẽ đỏ ngay lần chạy đầu.
+        run: python -X utf8 -m pytest --cov=src --cov-fail-under=80
+
+      - name: Smoke nạp cấu hình nguồn
+        # Bước duy nhất chứng minh config/integration-sources.yaml đã commit nạp được.
+        # Dùng `python` của runner, không dùng .venv (runner không tạo venv).
+        run: python -X utf8 -c "from pathlib import Path; from src.integration.selector import load_source_catalogue; from src.integration.schema import load_schema, build_field_catalogue; c=load_schema(Path('config/mediated-schema.yaml')); cat=load_source_catalogue(Path('config/integration-sources.yaml'), build_field_catalogue(c)); print(len(cat.sources), len(cat.query_fields))"

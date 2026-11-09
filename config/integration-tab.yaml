@@ -1,0 +1,13 @@
+# Cấu hình tab "Tích hợp" (hợp đồng C9).
+# Id ổn định cho U6: chỉ thêm, không đổi tên id đã có.
+tab_id: tich-hop
+tab_label: Tích hợp
+card_ids:
+  - luoc-do-trung-gian
+  - viet-lai-truy-van
+  - ghep-ban-ghi
+  - chon-nguon
+result_region_ids:
+  - don-theo-thang
+callback_ids:
+  - tich-hop-cap-nhat

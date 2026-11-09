@@ -2,14 +2,16 @@
 
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, datetime, timezone
+from pathlib import Path
 
 import pandas as pd
 import plotly.graph_objects as go
 from dash import Dash, Input, Output, dcc, html
 
 from src.analytics.service import AnalyticsService
-from src.common.types import KpiFilters
+from src.common.logging import JsonLogger
+from src.common.types import KpiFilters, RunContext
 from src.dashboard.components import (
     chart_card,
     empty_figure,
@@ -17,8 +19,29 @@ from src.dashboard.components import (
     kpi_strip,
     sparse_badge,
 )
-from src.dashboard.formatting import format_brl, format_number, format_percent
+from src.dashboard.formatting import format_brl, format_number
 from src.integrate.connections import ConnectionFactory
+from src.common.exceptions import PipelineError
+from src.integration.card import TabConfig, load_tab_config
+from src.integration.tab import (
+    CARD_TITLES,
+    STATE_LOADING,
+    IntegrationTab,
+    StateBlock,
+    register_callbacks,
+)
+
+DEFAULT_CARD_IDS = tuple(CARD_TITLES)
+
+# Bảng màu của biểu đồ lấy đúng token trong `assets/style.css` để hình và chữ không lệch tông.
+CHART_ACCENT = "#1f6b52"
+CHART_ACCENT_SOFT = "#2f7d6a"
+CHART_CLAY = "#a94a2b"
+CHART_GRID = "#eceee9"
+CHART_BORDER = "#e3e7df"
+CHART_TEXT = "#4c5b54"
+
+_INTEGRATION_RUNS: dict[str, RunContext] = {}
 
 STATUS_OPTIONS = [
     {"label": "Đã giao", "value": "delivered"},
@@ -39,16 +62,12 @@ def _options(config) -> tuple[list[dict], list[dict], list[dict]]:
         try:
             states = [
                 row[0]
-                for row in conn.execute(
-                    "SELECT DISTINCT state FROM v_dim_customer ORDER BY state"
-                ).fetchall()
+                for row in conn.execute("SELECT DISTINCT state FROM v_dim_customer ORDER BY state").fetchall()
                 if row[0]
             ]
             regions = [
                 row[0]
-                for row in conn.execute(
-                    "SELECT DISTINCT region FROM v_dim_customer ORDER BY region"
-                ).fetchall()
+                for row in conn.execute("SELECT DISTINCT region FROM v_dim_customer ORDER BY region").fetchall()
                 if row[0]
             ]
             categories = [
@@ -73,11 +92,16 @@ def _base_layout() -> dict:
     return {
         "paper_bgcolor": "rgba(0,0,0,0)",
         "plot_bgcolor": "rgba(0,0,0,0)",
-        "font": {"family": "Segoe UI, sans-serif", "color": "#0B1F1A", "size": 12},
-        "margin": {"l": 44, "r": 18, "t": 18, "b": 42},
-        "xaxis": {"gridcolor": "#DCE8E0", "zeroline": False},
-        "yaxis": {"gridcolor": "#DCE8E0", "zeroline": False},
-        "hoverlabel": {"bgcolor": "#0B1F1A", "font": {"color": "#F6F7F2"}},
+        "font": {"family": "Segoe UI, Inter, sans-serif", "color": CHART_TEXT, "size": 12},
+        "margin": {"l": 58, "r": 16, "t": 12, "b": 44},
+        "bargap": 0.38,
+        "xaxis": {"gridcolor": CHART_GRID, "zeroline": False, "linecolor": CHART_BORDER},
+        "yaxis": {"gridcolor": CHART_GRID, "zeroline": False, "linecolor": CHART_BORDER},
+        "hoverlabel": {
+            "bgcolor": "#0d1d18",
+            "bordercolor": "#0d1d18",
+            "font": {"color": "#f4f5f1", "family": "Segoe UI, sans-serif", "size": 12},
+        },
     }
 
 
@@ -97,8 +121,8 @@ def _line_chart(
             y=frame[y],
             mode="lines+markers",
             name=name,
-            line={"color": "#B5532F", "width": 2},
-            marker={"size": 5, "color": "#D9A441"},
+            line={"color": CHART_ACCENT, "width": 2.4},
+            marker={"size": 5, "color": CHART_ACCENT},
         )
     )
     figure.update_layout(**_base_layout())
@@ -126,7 +150,7 @@ def _bar_chart(
                 x=frame[x],
                 y=frame[y],
                 orientation="h",
-                marker_color="#2F7D6A",
+                marker_color=CHART_ACCENT_SOFT,
                 name=name,
             )
         )
@@ -140,7 +164,7 @@ def _bar_chart(
             go.Bar(
                 x=frame[x],
                 y=frame[y],
-                marker_color="#2F7D6A",
+                marker_color=CHART_ACCENT_SOFT,
                 name=name,
             )
         )
@@ -160,8 +184,8 @@ def _table(frame: pd.DataFrame) -> html.Div:
                 [
                     html.Td(str(row["entity_id"])[:18]),
                     html.Td(str(row.get("category", ""))),
-                    html.Td(format_brl(row["revenue"])),
-                    html.Td(format_number(row["orders"])),
+                    html.Td(format_brl(row["revenue"]), className="num"),
+                    html.Td(format_number(row["orders"]), className="num"),
                 ]
             )
         )
@@ -172,8 +196,8 @@ def _table(frame: pd.DataFrame) -> html.Div:
                     [
                         html.Th("Sản phẩm / người bán"),
                         html.Th("Danh mục"),
-                        html.Th("Doanh thu"),
-                        html.Th("Đơn"),
+                        html.Th("Doanh thu", className="num"),
+                        html.Th("Đơn", className="num"),
                     ]
                 )
             ),
@@ -183,8 +207,24 @@ def _table(frame: pd.DataFrame) -> html.Div:
     )
 
 
+def _tab_config(config) -> TabConfig:
+    """Cấu hình tab (C9); tệp thiếu/hỏng thì dùng bốn thẻ mặc định thay vì làm sập dashboard."""
+
+    try:
+        return load_tab_config(config.integration_tab_path)
+    except PipelineError:
+        return TabConfig(
+            tab_id="tich-hop",
+            tab_label="Tích hợp",
+            card_ids=DEFAULT_CARD_IDS,
+            callback_ids=("tich-hop-cap-nhat",),
+            result_region_ids=("don-theo-thang",),
+        )
+
+
 def build_layout(config) -> html.Div:
     states, regions, categories = _options(config)
+    integration = _tab_config(config)
     return html.Div(
         [
             html.Header(
@@ -282,13 +322,10 @@ def build_layout(config) -> html.Div:
                         value="overview",
                         children=html.Div(
                             [
-                                html.Div(
-                                    chart_card(
-                                        "Doanh thu theo tháng",
-                                        "revenue-trend",
-                                        "Đơn đã giao; đơn vị BRL",
-                                    ),
-                                    className="chart-span-2",
+                                chart_card(
+                                    "Doanh thu theo tháng",
+                                    "revenue-trend",
+                                    "Đơn đã giao; đơn vị BRL",
                                 ),
                                 chart_card(
                                     "Top danh mục",
@@ -320,7 +357,7 @@ def build_layout(config) -> html.Div:
                                     className="chart-card",
                                 ),
                             ],
-                            className="chart-grid",
+                            className="chart-stack",
                         ),
                     ),
                     dcc.Tab(
@@ -338,13 +375,27 @@ def build_layout(config) -> html.Div:
                                     "delivery-category",
                                     "Top danh mục",
                                 ),
-                                chart_card(
-                                    "Tỷ lệ giao trễ theo tháng",
-                                    "delivery-month",
-                                    "% đơn đã giao",
+                                html.Div(
+                                    chart_card(
+                                        "Tỷ lệ giao trễ theo tháng",
+                                        "delivery-month",
+                                        "% đơn đã giao",
+                                    ),
+                                    className="chart-span-2",
                                 ),
                             ],
                             className="chart-grid",
+                        ),
+                    ),
+                    dcc.Tab(
+                        label=integration.tab_label,
+                        value=integration.tab_id,
+                        children=dcc.Loading(
+                            IntegrationTab(integration),
+                            custom_spinner=StateBlock(STATE_LOADING),
+                            type="default",
+                            color=CHART_ACCENT_SOFT,
+                            id="tich-hop-loading",
                         ),
                     ),
                 ],
@@ -359,6 +410,9 @@ def create_app(config) -> Dash:
         __name__,
         assets_folder=str(config.workspace_root / "assets"),
         title="Olist | Bảng điều hành",
+        # Tab "Tích hợp" dựng thân màn hình chi tiết và vùng kết quả trong callback, nên các
+        # thành phần đó chưa có trong layout lúc khởi động (ADR-U6-S1, ADR-U6-S5).
+        suppress_callback_exceptions=True,
     )
     app.layout = build_layout(config)
 
@@ -398,7 +452,46 @@ def create_app(config) -> Dash:
     def render_dashboard(data):
         return build_dashboard_outputs(config, data)
 
+    # Tab "Tích hợp" có năm callback riêng (load_overview, route, run_query, suggest_source,
+    # reload); mỗi callback một Output riêng nên không đè hai callback của ba tab báo cáo.
+    register_callbacks(app, config, _tab_config(config), _integration_logger)
     return app
+
+
+def _integration_logger(config) -> JsonLogger:
+    """Append to the newest pipeline log, or open one when logs/ is empty."""
+
+    key = str(config.logs_dir)
+    run = _INTEGRATION_RUNS.get(key)
+    if run is None:
+        logs = sorted(
+            Path(config.logs_dir).glob("*.jsonl"),
+            key=lambda path: path.stat().st_mtime_ns,
+            reverse=True,
+        )
+        now = datetime.now(timezone.utc)
+        run_id = f"{now.strftime('%Y%m%dT%H%M%S')}-{now.microsecond:06d}"
+        if logs:
+            log_path = logs[0]
+        else:
+            log_path = Path(config.logs_dir) / f"integration-{run_id}.jsonl"
+        run = RunContext(
+            run_id=run_id,
+            stage="integration",
+            started_at=now,
+            temp_dir=Path(config.temp_dir),
+            log_path=log_path,
+        )
+        _INTEGRATION_RUNS[key] = run
+        if not logs:
+            JsonLogger(run, console=False).warning("integration.log.no_pipeline_run", log_path=str(log_path))
+    return JsonLogger(run, console=False)
+
+
+def reset_integration_logs() -> None:
+    """Forget the cached dashboard log target (used by tests)."""
+
+    _INTEGRATION_RUNS.clear()
 
 
 def build_dashboard_outputs(config, data):
@@ -442,15 +535,11 @@ def build_dashboard_outputs(config, data):
 
     monthly = monthly.copy()
     monthly["period"] = (
-        monthly["year"].astype(int).astype(str)
-        + "-"
-        + monthly["month"].astype(int).astype(str).str.zfill(2)
+        monthly["year"].astype(int).astype(str) + "-" + monthly["month"].astype(int).astype(str).str.zfill(2)
     )
     category_frame = category_frame.head(12)
     delivery_state = delivery_state.sort_values("late_rate_pct", ascending=False).head(12)
-    delivery_category = delivery_category.sort_values(
-        "late_rate_pct", ascending=False
-    ).head(12)
+    delivery_category = delivery_category.sort_values("late_rate_pct", ascending=False).head(12)
     delivery_month = delivery_month.sort_values("dimension")
 
     return (

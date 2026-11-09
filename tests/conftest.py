@@ -32,13 +32,15 @@ def config(tmp_path: Path):
     dataset.mkdir()
     config_path = tmp_path / "config.yaml"
     config_path.write_text(
-        """
+        f"""
 paths:
   raw_csv_dir: dataset
   data_dir: data
   reports_dir: data/reports
   logs_dir: logs
   temp_dir: data/.tmp
+  mediated_schema_path: "{(ROOT / 'config' / 'mediated-schema.yaml').as_posix()}"
+  integration_tab_path: "{(ROOT / 'config' / 'integration-tab.yaml').as_posix()}"
 parquet:
   compression: snappy
 geolocation:
@@ -71,6 +73,8 @@ paths:
   temp_dir: data/.tmp
   duckdb_path: warehouse/olist.duckdb
   ibge_dir: "{(ROOT / 'dataset' / 'external' / 'ibge').as_posix()}"
+  mediated_schema_path: "{(ROOT / 'config' / 'mediated-schema.yaml').as_posix()}"
+  integration_tab_path: "{(ROOT / 'config' / 'integration-tab.yaml').as_posix()}"
 parquet:
   compression: snappy
 geolocation:

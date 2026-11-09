@@ -1,0 +1,29 @@
+# Cấu hình ruff cho cả lint và format (NFR3.1).
+# Ngưỡng 112 ký tự là dòng dài nhất đang có trong src/ (team.md — Code Style).
+line-length = 112
+target-version = "py313"
+
+extend-exclude = [
+    ".venv",
+    "assets",
+    "data",
+    "dataset",
+    "doc",
+    "inbox",
+    "logs",
+    "warehouse",
+]
+
+[lint]
+# Tập luật PEP 8 (E4/E7/E9) + pyflakes (F): bắt lỗi thật, không đụng kiểu chữ.
+select = ["E4", "E7", "E9", "F"]
+
+[lint.per-file-ignores]
+# conftest chèn sys.path trước khi import src, nên import không ở đầu tệp.
+"tests/conftest.py" = ["E402"]
+# Nợ cũ: import thừa trong tệp chưa ai sửa tới. Dọn theo từng tệp khi có người
+# sửa tới (team.md — Code Style), không bằng một lần dọn toàn repo.
+"src/integrate/connections.py" = ["F401"]
+"src/integrate/pipeline.py" = ["F401"]
+"src/pipeline/micro_batch.py" = ["F401"]
+"src/quality/gate.py" = ["F401"]

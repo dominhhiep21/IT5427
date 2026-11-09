@@ -98,8 +98,9 @@ function runCoreHook(
           stdio: ["pipe", "pipe", "pipe"],
           env: { ...env, ...viaCmd.env },
           windowsVerbatimArguments: true,
+          windowsHide: true,
         })
-        : spawn(bin, [...prefix, "hook", hook, "--project-dir", cwd], { cwd, stdio: ["pipe", "pipe", "pipe"], env });
+        : spawn(bin, [...prefix, "hook", hook, "--project-dir", cwd], { cwd, stdio: ["pipe", "pipe", "pipe"], env, windowsHide: true });
       let out = "";
       let err = "";
       child.stdout.on("data", (d: Buffer) => {

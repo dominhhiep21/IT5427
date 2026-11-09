@@ -9,11 +9,13 @@ from datetime import datetime, timezone
 from src.analytics.service import AnalyticsService
 from src.clean.pipeline import clean_all
 from src.common.io import AtomicWriter, read_parquet
-from src.common.logging import JsonLogger, new_run_context
+from src.common.logging import JsonLogger, new_run_context, prune_logs
 from src.common.types import KpiFilters
 from src.ingest.reader import ingest_all
 from src.ingest.reports import ReportWriter
 from src.integrate.pipeline import integrate_all
+from src.linkage.models import TARGET_ENTITIES
+from src.linkage.result import generate_linkage
 from src.quality.gate import QualityGate
 
 STAGES = ("ingest", "clean", "integrate", "analyze")
@@ -51,10 +53,7 @@ def _load_raw(config) -> dict:
         "reviews",
         "geolocation",
     )
-    return {
-        table: read_parquet(config.raw_dir / f"{table}.parquet")
-        for table in tables
-    }
+    return {table: read_parquet(config.raw_dir / f"{table}.parquet") for table in tables}
 
 
 def _load_cleaned(config) -> dict:
@@ -69,10 +68,21 @@ def _load_cleaned(config) -> dict:
         "reviews",
         "geolocation_zip",
     )
-    return {
-        table: read_parquet(config.cleaned_dir / f"{table}.parquet")
-        for table in tables
-    }
+    return {table: read_parquet(config.cleaned_dir / f"{table}.parquet") for table in tables}
+
+
+def _run_linkage(config, run, writer, logger) -> list:
+    """Run record linkage once per target; one failing target never stops the other."""
+
+    results, failure = [], None
+    for target_entity in TARGET_ENTITIES:
+        try:
+            results.append(generate_linkage(config, target_entity, run, writer, logger))
+        except Exception as exc:  # the other target must still run (Workflow 4 step 6)
+            failure = failure or exc
+    if failure is not None:
+        raise failure
+    return results
 
 
 def _run_all(config, refresh_ibge: bool, logger: JsonLogger, run, writer) -> RunSummary:
@@ -140,6 +150,16 @@ def _run_all(config, refresh_ibge: bool, logger: JsonLogger, run, writer) -> Run
     )
 
     start = time.perf_counter()
+    _run_linkage(config, run, writer, logger)
+    summary.stages.append(
+        StageResult(
+            "linkage",
+            "success",
+            duration_seconds=round(time.perf_counter() - start, 2),
+        )
+    )
+
+    start = time.perf_counter()
     AnalyticsService(config).kpi_summary(KpiFilters())
     summary.stages.append(
         StageResult(
@@ -157,9 +177,7 @@ def _run_all(config, refresh_ibge: bool, logger: JsonLogger, run, writer) -> Run
 
 
 def _write_summary(config, summary: RunSummary, writer: AtomicWriter) -> None:
-    writer.write_json(
-        asdict(summary), config.reports_dir / "run-summary.json"
-    )
+    writer.write_json(asdict(summary), config.reports_dir / "run-summary.json")
 
 
 def run_all(config, refresh_ibge: bool = False) -> RunSummary:
@@ -168,10 +186,8 @@ def run_all(config, refresh_ibge: bool = False) -> RunSummary:
     logger = JsonLogger(run)
     try:
         summary = _run_all(config, refresh_ibge, logger, run, writer)
-        logger.summary(
-            f"run={run.run_id} success={summary.success} "
-            f"stages={[s.stage for s in summary.stages]}"
-        )
+        logger.summary(f"run={run.run_id} success={summary.success} stages={[s.stage for s in summary.stages]}")
+        prune_logs(config.logs_dir, logger)
         return summary
     except Exception as exc:
         logger.error("run_failed", "PIPELINE_ERROR", error=str(exc))
@@ -209,6 +225,7 @@ def run_stage(config, stage: str, refresh_ibge: bool = False) -> RunSummary:
             )
         elif stage == "integrate":
             integrate_all(config, run, writer, logger, refresh_ibge=refresh_ibge)
+            _run_linkage(config, run, writer, logger)
             summary.stages.append(
                 StageResult(stage, "success", duration_seconds=round(time.perf_counter() - start, 2))
             )
@@ -223,6 +240,7 @@ def run_stage(config, stage: str, refresh_ibge: bool = False) -> RunSummary:
         _write_summary(config, summary, writer)
         writer.cleanup()
         logger.summary(f"run={run.run_id} stage={stage} success=True")
+        prune_logs(config.logs_dir, logger)
         return summary
     except Exception as exc:
         logger.error("stage_failed", "PIPELINE_ERROR", stage=stage, error=str(exc))

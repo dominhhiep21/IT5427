@@ -1,0 +1,13 @@
+{
+  "stage": "nfr-requirements",
+  "unit": "u5-source-selector",
+  "upstream_ids": ["NFR1", "NFR2", "NFR3", "NFR4", "NFR5", "NFR6"],
+  "coverage": [
+    { "id": "NFR1", "status": "OK", "target": "NFR1.1 trong tech-stack-decisions.md §3: nạp hồ sơ và trả kết quả chọn nguồn ≤ 2 giây, đo bằng time.perf_counter trong test (không thêm trường đo vào C3/C7)" },
+    { "id": "NFR2", "status": "OK", "target": "NFR2.1 (phủ ≥ 80% qua --cov-fail-under=80) và NFR2.2 (test riêng cho src/integration/selector.py) trong tech-stack-decisions.md §3" },
+    { "id": "NFR3", "status": "OK", "target": "NFR3.1 trong tech-stack-decisions.md §3: ruff check và ruff format --check sạch trên phạm vi đã chốt" },
+    { "id": "NFR4", "status": "N/A", "target": "đơn vị này không hiển thị gì; WCAG 2.1 AA thuộc u6-integration-ui" },
+    { "id": "NFR5", "status": "OK", "target": "NFR5.1 (pipeline và KpiReconciler xanh, 5 KPI lệch 0) và NFR5.2 (số dòng 11 view không đổi) trong tech-stack-decisions.md §3; SR-U5-9 giữ đơn vị không đọc/ghi dữ liệu nguồn" },
+    { "id": "NFR6", "status": "OK", "target": "NFR6.1 (không mạng, SR-U5-3) và NFR6.2 (chạy UTF-8) trong tech-stack-decisions.md §3 và security-requirements.md §1" }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "stage": "functional-design",
+  "unit": "u1-thin-slice",
+  "upstream_ids": ["AC1.1.1", "AC1.1.2", "AC1.1.3", "AC2.1.1", "AC2.1.2", "AC2.1.3", "AC6.1.1", "AC6.1.2", "AC6.1.3"],
+  "coverage": [
+    { "id": "AC1.1.1", "status": "OK", "target": "BR1.1, BR1.3" },
+    { "id": "AC1.1.2", "status": "N/A", "target": "chuyển thực thể trên màn hình lược đồ thuộc u6-integration-ui; lát cắt chỉ có một thực thể don_hang nên không có gì để chuyển — dữ liệu màn hình đó đọc do BR1.3 bảo đảm" },
+    { "id": "AC1.1.3", "status": "N/A", "target": "trạng thái rỗng của màn hình lược đồ thuộc u6-integration-ui; vùng số liệu của lát cắt có trạng thái rỗng riêng theo BR1.8" },
+    { "id": "AC2.1.1", "status": "N/A", "target": "delivered by u3-query-rewriter: câu chuyện yêu cầu truy vấn doanh thu theo danh mục, đơn vị này chỉ dựng cơ chế với truy vấn đếm đơn" },
+    { "id": "AC2.1.2", "status": "N/A", "target": "delivered by u3-query-rewriter" },
+    { "id": "AC2.1.3", "status": "N/A", "target": "delivered by u3-query-rewriter" },
+    { "id": "AC6.1.1", "status": "N/A", "target": "kiểm bằng bộ test của đơn vị theo lệnh xác nhận đã chốt" },
+    { "id": "AC6.1.2", "status": "Deferred", "target": "build-and-test (KpiReconciler)" },
+    { "id": "AC6.1.3", "status": "OK", "target": "BR1.7, BR1.8 — đơn vị dựng khung tab C9 và vùng số liệu, nên cập nhật test hình dạng dashboard trong cùng thay đổi" }
+  ],
+  "reverse": [
+    { "id": "BR1.4", "status": "N/A", "target": "quy tắc chính sách cho truy vấn của lát cắt, phục vụ AC2.1.x mà u3-query-rewriter đảm nhiệm" },
+    { "id": "BR1.6", "status": "N/A", "target": "quy tắc chính sách cho truy vấn của lát cắt, phục vụ AC2.1.x mà u3-query-rewriter đảm nhiệm" },
+    { "id": "BR1.5", "status": "OK", "target": "BR1.5 phục vụ AC6.1.3 (mỗi dòng của vùng số liệu là một cặp tháng, trạng thái)" },
+    { "id": "BR1.7", "status": "OK", "target": "BR1.7 phục vụ AC6.1.3 (hình dạng hiển thị của vùng số liệu trong tab)" },
+    { "id": "BR1.2", "status": "OK", "target": "BR1.2 phục vụ AC1.1.1 (thực thể don_hang có dữ liệu hợp lệ)" }
+  ]
+}

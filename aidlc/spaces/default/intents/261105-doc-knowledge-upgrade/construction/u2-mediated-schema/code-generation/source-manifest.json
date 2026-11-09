@@ -1,0 +1,12 @@
+{
+  "stage": "code-generation",
+  "unit": "u2-mediated-schema",
+  "version": 1,
+  "writes": [
+    { "path": "src/integration/models.py" },
+    { "path": "src/integration/schema.py" },
+    { "path": "config/mediated-schema.yaml" },
+    { "path": "tests/unit/test_integration_schema.py" },
+    { "path": ".github/workflows/ci.yml" }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "stage": "nfr-design",
+  "unit": "u2-mediated-schema",
+  "upstream_ids": [
+    "NFR1.1"
+  ],
+  "coverage": [
+    {
+      "id": "NFR1.1",
+      "status": "OK",
+      "target": "logical-components.md L3 (chỉ đọc tiêu đề, không parse dữ liệu) + L4 (dựng view trả elapsed_ms); security-design.md ADR-U2-S1 đặt chuỗi kiểm tra eager theo thứ tự cố định; NFR1.1 đo trên view.elapsed_ms và test khẳng định <= 2000 ms"
+    }
+  ]
+}
