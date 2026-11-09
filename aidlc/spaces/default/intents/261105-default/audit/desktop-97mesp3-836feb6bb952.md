@@ -360,3 +360,11 @@
 **Details**: Migrated flat aidlc-docs/ into 261105-default
 
 ---
+
+## Workflow Archived
+**Timestamp**: 2026-11-09T14:43:49Z
+**Event**: WORKFLOW_ARCHIVED
+**Stage**: CONSTRUCTION - Build and Test (Awaiting Approval)
+**Reason**: stale record from 2026-10-22, superseded by 261105-doc-knowledge-upgrade
+
+---
