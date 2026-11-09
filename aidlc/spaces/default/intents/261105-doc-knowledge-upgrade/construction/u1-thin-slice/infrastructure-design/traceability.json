@@ -1,0 +1,122 @@
+{
+  "stage": "infrastructure-design",
+  "unit": "u1-thin-slice",
+  "upstream_ids": [
+    "NFR1.1",
+    "NFR1.2",
+    "NFR1.3",
+    "NFR1.4",
+    "NFR2.1",
+    "NFR2.2",
+    "NFR3.1",
+    "NFR4.1",
+    "NFR4.2",
+    "NFR4.3",
+    "NFR4.4",
+    "NFR5.1",
+    "NFR5.2",
+    "NFR5.3",
+    "NFR5.4",
+    "NFR5.5",
+    "NFR5.6",
+    "NFR6.1",
+    "NFR6.2"
+  ],
+  "coverage": [
+    {
+      "id": "NFR1.1",
+      "status": "OK",
+      "target": "infrastructure-specification.md §2 — không có dịch vụ cache; bộ nhớ đệm nạp là biến cấp tiến trình trong tiến trình Dash duy nhất"
+    },
+    {
+      "id": "NFR1.2",
+      "status": "OK",
+      "target": "infrastructure-specification.md §2 — DuckDB in-memory (không đường dẫn, đóng trong finally); ngưỡng 2 giây theo dõi ở monitoring-design.md §1"
+    },
+    {
+      "id": "NFR1.3",
+      "status": "OK",
+      "target": "infrastructure-specification.md §2 — hệ tệp cục bộ NTFS, pandas read_csv usecols 4 cột dtype=str; ngưỡng 5 giây ở monitoring-design.md §1"
+    },
+    {
+      "id": "NFR1.4",
+      "status": "OK",
+      "target": "cicd-pipeline.md §1 — bộ test nhanh (chứa test hiệu năng) chạy ở cả local và CI"
+    },
+    {
+      "id": "NFR2.1",
+      "status": "OK",
+      "target": "cicd-pipeline.md §1 — cổng độ phủ pytest --cov=src --cov-fail-under=80 chạy ở local trước khi phát hành; lý do không đưa vào CI nêu ngay dưới bảng"
+    },
+    {
+      "id": "NFR2.2",
+      "status": "OK",
+      "target": "cicd-pipeline.md §2 bước 6 — CI chạy bộ test nhanh gồm test riêng của từng mô-đun mới"
+    },
+    {
+      "id": "NFR3.1",
+      "status": "OK",
+      "target": "cicd-pipeline.md §2 bước 4 — ruff check và ruff format --check chạy ở local và CI; bước 3 ghi rõ ruff phải được ghim trước"
+    },
+    {
+      "id": "NFR4.1",
+      "status": "N/A",
+      "target": "Không cần hạ tầng: yêu cầu bàn phím là thuộc tính của thành phần giao diện, kiểm bằng test và rà tay trên dashboard (nfr-design/observability-design.md §4)"
+    },
+    {
+      "id": "NFR4.2",
+      "status": "N/A",
+      "target": "Không cần hạ tầng: viền tiêu điểm tương phản >= 3:1 là token CSS trong design system, kiểm bằng rà tay theo refined-mockups/accessibility-checklist.md (nfr-design/observability-design.md §4)"
+    },
+    {
+      "id": "NFR4.3",
+      "status": "N/A",
+      "target": "Không cần hạ tầng: tương phản chữ là lựa chọn bảng màu trong giao diện, kiểm bằng công cụ kiểm tương phản (nfr-design/observability-design.md §4)"
+    },
+    {
+      "id": "NFR4.4",
+      "status": "N/A",
+      "target": "Không cần hạ tầng: trạng thái chữ + biểu tượng là quy ước hiển thị, kiểm bằng test giao diện (nfr-design/observability-design.md §4)"
+    },
+    {
+      "id": "NFR5.1",
+      "status": "OK",
+      "target": "infrastructure-specification.md §3 quy tắc bảo vệ dataset/ (CSV nguồn bất biến; chỉ dataset/external/ibge/ là cache được ghi có điều kiện) và §1 storage strategy; cổng pipeline (QualityGate) chạy trước mỗi lần phát hành và trong CI"
+    },
+    {
+      "id": "NFR5.2",
+      "status": "OK",
+      "target": "infrastructure-specification.md §2 dòng warehouse/olist.duckdb (không thuộc đường của tab mới) và §3 dòng data/marts — chỉ integrate ghi; KpiReconciler là cổng P1 ở monitoring-design.md §2"
+    },
+    {
+      "id": "NFR5.3",
+      "status": "OK",
+      "target": "cicd-pipeline.md §2 bước 6 — bộ test nhanh gồm test hình dạng dashboard (4 tab, 8 callback, 4 thẻ + vùng), nên CI đỏ nếu hình dạng đổi mà test không đổi theo"
+    },
+    {
+      "id": "NFR5.4",
+      "status": "OK",
+      "target": "infrastructure-specification.md §3 — đơn vị không có đường ghi nào vào data/marts hay warehouse/; chỉ dataset/external/ibge/ là cache ghi có điều kiện của pipeline"
+    },
+    {
+      "id": "NFR5.5",
+      "status": "OK",
+      "target": "cicd-pipeline.md §1 — bộ test chậm và cổng độ phủ chạy ở local trước khi phát hành, gồm test đối chiếu số trên vùng với phép tính độc lập từ dataset/"
+    },
+    {
+      "id": "NFR5.6",
+      "status": "OK",
+      "target": "infrastructure-specification.md §2 — DuckDB in-memory chỉ chạy SQL nguồn đã viết lại; cửa sổ 12 tháng là phép tính của tầng hiển thị, không phải cấu hình hạ tầng"
+    },
+    {
+      "id": "NFR6.1",
+      "status": "OK",
+      "target": "infrastructure-specification.md §1 và §3 — một tiến trình local, DuckDB in-memory, tab mới không có lời gọi mạng; còn đúng một egress có điều kiện tới IBGE ở bước integrate (khi cache thiếu/hỏng hoặc có --refresh-ibge), và CI không truyền cờ đó nên chỉ cần mạng nếu cache đã commit mất hoặc hỏng"
+    },
+    {
+      "id": "NFR6.2",
+      "status": "OK",
+      "target": "cicd-pipeline.md §2 — mọi bước Python trong workflow và trong bảng cổng đều chạy python -X utf8; không còn cách gọi Python nào khác trong bảng"
+    }
+  ]
+}

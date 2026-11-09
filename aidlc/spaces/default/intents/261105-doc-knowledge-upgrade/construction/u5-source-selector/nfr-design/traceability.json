@@ -1,0 +1,15 @@
+{
+  "stage": "nfr-design",
+  "unit": "u5-source-selector",
+  "upstream_ids": ["NFR1.1", "NFR2.1", "NFR2.2", "NFR3.1", "NFR5.1", "NFR5.2", "NFR6.1", "NFR6.2"],
+  "coverage": [
+    { "id": "NFR1.1", "status": "OK", "target": "logical-components.md §5 (đo bằng time.perf_counter quanh hai hàm công khai) + ADR-U5-S6 (khoá sắp xếp tường minh)" },
+    { "id": "NFR2.1", "status": "OK", "target": "ADR-U5-S1 (kiểm toàn bộ trước khi dùng) giữ các nhánh lỗi tách bạch để test phủ được; lệnh xác nhận của đơn vị có --cov-fail-under=80" },
+    { "id": "NFR2.2", "status": "OK", "target": "logical-components.md L1–L5 đều nằm trong src/integration/selector.py; tests/unit/test_integration_selector.py là tệp test của đơn vị (tech-stack-decisions.md §4)" },
+    { "id": "NFR3.1", "status": "OK", "target": "logical-components.md §2 (mã mới chỉ trong hai tệp) + tech-stack-decisions.md §4 (phạm vi ruff đã chốt)" },
+    { "id": "NFR5.1", "status": "OK", "target": "ADR-U5-S3 (nguồn mô phỏng không bao giờ được chọn nên không ảnh hưởng số liệu) + logical-components.md §4 (U5 không ghi vào data/warehouse)" },
+    { "id": "NFR5.2", "status": "OK", "target": "logical-components.md §4 bước 5 (U5 chỉ trả payload, không ghi view/mart) nên số dòng 11 view không đổi" },
+    { "id": "NFR6.1", "status": "OK", "target": "ADR-U5-S5 (danh sách trắng nội dung log) + SR-U5-3 (không import thư viện mạng)" },
+    { "id": "NFR6.2", "status": "OK", "target": "tech-stack-decisions.md §4: lệnh chạy của đơn vị dùng python -X utf8" }
+  ]
+}

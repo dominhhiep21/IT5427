@@ -1,0 +1,298 @@
+{
+  "stage": "functional-design",
+  "unit": "u6-integration-ui",
+  "upstream_ids": [
+    "AC1.1.1",
+    "AC1.1.2",
+    "AC1.1.3",
+    "AC1.2.1",
+    "AC1.2.2",
+    "AC2.1.1",
+    "AC2.1.2",
+    "AC2.1.3",
+    "AC2.2.1",
+    "AC2.2.2",
+    "AC2.2.3",
+    "AC3.1.1",
+    "AC3.1.2",
+    "AC3.2.1",
+    "AC3.2.2",
+    "AC3.2.3",
+    "AC3.3.1",
+    "AC3.3.2",
+    "AC4.1.1",
+    "AC4.1.2",
+    "AC4.1.3",
+    "AC4.2.1",
+    "AC4.2.2",
+    "AC5.1.1",
+    "AC5.1.2",
+    "AC5.1.3",
+    "AC5.2.1",
+    "AC5.2.2",
+    "AC5.2.3",
+    "AC5.2.4",
+    "AC5.3.1",
+    "AC5.3.2",
+    "AC5.3.3",
+    "AC6.1.1",
+    "AC6.1.2",
+    "AC6.1.3",
+    "AC6.2.1",
+    "AC6.2.2"
+  ],
+  "coverage": [
+    {
+      "id": "AC1.1.1",
+      "status": "OK",
+      "target": "BR6.10"
+    },
+    {
+      "id": "AC1.1.2",
+      "status": "OK",
+      "target": "BR6.10"
+    },
+    {
+      "id": "AC1.1.3",
+      "status": "OK",
+      "target": "BR6.10"
+    },
+    {
+      "id": "AC1.2.1",
+      "status": "OK",
+      "target": "BR6.10"
+    },
+    {
+      "id": "AC1.2.2",
+      "status": "OK",
+      "target": "BR6.10"
+    },
+    {
+      "id": "AC2.1.1",
+      "status": "OK",
+      "target": "BR6.6"
+    },
+    {
+      "id": "AC2.1.2",
+      "status": "OK",
+      "target": "BR6.6"
+    },
+    {
+      "id": "AC2.1.3",
+      "status": "OK",
+      "target": "BR6.6"
+    },
+    {
+      "id": "AC2.2.1",
+      "status": "OK",
+      "target": "BR6.7"
+    },
+    {
+      "id": "AC2.2.2",
+      "status": "OK",
+      "target": "BR6.7"
+    },
+    {
+      "id": "AC2.2.3",
+      "status": "OK",
+      "target": "BR6.7"
+    },
+    {
+      "id": "AC3.1.1",
+      "status": "OK",
+      "target": "BR6.11"
+    },
+    {
+      "id": "AC3.1.2",
+      "status": "OK",
+      "target": "BR6.11"
+    },
+    {
+      "id": "AC3.2.1",
+      "status": "OK",
+      "target": "BR6.11"
+    },
+    {
+      "id": "AC3.2.2",
+      "status": "OK",
+      "target": "BR6.11"
+    },
+    {
+      "id": "AC3.2.3",
+      "status": "OK",
+      "target": "BR6.11"
+    },
+    {
+      "id": "AC3.3.1",
+      "status": "OK",
+      "target": "BR6.11"
+    },
+    {
+      "id": "AC3.3.2",
+      "status": "OK",
+      "target": "BR6.11"
+    },
+    {
+      "id": "AC4.1.1",
+      "status": "OK",
+      "target": "BR6.8"
+    },
+    {
+      "id": "AC4.1.2",
+      "status": "OK",
+      "target": "BR6.8"
+    },
+    {
+      "id": "AC4.1.3",
+      "status": "OK",
+      "target": "BR6.8"
+    },
+    {
+      "id": "AC4.2.1",
+      "status": "OK",
+      "target": "BR6.8"
+    },
+    {
+      "id": "AC4.2.2",
+      "status": "OK",
+      "target": "BR6.8"
+    },
+    {
+      "id": "AC5.1.1",
+      "status": "OK",
+      "target": "BR6.2"
+    },
+    {
+      "id": "AC5.1.2",
+      "status": "OK",
+      "target": "BR6.2"
+    },
+    {
+      "id": "AC5.1.3",
+      "status": "OK",
+      "target": "BR6.1"
+    },
+    {
+      "id": "AC5.2.1",
+      "status": "OK",
+      "target": "BR6.3"
+    },
+    {
+      "id": "AC5.2.2",
+      "status": "OK",
+      "target": "BR6.3"
+    },
+    {
+      "id": "AC5.2.3",
+      "status": "OK",
+      "target": "BR6.9"
+    },
+    {
+      "id": "AC5.2.4",
+      "status": "OK",
+      "target": "BR6.9"
+    },
+    {
+      "id": "AC5.3.1",
+      "status": "OK",
+      "target": "BR6.4"
+    },
+    {
+      "id": "AC5.3.2",
+      "status": "OK",
+      "target": "BR6.4"
+    },
+    {
+      "id": "AC5.3.3",
+      "status": "OK",
+      "target": "BR6.5"
+    },
+    {
+      "id": "AC6.1.1",
+      "status": "Deferred",
+      "target": "build-and-test"
+    },
+    {
+      "id": "AC6.1.2",
+      "status": "Deferred",
+      "target": "build-and-test"
+    },
+    {
+      "id": "AC6.1.3",
+      "status": "OK",
+      "target": "BR6.1"
+    },
+    {
+      "id": "AC6.2.1",
+      "status": "OK",
+      "target": "BR6.12"
+    },
+    {
+      "id": "AC6.2.2",
+      "status": "OK",
+      "target": "BR6.12"
+    }
+  ],
+  "reverse": [
+    {
+      "id": "BR6.1",
+      "status": "OK",
+      "target": "FR5.1"
+    },
+    {
+      "id": "BR6.2",
+      "status": "OK",
+      "target": "FR5.2"
+    },
+    {
+      "id": "BR6.3",
+      "status": "OK",
+      "target": "FR5.3"
+    },
+    {
+      "id": "BR6.4",
+      "status": "OK",
+      "target": "FR5.5"
+    },
+    {
+      "id": "BR6.5",
+      "status": "OK",
+      "target": "FR5.5"
+    },
+    {
+      "id": "BR6.6",
+      "status": "OK",
+      "target": "FR2.2"
+    },
+    {
+      "id": "BR6.7",
+      "status": "OK",
+      "target": "FR2.3"
+    },
+    {
+      "id": "BR6.8",
+      "status": "OK",
+      "target": "FR4.2"
+    },
+    {
+      "id": "BR6.10",
+      "status": "OK",
+      "target": "FR1.3"
+    },
+    {
+      "id": "BR6.11",
+      "status": "OK",
+      "target": "FR3.2"
+    },
+    {
+      "id": "BR6.9",
+      "status": "OK",
+      "target": "NFR1, NFR4"
+    },
+    {
+      "id": "BR6.12",
+      "status": "OK",
+      "target": "FR6.1"
+    }
+  ]
+}

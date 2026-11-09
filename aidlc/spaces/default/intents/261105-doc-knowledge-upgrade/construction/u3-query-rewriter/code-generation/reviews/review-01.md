@@ -1,0 +1,35 @@
+## Review
+
+**Verdict:** NOT-READY
+**Reviewer:** aidlc-architecture-reviewer-agent
+**Date:** 2026-11-08T10:29:11Z
+**Iteration:** 1
+**Verdict Dictated:** no
+
+### Findings
+
+| ID | Severity | Location | Finding | Required action | Status |
+|---|---|---|---|---|---|
+| R-01 | Critical | `src/integration/rewrite.py > DATE_PREDICATE` | Cận phải của khoảng ngày là `o.order_purchase_timestamp <= TRY_CAST(? AS DATE)`. DuckDB nâng DATE thành TIMESTAMP 00:00:00; chạy thử cho `2018-02-28 10:00:00 <= DATE '2018-02-28'` ra `False`, còn `2018-02-28 00:00:00` ra `True`. Phía `src/analytics` lọc `d.date_key <= end_date` trên `date_key` dạng chuỗi ngày nên tính trọn ngày cuối. Hai bên vì thế so hai tập khác nhau mỗi khi có `ngay_den`, và lần chạy ném `KpiMismatchError` — trái BR3.12 ("đúng bộ tham số đó dùng cho cả SQL và lời gọi src/analytics") và BR3.6. `TOTAL_ORDERS_SQL` dùng cùng vị từ nên `total_orders` cũng lệch theo. | Đổi cận phải thành nửa mở (`o.order_purchase_timestamp < TRY_CAST(? AS DATE) + INTERVAL 1 DAY`) hoặc so trên `CAST(o.order_purchase_timestamp AS DATE) <= TRY_CAST(? AS DATE)`, áp cho cả `SOURCE_SQL` lẫn `TOTAL_ORDERS_SQL`, rồi thêm test có một đơn đặt trong chính `ngay_den` sau 00:00 để khoá hành vi. | New |
+| R-02 | Major | `tests/unit/test_integration_rewrite.py > _reference` | Không test nào chạy `analytics_reference` thật: 41 test của tệp đều tiêm hàm tham chiếu giả, và `tests/integration/test_u3_end_to_end.py` (có trong `source-manifest.json`) không import `src/integration/rewrite.py`. Nghĩa là BR3.6 và AC2.3.1–AC2.3.2 — phép đối chiếu ba mẫu với `src/analytics` — chỉ có một lần chạy tay ghi bằng lời ở `code-summary.md` §2, không kèm lệnh và không tái lập được, trong khi `team.md` đặt điều kiện "Một Unit chỉ xong khi test end-to-end của nó xanh trên dữ liệu thật". Đúng lớp biên chưa được test này là nơi phát hiện Critical ở trên nằm. | Thêm một test `@pytest.mark.slow` chạy `run_template` cho cả ba mã trên `dataset/` thật, **không** tiêm `reference=`, và so với `analytics_reference`; ghi lệnh cùng kết quả vào `unit-test-instructions.md`. | New |
+| R-03 | Major | `.github/workflows/ci.yml > bước "Lint và định dạng"` | Bước này chạy `ruff format --check src/integration`, mà `src/integration/selector.py` (thuộc U5) đang không qua: chạy thật cho `selector.py:178:25` — `1 file would be reformatted`. Vì vậy workflow CI do đơn vị này thêm vào đỏ ngay lần chạy đầu, nên nghĩa vụ của scope ("chạy test đã chọn trong CI trước khi merge") không thoả. `code-summary.md` §4 biết việc này và để lại cho Build and Test, nhưng trạng thái bàn giao vẫn là một cổng CI đỏ. | Hoặc format `src/integration/selector.py` ngay trong thay đổi này (dù tệp thuộc U5) rồi chạy lại đúng lệnh của bước đó cho tới khi xanh, hoặc thu hẹp bước format về danh sách tệp thực sự qua; không bàn giao một workflow đỏ ở lần chạy đầu. | New |
+| R-04 | Major | `src/integration/card.py > _months_table` | C4 khai `rows: list[dict[str, object]]` mà không nói khoá của từng mẫu. Code trả ba hình dạng khác nhau (`nhom`/`gia_tri`/`so_dong`; `thang`/`gia_tri`/`so_dong`; `nhom`/`ty_le`/`so_dong`/`so_tre`), còn `_months_table` vẫn đọc `thang`/`trang_thai`/`so_don` và gọi `set(result.months)`. Đưa kết quả của `run_template` vào thẻ này sẽ ném `TypeError` với mẫu danh mục (`months` là `None`) và `KeyError` với mẫu tháng (thiếu `trang_thai`), nên không đơn vị nào vẽ được ba kết quả từ tài liệu hiện có. | Khai hình dạng `rows` cho từng mẫu trong C4 và trong functional design, rồi sửa `build_integration_card` cho render được cả ba; nếu U6 thay hẳn bộ render thì ghi rõ điều đó và bỏ mô tả "ba khối kết quả theo ba mẫu" khỏi `code-summary.md`. | New |
+| R-05 | Minor | `construction/u3-query-rewriter/functional-design/functional-spec.md > W1 bước 3 và máy trạng thái` | W1 bước 3, W4 dòng 1 và trạng thái `KhongCoNguon` nói U3 tự yêu cầu C3 từ U5 rồi lan `NoSourceAvailableError`. NFR design (`nfr-design/security-design.md`, mục về lỗi C3) chốt ngược lại — U6 gọi U5 rồi truyền `SourceSelection` vào, U3 chỉ kiểm `selection` — và code làm đúng thế. Hai tài liệu thiết kế nói khác nhau và `code-summary.md` §3 không ghi điểm lệch này, nên người dựng U6 đọc W1 sẽ gọi `run_template(template_id, params)` và nhận `SchemaError`. Test cũng chỉ dùng lớp `Selection` tự chế, không dùng `SourceSelection` thật của C3. | Sửa W1 bước 3, W4 và máy trạng thái về đúng quyết định của NFR design, thêm điểm lệch vào `code-summary.md` §3, và cho ít nhất một test dùng chính `SourceSelection` của `src/integration/models.py`. | New |
+| R-06 | Minor | `construction/u3-query-rewriter/functional-design/rules.md > BR3.10` | BR3.10 nói `total_orders`, `months`, `partial` "được khai trong C4 (cộng thêm) cùng thay đổi này", nhưng payload C4 trong `inception/contract-design/contract-summary.md` vẫn dừng ở `kpi_comparison`. Chính sách "chỉ thêm trường" cho phép phần cộng thêm, nhưng U6 không có chỗ nào đọc được hai trường mới. | Cập nhật payload C4 trong `contract-summary.md` với `total_orders`, `months` (và `partial` nếu là trường của payload), hoặc sửa câu ở BR3.10 cho khớp thực tế. | New |
+| R-07 | Minor | `src/integration/rewrite.py > latest_sql` | W2 bước 3 buộc trả "danh sách rỗng và lý do 'chưa chạy truy vấn này'"; `latest_sql` chỉ trả `None`, không có lý do, nên giao diện không có căn cứ hiển thị trạng thái rỗng như mô tả. | Trả kèm lý do (hoặc một kiểu kết quả có `sql` và `reason`) và khẳng định bằng một test. | New |
+
+### Validation Tool Results
+
+| Tool | Result | Interpretation |
+|---|---|---|
+| `.venv\Scripts\python.exe -X utf8 -m pytest tests/unit/test_integration_rewrite.py tests/unit/test_common_kpis.py` | PASS — `51 passed in 1.32s` | Khớp con số `code-summary.md` §2 |
+| `.venv\Scripts\python.exe -X utf8 -m pytest -m "not slow"` | PASS — `323 passed, 7 deselected in 13.15s` | Bộ nhanh xanh; khớp `code-summary.md` §2 |
+| `.venv\Scripts\python.exe -X utf8 -m ruff check` (7 tệp của đơn vị) | PASS — `All checks passed!` | Cổng lint của đơn vị xanh |
+| `.venv\Scripts\python.exe -X utf8 -m ruff format --check` (7 tệp của đơn vị) | PASS — `7 files already formatted` | Cổng format của đơn vị xanh |
+| `.venv\Scripts\python.exe -X utf8 -m ruff format --check src/integration` | FAIL — `selector.py:178:25` sẽ bị định dạng lại, `1 file would be reformatted` | Xác nhận phát hiện Major về CI đỏ ngay lần chạy đầu |
+| `.venv\Scripts\python.exe -X utf8 -m ruff check .` | PASS — `All checks passed!` | Bước `ruff check .` của CI xanh; chỉ bước format đỏ |
+| DuckDB, kiểm cận ngày | `2018-02-28 10:00 <= DATE '2018-02-28'` → `False`; `2018-02-28 00:00` → `True`; `2018-02-27 23:59:59` → `True` | Xác nhận phát hiện Critical về cận phải của `ngay_den` |
+
+### Summary
+
+Đơn vị dựng đúng khung ba mẫu, sổ KPI dùng chung và các cổng lint/format của chính nó đều xanh, nhưng lỗi cận ngày làm mọi lần chạy có `ngay_den` lệch so với `src/analytics` và ném `KpiMismatchError` — đúng lớp biên mà không test nào chạm tới, cộng thêm một workflow CI đỏ sẵn và một hình dạng `rows` chưa được khai để U6 vẽ được kết quả.

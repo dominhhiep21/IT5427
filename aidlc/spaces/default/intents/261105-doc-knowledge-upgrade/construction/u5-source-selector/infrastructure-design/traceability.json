@@ -1,0 +1,16 @@
+{
+  "stage": "infrastructure-design",
+  "unit": "u5-source-selector",
+  "upstream_ids": ["NFR1.1", "NFR2.1", "NFR2.2", "NFR3.1", "NFR4", "NFR5.1", "NFR5.2", "NFR6.1", "NFR6.2"],
+  "coverage": [
+    { "id": "NFR1.1", "status": "OK", "target": "cicd-pipeline.md §4 bước 3–4: dựng dữ liệu rồi chạy bộ test của đơn vị, nơi phép đo time.perf_counter nằm trong test (tech-stack-decisions.md §3)" },
+    { "id": "NFR2.1", "status": "OK", "target": "cicd-pipeline.md §2 (bước CI mới: pytest --cov=src --cov-fail-under=80 trên toàn bộ bộ test), §3 dòng 'phủ ≥ 80%', §4 bước 5" },
+    { "id": "NFR2.2", "status": "OK", "target": "cicd-pipeline.md §3 và §4 bước 4: pytest tests/unit/test_integration_selector.py --cov=src.integration.selector --cov-fail-under=90" },
+    { "id": "NFR3.1", "status": "OK", "target": "cicd-pipeline.md §2 (thêm tệp test vào danh sách format của CI) và §3/§4 bước 1–2 (ruff trên đúng năm tệp Python của TS-U5-15)" },
+    { "id": "NFR4", "status": "N/A", "target": "đơn vị không hiển thị gì; WCAG 2.1 AA thuộc u6-integration-ui" },
+    { "id": "NFR5.1", "status": "OK", "target": "cicd-pipeline.md §3 dòng '5 KPI lệch 0' và §4 bước 3: pipeline + QualityGate/KpiReconciler" },
+    { "id": "NFR5.2", "status": "OK", "target": "cicd-pipeline.md §3 dòng 'số dòng 11 view': đo bởi pytest -m slow (tests/integration/test_u2_end_to_end.py) trong bước đo phủ toàn bộ ở §2 và ở Build and Test" },
+    { "id": "NFR6.1", "status": "OK", "target": "cicd-pipeline.md §3 dòng 'không mạng': rà SR-U5-3 trong review (không phải một bước §4)" },
+    { "id": "NFR6.2", "status": "OK", "target": "cicd-pipeline.md §4: mọi bước chạy bằng .venv\\Scripts\\python.exe -X utf8; bước CI dùng python -X utf8 của runner" }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "stage": "infrastructure-design",
+  "unit": "u6-integration-ui",
+  "upstream_ids": [
+    "NFR1.1",
+    "NFR2.1",
+    "NFR2.2",
+    "NFR3.1",
+    "NFR4.1",
+    "NFR5.1",
+    "NFR5.2",
+    "NFR6.1",
+    "NFR1.4",
+    "NFR1.2",
+    "NFR1.3"
+  ],
+  "coverage": [
+    {
+      "id": "NFR1.1",
+      "status": "OK",
+      "target": "aidlc/spaces/default/intents/261105-doc-knowledge-upgrade/construction/u6-integration-ui/infrastructure-design/cicd-pipeline.md"
+    },
+    {
+      "id": "NFR2.1",
+      "status": "OK",
+      "target": "aidlc/spaces/default/intents/261105-doc-knowledge-upgrade/construction/u6-integration-ui/infrastructure-design/cicd-pipeline.md"
+    },
+    {
+      "id": "NFR2.2",
+      "status": "OK",
+      "target": "aidlc/spaces/default/intents/261105-doc-knowledge-upgrade/construction/u6-integration-ui/infrastructure-design/cicd-pipeline.md"
+    },
+    {
+      "id": "NFR3.1",
+      "status": "OK",
+      "target": "aidlc/spaces/default/intents/261105-doc-knowledge-upgrade/construction/u6-integration-ui/infrastructure-design/cicd-pipeline.md"
+    },
+    {
+      "id": "NFR4.1",
+      "status": "OK",
+      "target": "aidlc/spaces/default/intents/261105-doc-knowledge-upgrade/construction/u6-integration-ui/infrastructure-design/cicd-pipeline.md"
+    },
+    {
+      "id": "NFR5.1",
+      "status": "OK",
+      "target": "aidlc/spaces/default/intents/261105-doc-knowledge-upgrade/construction/u6-integration-ui/infrastructure-design/cicd-pipeline.md"
+    },
+    {
+      "id": "NFR5.2",
+      "status": "OK",
+      "target": "aidlc/spaces/default/intents/261105-doc-knowledge-upgrade/construction/u6-integration-ui/infrastructure-design/cicd-pipeline.md"
+    },
+    {
+      "id": "NFR6.1",
+      "status": "OK",
+      "target": "aidlc/spaces/default/intents/261105-doc-knowledge-upgrade/construction/u6-integration-ui/infrastructure-design/infrastructure-specification.md"
+    },
+    {
+      "id": "NFR1.4",
+      "status": "OK",
+      "target": "aidlc/spaces/default/intents/261105-doc-knowledge-upgrade/construction/u6-integration-ui/infrastructure-design/cicd-pipeline.md"
+    },
+    {
+      "id": "NFR1.2",
+      "status": "OK",
+      "target": "aidlc/spaces/default/intents/261105-doc-knowledge-upgrade/construction/u6-integration-ui/infrastructure-design/cicd-pipeline.md"
+    },
+    {
+      "id": "NFR1.3",
+      "status": "OK",
+      "target": "aidlc/spaces/default/intents/261105-doc-knowledge-upgrade/construction/u6-integration-ui/infrastructure-design/cicd-pipeline.md"
+    }
+  ]
+}

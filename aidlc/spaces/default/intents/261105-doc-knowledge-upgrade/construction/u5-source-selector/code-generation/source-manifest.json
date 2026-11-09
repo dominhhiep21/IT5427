@@ -1,0 +1,15 @@
+{
+  "stage": "code-generation",
+  "unit": "u5-source-selector",
+  "version": 1,
+  "writes": [
+    { "path": "src/integration/selector.py" },
+    { "path": "src/integration/models.py" },
+    { "path": "src/common/exceptions.py" },
+    { "path": "src/config.py" },
+    { "path": "config.yaml" },
+    { "path": "config/integration-sources.yaml" },
+    { "path": "tests/unit/test_integration_selector.py" },
+    { "path": ".github/workflows/ci.yml" }
+  ]
+}

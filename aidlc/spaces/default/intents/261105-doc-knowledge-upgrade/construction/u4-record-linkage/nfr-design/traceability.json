@@ -1,0 +1,15 @@
+{
+  "stage": "nfr-design",
+  "unit": "u4-record-linkage",
+  "upstream_ids": ["NFR1.1", "NFR1.2", "NFR2.1", "NFR2.2", "NFR3.1", "NFR5.1", "NFR5.2", "NFR6.1"],
+  "coverage": [
+    { "id": "NFR1.1", "status": "OK", "target": "logical-components.md L1 (chỉ mục dựng một lần) + L2 (chấm trong bộ nhớ), tech-stack TS-U4-3" },
+    { "id": "NFR1.2", "status": "OK", "target": "logical-components.md L3 (trần 10.000 cặp + ghi nguyên tử); BR4.10 giữ kích thước tệp" },
+    { "id": "NFR2.1", "status": "OK", "target": "logical-components.md L1–L3 tách ba mô-đun, mỗi mô-đun test riêng; ngưỡng phủ đo ở lệnh xác nhận của dự án" },
+    { "id": "NFR2.2", "status": "OK", "target": "logical-components.md §2 — mỗi khối L1, L2, L3 là một tệp nguồn và có một tệp test" },
+    { "id": "NFR3.1", "status": "OK", "target": "security-design.md §3 hàng lint; mã mới đi qua ruff.toml đã có" },
+    { "id": "NFR5.1", "status": "OK", "target": "logical-components.md §4 — đơn vị chỉ đọc dataset/ và ghi data/integration/, không chạm data/marts hay warehouse/" },
+    { "id": "NFR5.2", "status": "OK", "target": "logical-components.md §4 — không đường ghi nào vào mart/view; KpiReconciler vẫn là cổng của lần chạy pipeline" },
+    { "id": "NFR6.1", "status": "OK", "target": "security-design.md ADR-U4-S4 và §3 hàng kiểm mạng — không cổng, không import mạng trong src/linkage/" }
+  ]
+}

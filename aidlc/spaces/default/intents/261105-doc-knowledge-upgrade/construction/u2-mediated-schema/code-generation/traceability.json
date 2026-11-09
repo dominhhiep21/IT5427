@@ -1,0 +1,40 @@
+{
+  "stage": "code-generation",
+  "unit": "u2-mediated-schema",
+  "upstream_ids": ["AC1.1.1", "AC1.1.2", "AC1.1.3", "AC1.2.1", "AC1.2.2", "AC1.3.1", "AC1.3.2", "AC6.1.1", "AC6.1.2", "AC6.1.3", "FR1.1", "FR1.2", "FR1.3", "FR1.4", "NFR1.1", "NFR2.1", "NFR2.2", "NFR3.1", "NFR5.1", "NFR5.2", "NFR6.1", "BR2.1", "BR2.2", "BR2.3", "BR2.4", "BR2.5", "BR2.6", "BR2.7", "BR2.8", "BR2.9"],
+  "coverage": [
+    { "id": "AC1.1.1", "status": "OK", "target": "src/integration/models.py" },
+    { "id": "AC1.1.2", "status": "OK", "target": "src/integration/schema.py" },
+    { "id": "AC1.1.3", "status": "OK", "target": "src/integration/models.py" },
+    { "id": "AC1.2.1", "status": "OK", "target": "src/integration/models.py" },
+    { "id": "AC1.2.2", "status": "OK", "target": "src/integration/schema.py" },
+    { "id": "AC1.3.1", "status": "OK", "target": "src/integration/schema.py" },
+    { "id": "AC1.3.2", "status": "OK", "target": "tests/unit/test_integration_schema.py" },
+    { "id": "AC6.1.1", "status": "OK", "target": "tests/unit/test_integration_schema.py" },
+    { "id": "AC6.1.2", "status": "Deferred", "target": "build-and-test: QualityGate + KpiReconciler trên toàn pipeline; đơn vị không ghi vào mart/view" },
+    { "id": "AC6.1.3", "status": "N/A", "target": "u6-integration-ui: đơn vị này không chạm hình dạng dashboard" },
+    { "id": "FR1.1", "status": "OK", "target": "config/mediated-schema.yaml" },
+    { "id": "FR1.2", "status": "OK", "target": "src/integration/schema.py" },
+    { "id": "FR1.3", "status": "Deferred", "target": "u6-integration-ui: đơn vị này không render gì (functional-spec.md xếp phần hiển thị ra ngoài U2)" },
+    { "id": "FR1.4", "status": "Deferred", "target": "u6-integration-ui: nhãn GAV trên màn hình thuộc đơn vị giao diện, không thuộc payload models.py" },
+    { "id": "NFR1.1", "status": "OK", "target": "tests/unit/test_integration_schema.py" },
+    { "id": "NFR2.1", "status": "OK", "target": "tests/unit/test_integration_schema.py" },
+    { "id": "NFR2.2", "status": "OK", "target": "tests/unit/test_integration_schema.py" },
+    { "id": "NFR3.1", "status": "OK", "target": ".github/workflows/ci.yml" },
+    { "id": "NFR5.1", "status": "Deferred", "target": "build-and-test: `pytest -m \"not slow\"` xanh ở bước này (215 passed); QualityGate/KpiReconciler chạy ở bước sau" },
+    { "id": "NFR5.2", "status": "Deferred", "target": "build-and-test: số dòng 11 view và 5 KPI baseline xác nhận sau khi chạy --stage all" },
+    { "id": "NFR6.1", "status": "OK", "target": "src/integration/schema.py" },
+    { "id": "BR2.1", "status": "OK", "target": "config/mediated-schema.yaml" },
+    { "id": "BR2.2", "status": "OK", "target": "src/integration/schema.py" },
+    { "id": "BR2.3", "status": "OK", "target": "src/integration/schema.py" },
+    { "id": "BR2.4", "status": "OK", "target": "src/integration/schema.py" },
+    { "id": "BR2.5", "status": "OK", "target": "src/integration/schema.py" },
+    { "id": "BR2.6", "status": "OK", "target": "src/integration/schema.py" },
+    { "id": "BR2.7", "status": "OK", "target": "src/integration/schema.py" },
+    { "id": "BR2.8", "status": "OK", "target": "tests/unit/test_integration_schema.py" },
+    { "id": "BR2.9", "status": "OK", "target": "config/mediated-schema.yaml" }
+  ],
+  "reverse": [
+    { "id": "BR2.9", "status": "OK", "target": "config/mediated-schema.yaml" }
+  ]
+}

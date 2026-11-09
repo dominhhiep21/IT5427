@@ -1,0 +1,44 @@
+{
+  "stage": "nfr-requirements",
+  "unit": "u2-mediated-schema",
+  "upstream_ids": [
+    "NFR1",
+    "NFR2",
+    "NFR3",
+    "NFR4",
+    "NFR5",
+    "NFR6"
+  ],
+  "coverage": [
+    {
+      "id": "NFR1",
+      "status": "OK",
+      "target": "NFR1.1 trong tech-stack-decisions.md §3: nạp + kiểm lược đồ ≤ 2 giây, giữ nguyên ngưỡng chung của NFR1 (Q1 = A), đo trên view.elapsed_ms do chính bộ nạp trả về (SR-U2-11) và khẳng định bằng test với fixture nhỏ"
+    },
+    {
+      "id": "NFR2",
+      "status": "OK",
+      "target": "NFR2.1 (phủ ≥ 80% qua --cov-fail-under=80) và NFR2.2 (mỗi mô-đun mới có test riêng) trong tech-stack-decisions.md §3"
+    },
+    {
+      "id": "NFR3",
+      "status": "OK",
+      "target": "NFR3.1 trong tech-stack-decisions.md §3: ruff check và ruff format --check sạch trên phạm vi đã chốt"
+    },
+    {
+      "id": "NFR4",
+      "status": "N/A",
+      "target": "đơn vị này không hiển thị gì; WCAG 2.1 AA thuộc u6-integration-ui (tech-stack-decisions.md §3, ghi chú cuối)"
+    },
+    {
+      "id": "NFR5",
+      "status": "OK",
+      "target": "NFR5.1 (quality full + KpiReconciler xanh) và NFR5.2 (5 KPI lệch 0, 11 view không đổi số dòng) trong tech-stack-decisions.md §3; SR-U2-3/SR-U2-6 giữ lược đồ khớp tiêu đề nguồn thật để U3 không đọc sai trường"
+    },
+    {
+      "id": "NFR6",
+      "status": "OK",
+      "target": "NFR6.1 (không mạng) và SR-U2-1/SR-U2-2 (không cổng, không bí mật) trong tech-stack-decisions.md §3 và security-requirements.md §1"
+    }
+  ]
+}

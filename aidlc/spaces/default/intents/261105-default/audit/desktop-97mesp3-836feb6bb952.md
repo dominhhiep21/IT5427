@@ -351,3 +351,12 @@
 **Context**: INCEPTION - Requirements Analysis, Step 2-6
 
 ---
+
+## Workspace Initialised
+**Timestamp**: 2026-11-05T14:45:54Z
+**Event**: WORKSPACE_INITIALISED
+**Request**: /aidlc feature
+**Scope**: feature
+**Details**: Migrated flat aidlc-docs/ into 261105-default
+
+---

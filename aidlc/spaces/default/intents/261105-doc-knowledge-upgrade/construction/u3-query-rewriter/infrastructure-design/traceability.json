@@ -1,0 +1,16 @@
+{
+  "stage": "infrastructure-design",
+  "unit": "u3-query-rewriter",
+  "upstream_ids": ["NFR1.1", "NFR2.1", "NFR2.2", "NFR3.1", "NFR4", "NFR5.1", "NFR5.2", "NFR6.1", "NFR6.2"],
+  "coverage": [
+    { "id": "NFR1.1", "status": "OK", "target": "cicd-pipeline.md §3 dòng NFR1.1 và §4 bước 6: đo elapsed_ms/load_ms trên dữ liệu thật ở Build and Test" },
+    { "id": "NFR2.1", "status": "OK", "target": "cicd-pipeline.md §3 dòng NFR2.1 và §4 bước 5: --cov-fail-under=80 trên toàn bộ bộ test" },
+    { "id": "NFR2.2", "status": "OK", "target": "cicd-pipeline.md §3 và §4 bước 4: test_integration_rewrite.py, test_common_kpis.py" },
+    { "id": "NFR3.1", "status": "OK", "target": "cicd-pipeline.md §2 (thêm tệp vào CI) và §4 bước 1–2" },
+    { "id": "NFR4", "status": "N/A", "target": "u6-integration-ui" },
+    { "id": "NFR5.1", "status": "OK", "target": "cicd-pipeline.md §3 dòng NFR5.1/NFR5.2 và §4 bước 5" },
+    { "id": "NFR5.2", "status": "OK", "target": "cicd-pipeline.md §3 và §4 bước 6: pytest -m slow" },
+    { "id": "NFR6.1", "status": "OK", "target": "cicd-pipeline.md §2: không thêm gói mạng; §4 dùng lệnh local" },
+    { "id": "NFR6.2", "status": "OK", "target": "cicd-pipeline.md §4: mọi bước dùng .venv\\Scripts\\python.exe -X utf8" }
+  ]
+}

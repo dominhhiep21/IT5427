@@ -1,0 +1,19 @@
+{
+  "stage": "code-generation",
+  "unit": "u6-integration-ui",
+  "version": 1,
+  "writes": [
+    { "path": "src/integration/tab.py" },
+    { "path": "src/integration/card.py" },
+    { "path": "src/common/exceptions.py" },
+    { "path": "src/dashboard/app.py" },
+    { "path": "assets/style.css" },
+    { "path": "config/integration-tab.yaml" },
+    { "path": "requirements.txt" },
+    { "path": "tests/unit/test_integration_tab.py" },
+    { "path": "tests/unit/test_integration_card.py" },
+    { "path": "tests/unit/test_dashboard_smoke.py" },
+    { "path": "tests/integration/test_u3_end_to_end.py" },
+    { "path": ".github/workflows/ci.yml" }
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "stage": "nfr-design",
+  "unit": "u1-thin-slice",
+  "upstream_ids": [
+    "NFR1.1",
+    "NFR1.2",
+    "NFR1.3",
+    "NFR1.4",
+    "NFR2.1",
+    "NFR2.2",
+    "NFR3.1",
+    "NFR4.1",
+    "NFR4.2",
+    "NFR4.3",
+    "NFR4.4",
+    "NFR5.1",
+    "NFR5.2",
+    "NFR5.3",
+    "NFR5.4",
+    "NFR5.5",
+    "NFR5.6",
+    "NFR6.1",
+    "NFR6.2"
+  ],
+  "coverage": [
+    {
+      "id": "NFR1.1",
+      "status": "OK",
+      "target": "performance-design.md ADR-U1-P1 (cache nạp cấp tiến trình; kết quả gần nhất giữ ở biến cấp tiến trình) + ngân sách dựng vùng 2 giây ở §1"
+    },
+    {
+      "id": "NFR1.2",
+      "status": "OK",
+      "target": "performance-design.md ADR-U1-P3 (DuckDB in-memory) + ngân sách truy vấn 2 giây, cảnh báo integration.query.slow ở observability-design.md §2"
+    },
+    {
+      "id": "NFR1.3",
+      "status": "OK",
+      "target": "performance-design.md ADR-U1-P2 (usecols đúng các cột có loaded: true của bảng đơn) + ngân sách nạp 5 giây ở §1"
+    },
+    {
+      "id": "NFR1.4",
+      "status": "OK",
+      "target": "performance-design.md §3 (test trong bộ nhanh, đo riêng phần thực thi, ngưỡng cứng 2.000 ms)"
+    },
+    {
+      "id": "NFR2.1",
+      "status": "OK",
+      "target": "reliability-design.md §4.1 (lệnh xác nhận pytest --cov=src --cov-fail-under=80; đơn vị chỉ thêm test, không hạ ngưỡng)"
+    },
+    {
+      "id": "NFR2.2",
+      "status": "OK",
+      "target": "reliability-design.md §4.1 (mỗi tệp mới trong src/integration/ có test/unit/test_<tên>.py tương ứng)"
+    },
+    {
+      "id": "NFR3.1",
+      "status": "OK",
+      "target": "reliability-design.md §4.1 và security-design.md §5 (ruff check + ruff format --check sạch, chạy cạnh bộ test nhanh)"
+    },
+    {
+      "id": "NFR4.1",
+      "status": "OK",
+      "target": "observability-design.md §4 (mọi phần tử tương tác của thẻ nhận tiêu điểm; nút là html.Button)"
+    },
+    {
+      "id": "NFR4.2",
+      "status": "OK",
+      "target": "observability-design.md §4 (viền tiêu điểm dùng token focus, tương phản >= 3:1, không outline:none)"
+    },
+    {
+      "id": "NFR4.3",
+      "status": "OK",
+      "target": "observability-design.md §4 (chữ thường >= 4,5:1, chữ lớn >= 3:1, cặp màu lấy từ bảng token)"
+    },
+    {
+      "id": "NFR4.4",
+      "status": "OK",
+      "target": "observability-design.md §4 (mỗi trạng thái có chữ + biểu tượng, không chỉ màu) và ADR-U1-R5 (nhãn trạng thái rỗng/lỗi)"
+    },
+    {
+      "id": "NFR5.1",
+      "status": "OK",
+      "target": "reliability-design.md §4 — đơn vị chỉ đọc, không ghi data/marts hay warehouse/, nên quality full và KpiReconciler không bị chạm"
+    },
+    {
+      "id": "NFR5.2",
+      "status": "OK",
+      "target": "reliability-design.md §4 — không có thao tác ghi nào lên 9 bảng nguồn và 11 view nên 5 KPI lệch 0 và số dòng giữ nguyên"
+    },
+    {
+      "id": "NFR5.3",
+      "status": "OK",
+      "target": "reliability-design.md §4 và ADR-U1-R3 — vùng có callback riêng; cập nhật test hình dạng dashboard (4 tab, 8 callback, 4 thẻ + 1 vùng) trong cùng thay đổi"
+    },
+    {
+      "id": "NFR5.4",
+      "status": "OK",
+      "target": "reliability-design.md §4 — đơn vị là chỉ đọc: không lời gọi ghi nào vào data/marts hay warehouse/"
+    },
+    {
+      "id": "NFR5.5",
+      "status": "OK",
+      "target": "reliability-design.md §4.1 và functional-spec.md — test đối chiếu số trên vùng với phép tính độc lập từ dataset/, lệch một đơn là đỏ"
+    },
+    {
+      "id": "NFR5.6",
+      "status": "OK",
+      "target": "performance-design.md §1 và logical-components.md L2 — truy vấn nhóm theo trang_thai; test đọc `source_sql` từ QueryRunResult và khẳng định trang_thai có trong SELECT/GROUP BY; cửa sổ 12 tháng là phép tính của tầng hiển thị"
+    },
+    {
+      "id": "NFR6.1",
+      "status": "OK",
+      "target": "scalability-design.md ADR-U1-SC1 và logical-components.md vùng hỏng D4 — một tiến trình local, DuckDB in-memory, không lời gọi mạng nào"
+    },
+    {
+      "id": "NFR6.2",
+      "status": "OK",
+      "target": "logical-components.md §4.1 — mọi tệp đọc/ghi UTF-8 tường minh, mọi lệnh Python chạy dưới python -X utf8"
+    }
+  ]
+}

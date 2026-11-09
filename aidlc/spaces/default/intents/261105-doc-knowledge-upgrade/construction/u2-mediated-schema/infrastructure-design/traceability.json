@@ -1,0 +1,26 @@
+{
+  "stage": "infrastructure-design",
+  "unit": "u2-mediated-schema",
+  "upstream_ids": [
+    "NFR1.1",
+    "NFR6.1",
+    "NFR2.2"
+  ],
+  "coverage": [
+    {
+      "id": "NFR1.1",
+      "status": "OK",
+      "target": "cicd-pipeline.md §3 hàng NFR1.1: test nhanh khẳng định view.elapsed_ms <= 2000 trên fixture; bước 'Test nhanh' của CI chạy nó sau khi dựng dữ liệu"
+    },
+    {
+      "id": "NFR6.1",
+      "status": "OK",
+      "target": "cicd-pipeline.md §4 (một máy, một tiến trình, không container/đám mây) và §5 (không bí mật, chỉ đọc cache IBGE); CI bước 'Dựng dữ liệu' không gọi mạng"
+    },
+    {
+      "id": "NFR2.2",
+      "status": "OK",
+      "target": "cicd-pipeline.md §2 và §7 G2: tests/unit/test_integration_schema.py phải được thêm vào danh sách ruff format --check của ci.yml trong cùng thay đổi sinh mã; CI bước 'Test nhanh' chạy tệp đó"
+    }
+  ]
+}

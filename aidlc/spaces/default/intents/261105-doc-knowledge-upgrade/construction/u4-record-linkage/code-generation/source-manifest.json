@@ -1,0 +1,22 @@
+{
+  "stage": "code-generation",
+  "unit": "u4-record-linkage",
+  "version": 1,
+  "writes": [
+    { "path": "src/linkage/__init__.py" },
+    { "path": "src/linkage/models.py" },
+    { "path": "src/linkage/index.py" },
+    { "path": "src/linkage/score.py" },
+    { "path": "src/linkage/result.py" },
+    { "path": "src/config.py" },
+    { "path": "src/pipeline/stages.py" },
+    { "path": "config.yaml" },
+    { "path": "tests/unit/test_linkage_models.py" },
+    { "path": "tests/unit/test_linkage_index.py" },
+    { "path": "tests/unit/test_linkage_score.py" },
+    { "path": "tests/unit/test_linkage_result.py" },
+    { "path": ".github/workflows/ci.yml" },
+    { "path": "README.md" },
+    { "path": "docs/runbook.md" }
+  ]
+}
