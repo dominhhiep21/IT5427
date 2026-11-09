@@ -45,6 +45,7 @@ def test_u3_end_to_end(real_config, tmp_path: Path):
 
     app = create_app(real_config)
     assert app.title == "Olist | Bảng điều hành"
-    assert len(app.callback_map) == 2
+    # Hai callback của ba tab báo cáo + sáu callback của tab "Tích hợp" (năm của U6 + một của vùng `don-theo-thang`).
+    assert len(app.callback_map) == 8
 
     writer.cleanup()

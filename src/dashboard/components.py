@@ -79,7 +79,7 @@ def empty_figure(message: str = "Không có dữ liệu với bộ lọc hiện 
         xref="paper",
         yref="paper",
         showarrow=False,
-        font={"size": 14, "color": "#5B6B63"},
+        font={"size": 14, "color": "#78857d", "family": "Segoe UI, sans-serif"},
     )
     figure.update_layout(
         paper_bgcolor="rgba(0,0,0,0)",
