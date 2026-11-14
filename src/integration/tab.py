@@ -361,13 +361,19 @@ def IntegrationCard(spec: CardSpec) -> html.Div:
             StateBlock(spec.state, spec.message, testid=f"card-{spec.card_id}-state"),
             _metric_line(spec.card_id, metrics[0], 1),
             _metric_line(spec.card_id, metrics[1], 2),
-            dmc.Button(
-                "Xem chi tiết",
-                id=f"card-{spec.card_id}-open",
-                n_clicks=0,
-                variant="light",
-                size="xs",
-                **{"data-testid": f"card-{spec.card_id}-open", "aria-label": f"Xem chi tiết {spec.title}"},
+            html.Div(
+                dmc.Button(
+                    "Xem chi tiết",
+                    id=f"card-{spec.card_id}-open",
+                    n_clicks=0,
+                    variant="light",
+                    size="xs",
+                    **{
+                        "data-testid": f"card-{spec.card_id}-open",
+                        "aria-label": f"Xem chi tiết {spec.title}",
+                    },
+                ),
+                className="card-action",
             ),
         ],
         className="integration-card",

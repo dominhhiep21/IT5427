@@ -154,13 +154,18 @@ def _title(text: str = TEXTS["title"]) -> html.H3:
     return html.H3(text, className="integration-card-title")
 
 
-def _action_button(label: str, action_id: str) -> html.Button:
-    return html.Button(
-        label,
-        id=action_id,
-        className="integration-action",
-        n_clicks=0,
-        **{"data-testid": "integration-action"},
+def _action_button(label: str, action_id: str) -> html.Div:
+    """Nút hành động của thẻ, bọc trong footer để luôn neo ở góc dưới-trái."""
+
+    return html.Div(
+        html.Button(
+            label,
+            id=action_id,
+            className="integration-action",
+            n_clicks=0,
+            **{"data-testid": "integration-action"},
+        ),
+        className="card-action",
     )
 
 

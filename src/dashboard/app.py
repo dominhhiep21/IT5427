@@ -12,6 +12,12 @@ from dash import Dash, Input, Output, dcc, html
 from src.analytics.service import AnalyticsService
 from src.common.logging import JsonLogger
 from src.common.types import KpiFilters, RunContext
+from src.dashboard.analysis_tab import (
+    TAB_LABEL as ANALYSIS_TAB_LABEL,
+    TAB_VALUE as ANALYSIS_TAB_VALUE,
+    AnalysisTab,
+    register_callback as register_analysis_callback,
+)
 from src.dashboard.components import (
     chart_card,
     empty_figure,
@@ -20,6 +26,7 @@ from src.dashboard.components import (
     sparse_badge,
 )
 from src.dashboard.formatting import format_brl, format_number
+from src.dashboard.prediction_section import register_prediction_callback
 from src.integrate.connections import ConnectionFactory
 from src.common.exceptions import PipelineError
 from src.integration.card import TabConfig, load_tab_config
@@ -398,6 +405,12 @@ def build_layout(config) -> html.Div:
                             id="tich-hop-loading",
                         ),
                     ),
+                    # Tab thứ năm đọc báo cáo trong callback, không đọc lúc dựng layout.
+                    dcc.Tab(
+                        label=ANALYSIS_TAB_LABEL,
+                        value=ANALYSIS_TAB_VALUE,
+                        children=AnalysisTab(),
+                    ),
                 ],
             ),
         ],
@@ -455,6 +468,11 @@ def create_app(config) -> Dash:
     # Tab "Tích hợp" có năm callback riêng (load_overview, route, run_query, suggest_source,
     # reload); mỗi callback một Output riêng nên không đè hai callback của ba tab báo cáo.
     register_callbacks(app, config, _tab_config(config), _integration_logger)
+    # Tab "Kết quả phân tích" có một callback, cộng vào thành chín callback của dashboard.
+    register_analysis_callback(app, config)
+    # Khối Dự đoán của tab đó thêm một callback nữa — mười callback, Output của callback KPI vẫn chín
+    # (BR3.13). Nhật ký dùng lại `_integration_logger` mà hai tab kia đã dùng, không dựng logger mới.
+    register_prediction_callback(app, config, lambda: _integration_logger(config))
     return app
 
 

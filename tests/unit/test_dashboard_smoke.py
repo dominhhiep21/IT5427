@@ -36,22 +36,37 @@ def _props(node) -> dict:
     return node.to_plotly_json().get("props", {})
 
 
-def test_dashboard_builds_with_four_tabs():
+def _tabs(app):
+    return [child for child in app.layout.children if isinstance(child, dcc.Tabs)][0]
+
+
+def _tab(tabs, value):
+    """Tra tab theo `value` — danh tính của tab, không phải vị trí trong `children`.
+
+    Tab thứ năm làm `children[-1]` trỏ sang tab mới, nên mọi chỗ đọc tab phải tra theo giá trị.
+    """
+
+    found = [child for child in tabs.children if isinstance(child, dcc.Tab) and child.value == value]
+    assert len(found) == 1, f"không thấy đúng một tab {value!r}"
+    return found[0]
+
+
+def test_dashboard_builds_with_five_tabs():
     app = create_app(load_config())
-    tabs = [child for child in app.layout.children if isinstance(child, dcc.Tabs)]
-    assert len(tabs) == 1
-    assert len(tabs[0].children) == 4
-    assert tabs[0].children[-1].label == "Tích hợp"
-    assert tabs[0].children[-1].value == "tich-hop"
+    tabs = _tabs(app)
+    assert len(tabs.children) == 5
+    assert _tab(tabs, "tich-hop").label == "Tích hợp"
+    assert _tab(tabs, "phan-tich").label == "Kết quả phân tích"
     # Hai callback của ba tab báo cáo + sáu callback của tab "Tích hợp" (năm của U6,
-    # một của vùng `don-theo-thang` — C9 `result_region_ids`).
-    assert len(app.callback_map) == 8
+    # một của vùng `don-theo-thang` — C9 `result_region_ids`) + một của tab "Kết quả phân tích"
+    # + một của khối Dự đoán (BR3.13: mười callback, Output của callback KPI vẫn chín).
+    assert len(app.callback_map) == 10
 
 
 def test_integration_tab_holds_four_empty_cards():
     app = create_app(load_config())
-    tabs = [child for child in app.layout.children if isinstance(child, dcc.Tabs)][0]
-    loading = tabs.children[-1].children
+    tabs = _tabs(app)
+    loading = _tab(tabs, "tich-hop").children
     nodes = list(_walk(loading))
 
     cards = [node for node in nodes if _props(node).get("data-testid") == "integration-card"]
@@ -88,8 +103,8 @@ def test_integration_tab_holds_the_thin_slice_region():
     """C9 `result_region_ids`: vùng số liệu của lát cắt nằm trong tab, không phải một card_id."""
 
     app = create_app(load_config())
-    tabs = [child for child in app.layout.children if isinstance(child, dcc.Tabs)][0]
-    nodes = list(_walk(tabs.children[-1].children))
+    tabs = _tabs(app)
+    nodes = list(_walk(_tab(tabs, "tich-hop").children))
 
     region = [node for node in nodes if _props(node).get("data-testid") == "don-theo-thang"]
     assert len(region) == 1

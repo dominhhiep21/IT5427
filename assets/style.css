@@ -629,7 +629,8 @@ h4 {
 }
 
 .integration-card {
-  display: block;
+  display: flex;
+  flex-direction: column;
   max-width: none;
   height: 100%;
   padding: var(--space-4) var(--space-5) var(--space-5);
@@ -638,6 +639,12 @@ h4 {
   border-radius: var(--radius);
   box-shadow: var(--shadow-xs);
   transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+/* Hành động của thẻ luôn neo ở góc dưới-trái, thẳng hàng giữa các thẻ cùng hàng */
+.card-action {
+  margin-top: auto;
+  padding-top: var(--space-4);
 }
 
 .integration-card:hover {
@@ -742,7 +749,7 @@ h4 {
 }
 
 .integration-action {
-  margin-top: var(--space-4);
+  margin-top: 0;
   padding: 8px var(--space-4);
   border: 1px solid var(--accent);
   border-radius: var(--radius-sm);
@@ -1189,4 +1196,25 @@ select:focus-visible,
   .skeleton-line {
     background: var(--surface-sunken);
   }
+}
+
+/* Tab phân tích: chữ nhỏ dùng --text-2 để đạt 4,5:1 (NFR5.1).
+   Chỉ áp trong tab này; các tab cũ giữ --text-3. */
+.analysis-tab .kpi-label,
+.analysis-tab .kpi-detail,
+.analysis-tab .chart-subtitle,
+.analysis-tab .integration-detail,
+.analysis-tab .integration-state-items,
+.analysis-tab .empty-state,
+.analysis-tab .integration-status[data-state="chua-chay"],
+.analysis-tab .integration-status[data-state="rong"] {
+  color: var(--text-2);
+}
+
+/* Mục Dự đoán: lỗi hiện ngay trong vùng kết quả, dưới đúng ô đã đánh dấu (BR3.19, BR3.31).
+   Chữ dưới 16px nên dùng --text-2 để đạt 4,5:1 như các nhãn nhỏ khác của tab (NFR5.1). */
+.analysis-tab .field-error {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: var(--text-2);
 }
