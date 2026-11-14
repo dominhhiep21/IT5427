@@ -20,10 +20,13 @@ class FactBuilder:
             ]
         ]
         out = items.merge(orders, on="order_id", how="left")
-        out["date_key"] = pd.to_datetime(
-            out["order_purchase_timestamp"]
-        ).dt.strftime("%Y-%m-%d")
+        out["date_key"] = pd.to_datetime(out["order_purchase_timestamp"]).dt.strftime("%Y-%m-%d")
         out["item_total"] = out["price"].fillna(0) + out["freight_value"].fillna(0)
+        # BR1.2, BR1.7 — bang của NGƯỜI BÁN, lấy từ dim_seller và đổi tên ngay tại chỗ nối:
+        # dim_customer cũng có cột `state`, nên để tên `state` sẽ làm agg_sales_daily sinh
+        # state_x/state_y. Nối left để không mất dòng khi thiếu bản ghi người bán.
+        seller_state = dims["dim_seller"][["seller_id", "state"]].rename(columns={"state": "seller_state"})
+        out = out.merge(seller_state, on="seller_id", how="left")
         return out[
             [
                 "order_id",
@@ -38,14 +41,13 @@ class FactBuilder:
                 "price_outlier",
                 "order_status",
                 "is_delivered",
+                "seller_state",
             ]
         ]
 
     def _dominant_category(self, cleaned: dict[str, pd.DataFrame]) -> pd.DataFrame:
         items = cleaned["order_items"][["order_id", "product_id", "price", "freight_value"]].copy()
-        products = cleaned["products"][
-            ["product_id", "product_category_name", "category_missing"]
-        ]
+        products = cleaned["products"][["product_id", "product_category_name", "category_missing"]]
         items = items.merge(products, on="product_id", how="left")
         items["item_total"] = items["price"].fillna(0) + items["freight_value"].fillna(0)
         totals = (
@@ -66,30 +68,16 @@ class FactBuilder:
         )
         return dominant
 
-    def build_orders(
-        self, cleaned: dict[str, pd.DataFrame], dims: dict[str, pd.DataFrame]
-    ) -> pd.DataFrame:
+    def build_orders(self, cleaned: dict[str, pd.DataFrame], dims: dict[str, pd.DataFrame]) -> pd.DataFrame:
         orders = cleaned["orders"].copy()
-        orders["date_key"] = pd.to_datetime(
-            orders["order_purchase_timestamp"]
-        ).dt.strftime("%Y-%m-%d")
+        orders["date_key"] = pd.to_datetime(orders["order_purchase_timestamp"]).dt.strftime("%Y-%m-%d")
         delivered = pd.to_datetime(orders["order_delivered_customer_date"])
         estimated = pd.to_datetime(orders["order_estimated_delivery_date"])
         purchase = pd.to_datetime(orders["order_purchase_timestamp"])
-        orders["delivery_days"] = (
-            (delivered - purchase).dt.total_seconds() / 86400
-        ).round(2)
-        orders["is_late"] = (
-            orders["is_delivered"].fillna(False)
-            & delivered.notna()
-            & (delivered > estimated)
-        )
-        orders["has_items"] = orders["order_id"].isin(
-            cleaned["order_items"]["order_id"]
-        )
-        orders["has_payment"] = orders["order_id"].isin(
-            cleaned["payments"]["order_id"]
-        )
+        orders["delivery_days"] = ((delivered - purchase).dt.total_seconds() / 86400).round(2)
+        orders["is_late"] = orders["is_delivered"].fillna(False) & delivered.notna() & (delivered > estimated)
+        orders["has_items"] = orders["order_id"].isin(cleaned["order_items"]["order_id"])
+        orders["has_payment"] = orders["order_id"].isin(cleaned["payments"]["order_id"])
         orders["has_review"] = orders["order_id"].isin(cleaned["reviews"]["order_id"])
 
         dominant = self._dominant_category(cleaned)
@@ -111,18 +99,18 @@ class FactBuilder:
                 "has_items",
                 "has_payment",
                 "has_review",
+                # BR1.3 — hai mốc thời gian vào mart ở dạng THÔ; chỉ số ngày dẫn xuất
+                # mới được làm đặc trưng, và việc dẫn xuất thuộc U2.
+                "order_approved_at",
+                "order_delivered_carrier_date",
             ]
         ]
 
-    def build_payments(
-        self, cleaned: dict[str, pd.DataFrame], dims: dict[str, pd.DataFrame]
-    ) -> pd.DataFrame:
+    def build_payments(self, cleaned: dict[str, pd.DataFrame], dims: dict[str, pd.DataFrame]) -> pd.DataFrame:
         payments = cleaned["payments"].copy()
         orders = cleaned["orders"][["order_id", "order_purchase_timestamp"]]
         out = payments.merge(orders, on="order_id", how="left")
-        out["date_key"] = pd.to_datetime(
-            out["order_purchase_timestamp"]
-        ).dt.strftime("%Y-%m-%d")
+        out["date_key"] = pd.to_datetime(out["order_purchase_timestamp"]).dt.strftime("%Y-%m-%d")
         return out[
             [
                 "order_id",
@@ -134,13 +122,9 @@ class FactBuilder:
             ]
         ]
 
-    def build_reviews(
-        self, cleaned: dict[str, pd.DataFrame], dims: dict[str, pd.DataFrame]
-    ) -> pd.DataFrame:
+    def build_reviews(self, cleaned: dict[str, pd.DataFrame], dims: dict[str, pd.DataFrame]) -> pd.DataFrame:
         reviews = cleaned["reviews"].copy()
-        reviews["date_key"] = pd.to_datetime(
-            reviews["review_creation_date"]
-        ).dt.strftime("%Y-%m-%d")
+        reviews["date_key"] = pd.to_datetime(reviews["review_creation_date"]).dt.strftime("%Y-%m-%d")
         return reviews[
             [
                 "review_id",
