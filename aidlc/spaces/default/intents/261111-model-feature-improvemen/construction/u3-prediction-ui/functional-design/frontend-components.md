@@ -77,9 +77,9 @@ Một callback mới, một `Output`:
 | Thành phần | Giá trị |
 |---|---|
 | `Output` | `du-doan-ket-qua.children` |
-| `Input` | `nut-du-doan.n_clicks` + **12 `Input`** cho 11 giá trị (hai cờ cùng khai `o-co-hang.value` hai lần — không thêm thành phần nào) |
+| `Input` | `nut-du-doan.n_clicks` — **một** `Input` duy nhất |
 | `prevent_initial_call` | `True` |
-| `State` | không dùng — mọi thứ đến từ `Input` để test gọi trực tiếp được |
+| `State` | **11 `State`**, một cho mỗi giá trị (hai cờ cùng khai `o-co-hang.value`). Nếu 11 giá trị là `Input`, mỗi lần gõ một ô là callback chạy và kết quả hiện trước khi bấm nút |
 
 Luồng trong callback (thuần, chỉ hai lần đọc có kiểm soát):
 

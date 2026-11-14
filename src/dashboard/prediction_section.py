@@ -10,7 +10,7 @@ from collections.abc import Mapping, Sequence
 from typing import Any
 
 import pandas as pd
-from dash import Dash, Input, Output, dcc, html
+from dash import Dash, Input, Output, State, dcc, html
 
 from src.analytics.model import (
     MAX_DAYS,
@@ -320,17 +320,20 @@ def _notice(token: str, text: str) -> html.Div:
 
 
 def _result_area(model_present: bool) -> html.Div:
-    """Vùng kết quả ở `chua-chay` hoặc `mo-hinh-chua-san`; trạng thái có kết quả do callback dựng."""
+    """Vùng kết quả ở `chua-chay` hoặc `mo-hinh-chua-san`; trạng thái có kết quả do callback dựng.
+
+    Vùng bọc **không** mang `data-state`: callback chỉ thay `children`, nên một thuộc tính
+    đặt lúc dựng sẽ nói sai trạng thái sau lần bấm đầu tiên.
+    """
 
     if model_present:
         token, notice = TOKEN_PENDING, TEXTS3["pending"]
     else:
         token, notice = TOKEN_MODEL_MISSING, TEXTS3["model_missing"]
     return html.Div(
-        _notice(token, notice).children,
+        _notice(token, notice),
         id=RESULT_BODY_ID,
         className="integration-state",
-        **{"data-state": token},
     )
 
 
@@ -491,19 +494,19 @@ def predict_outcome(config, values: Mapping[str, Any], logger=None) -> html.Div:
     return build_outcome_view(outcome, threshold)
 
 
-def _value_inputs() -> list[Input]:
-    """Mười một `Input` cho mười một giá trị; hai cờ dùng chung `Checklist` nên `value` xuất hiện hai lần."""
+def _value_states() -> list[State]:
+    """Mười một `State` cho mười một giá trị: chỉ đọc lúc bấm nút, không kích hoạt callback."""
 
-    return [Input(INPUT_IDS[field], "value") for field in INPUT_FIELDS]
+    return [State(INPUT_IDS[field], "value") for field in INPUT_FIELDS]
 
 
 def register_prediction_callback(app: Dash, config, logger=None) -> None:
-    """LC3.3 — một callback mới, một Output, mười hai Input, không `State` (BR3.13, BR3.27)."""
+    """LC3.3 — một callback, một `Output`, một `Input` (nút), mười một `State` (BR3.13, BR3.27)."""
 
     @app.callback(
         Output(RESULT_BODY_ID, "children"),
         Input(SUBMIT_ID, "n_clicks"),
-        *_value_inputs(),
+        *_value_states(),
         prevent_initial_call=True,
     )
     def score_one_line(n_clicks: int, *values: Any) -> Any:

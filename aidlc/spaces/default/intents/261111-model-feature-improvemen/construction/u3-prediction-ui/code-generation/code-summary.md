@@ -146,9 +146,11 @@ Output của callback KPI vẫn **9**, `build_dashboard_outputs` vẫn **9**.
   `report.model is None` ⇒ trạng thái thiếu mô hình (không đọc `None.threshold`) → kiểm biểu mẫu → nạp
   mô hình → `score_item(..., threshold=report.model.threshold)` → dựng thẻ kết quả.
 - `register_prediction_callback(app, config, logger=None)` — **một** `Output("du-doan-ket-qua", "children")`,
-  **12** `Input` (nút + 11 giá trị), `prevent_initial_call=True`, không `State`.
-- `_notice`/`_result_area` dùng chung một khuôn thông báo; `_warning`/`_info` nhận **cả** logger lẫn
-  factory nên `app.py` truyền được `_integration_logger` mà không mở tệp nhật ký lúc khởi động.
+  **một** `Input` (`nut-du-doan.n_clicks`) và **11 `State`** (một cho mỗi giá trị), `prevent_initial_call=True`.
+- `_notice`/`_result_area` dùng chung một khuôn thông báo; vùng bọc `#du-doan-ket-qua` **không** mang
+  `data-state` (callback chỉ thay `children`), trạng thái nằm trên phần tử con do callback dựng.
+  `_warning`/`_info` nhận **cả** logger lẫn factory nên `app.py` truyền được `_integration_logger`
+  mà không mở tệp nhật ký lúc khởi động.
 
 ### Tệp sửa
 
@@ -167,12 +169,11 @@ Output của callback KPI vẫn **9**, `build_dashboard_outputs` vẫn **9**.
 
 ### Ghi chú thi công (chỗ lệch so với tài liệu, và vì sao)
 
-1. **"12 `Input` (nút + 11 giá trị)" và "10 thành phần" là hai phép đếm khác nhau, cả hai đều đúng.**
-   `INPUT_FIELDS` có 11 trường; hai cờ `has_items`/`has_payment` cùng trỏ `o-co-hang`, nên `_value_inputs`
-   khai `Input("o-co-hang", "value")` hai lần — Dash nhận **12** `Input` và truyền tham số thứ 11, 12 cùng
-   một danh sách đã chọn. Test
-   `test_callback_declares_one_output_and_twelve_inputs_without_state` ghim cả hai con số: **12** `Input`
-   nhưng chỉ **11** cặp `(id, prop)` phân biệt. Không thêm thành phần thứ mười một.
+1. **`Input`/`State` của callback (sửa sau khi thử trên trình duyệt).** Ban đầu 11 giá trị được khai là
+   `Input`, nên mỗi lần gõ một ô là callback chạy và kết quả hiện **trước khi bấm nút**. Nay `Input` chỉ là
+   `nut-du-doan.n_clicks`, còn 11 giá trị là `State`; test
+   `test_callback_takes_the_button_as_its_only_input` ghim **1** `Input` + **11** `State`.
+   Không thêm thành phần thứ mười một: `INPUT_FIELDS` vẫn 11 trường, hai cờ cùng trỏ `o-co-hang`.
 2. **Lỗi tại ô hiện trong vùng kết quả, không tiêm vào biểu mẫu.** Callback chỉ có **một** `Output`
    (`du-doan-ket-qua.children`), nên `build_error_view` dựng các `html.P.field-error` mang
    `data-field=<id ô>` **ngay trong vùng kết quả** — đúng ô theo `data-field`, đúng lớp `.field-error`

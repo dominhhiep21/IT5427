@@ -459,7 +459,7 @@ def test_missing_model_disables_the_button_and_shows_both_verbatim_strings():
     area = result_area(body)
 
     assert props(button).get("disabled") is True
-    assert props(area).get("data-state") == TOKEN_MODEL_MISSING
+    assert props(result_area(body).children).get("data-state") == TOKEN_MODEL_MISSING
     assert RUN_STATS_HINT in text_of(area)
     assert "data/models/" in text_of(area)
 
@@ -471,7 +471,7 @@ def test_pending_area_shows_one_guidance_line_and_no_digits():
     area = result_area(body)
     lines = [item for item in walk(area) if item.to_plotly_json().get("type") == "P"]
 
-    assert props(area).get("data-state") == TOKEN_PENDING
+    assert props(result_area(body).children).get("data-state") == TOKEN_PENDING
     assert len(lines) == 1
     assert not any(character.isdigit() for character in text_of(area))
 
@@ -722,17 +722,22 @@ def registered(config, logger=None) -> RecordingApp:
     return app
 
 
-def test_callback_declares_one_output_and_twelve_inputs_without_state(config):
-    """BR3.13, BR3.27 — một Output, mười hai Input (nút + 11 giá trị), không State."""
+def test_callback_takes_the_button_as_its_only_input(config):
+    """BR3.13, BR3.27 — một Output; **một** Input là nút; 11 giá trị là `State`.
+
+    Nếu 11 giá trị là `Input` thì mỗi lần gõ một ô là callback chạy và kết quả hiện ra
+    trước khi bấm nút — lỗi người dùng gặp trên trình duyệt 2026-11-14.
+    """
 
     app = registered(config)
 
     assert len(app.outputs) == 1
     assert app.outputs[0].component_id == RESULT_BODY_ID
     assert app.outputs[0].component_property == "children"
-    assert len(app.inputs) == 12
-    assert len({(item.component_id, item.component_property) for item in app.inputs}) == 11
-    assert app.states == []
+    assert len(app.inputs) == 1
+    assert app.inputs[0].component_id == SUBMIT_ID
+    assert app.inputs[0].component_property == "n_clicks"
+    assert len(app.states) == 11
     assert app.prevent_initial_call is True
 
 

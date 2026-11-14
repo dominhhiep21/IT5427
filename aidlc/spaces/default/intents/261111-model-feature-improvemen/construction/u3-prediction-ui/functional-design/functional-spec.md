@@ -143,7 +143,7 @@ Miền số **trùng** `MAX_DAYS`/`STATE_CODE_LENGTH` của U2 (365 và 2). `pay
 | Tab | 5 | 5 | |
 | Thẻ tóm tắt | 4 | 4 | |
 
-Callback mới: `Input("nut-du-doan", "n_clicks")` + 11 giá trị, `prevent_initial_call=True`, **không** `State`. Ngưỡng không đi qua `State`: callback tự `read_report(report_path(config))` mỗi lần bấm (W2 bước 1), nên vừa có nguồn ngưỡng, vừa chịu được việc tệp báo cáo bị thay giữa hai lần render.
+Callback mới: `Input("nut-du-doan", "n_clicks")` + **11 `State`** (một cho mỗi giá trị; hai cờ cùng trỏ `o-co-hang.value` nên khai hai lần), `prevent_initial_call=True`. `State` là bắt buộc: nếu 11 giá trị là `Input` thì mỗi lần gõ một ô callback chạy và kết quả hiện trước khi bấm nút. Ngưỡng không đi qua `State`: callback tự `read_report(report_path(config))` mỗi lần bấm (W2 bước 1), nên vừa có nguồn ngưỡng, vừa chịu được việc tệp báo cáo bị thay giữa hai lần render.
 
 Ba tệp test hình dạng sửa **cùng thay đổi**: `tests/unit/test_dashboard_smoke.py` (`callback_map == 10`, `build_dashboard_outputs` giữ 9), `tests/unit/test_dashboard_analysis_tab.py` (bốn mục đúng thứ tự, xoá test dự phòng AUC), `tests/integration/test_u3_end_to_end.py` (10 callback, 5 tab).
 
