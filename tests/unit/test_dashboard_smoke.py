@@ -175,3 +175,12 @@ def test_integration_logger_opens_its_own_file_without_pipeline_log(tmp_path: Pa
         if line.strip()
     ]
     assert any(event["event"] == "integration.log.no_pipeline_run" for event in events)
+
+
+def test_revenue_scope_follows_the_status_filter() -> None:
+    """Chú thích thẻ doanh thu phải nói đúng tập đơn đang cộng, không luôn là "đã giao"."""
+
+    assert app_module._revenue_scope("delivered") == "Đơn đã giao"
+    assert app_module._revenue_scope("canceled") == "Đơn đã hủy"
+    assert app_module._revenue_scope("shipped") == "Đơn đang giao"
+    assert app_module._revenue_scope("all") == "Mọi trạng thái"

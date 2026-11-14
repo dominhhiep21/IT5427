@@ -51,7 +51,7 @@ CHART_TEXT = "#4c5b54"
 
 _INTEGRATION_RUNS: dict[str, RunContext] = {}
 
-STATUS_OPTIONS = [
+STATUS_OPTIONS: list[dict[str, str]] = [
     {"label": "Đã giao", "value": "delivered"},
     {"label": "Đang giao", "value": "shipped"},
     {"label": "Đã hủy", "value": "canceled"},
@@ -62,6 +62,15 @@ STATUS_OPTIONS = [
     {"label": "Đã duyệt", "value": "approved"},
     {"label": "Tất cả", "value": "all"},
 ]
+
+
+def _revenue_scope(status: str) -> str:
+    """Chú thích của thẻ doanh thu: nói đúng tập đơn đang được cộng, theo trạng thái đang lọc."""
+
+    if status == "all":
+        return "Mọi trạng thái"
+    label = next((item["label"] for item in STATUS_OPTIONS if item["value"] == status), status)
+    return f"Đơn {label.lower()}"
 
 
 def _options(config) -> tuple[list[dict], list[dict], list[dict]]:
@@ -574,7 +583,7 @@ def build_dashboard_outputs(config, data):
         )
 
     return (
-        kpi_strip(summary),
+        kpi_strip(summary, _revenue_scope(filters.order_status)),
         sparse,
         _line_chart(monthly, "period", "revenue", "Doanh thu"),
         _bar_chart(category_frame, "revenue", "dimension", "Danh mục", True),

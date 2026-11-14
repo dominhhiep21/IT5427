@@ -24,13 +24,13 @@ def kpi_card(
     )
 
 
-def kpi_strip(summary: dict) -> html.Div:
+def kpi_strip(summary: dict, revenue_scope: str = "Đơn đã giao") -> html.Div:
     return html.Div(
         [
             kpi_card(
                 "Doanh thu",
                 format_brl(summary.get("revenue")),
-                "Đơn đã giao",
+                revenue_scope,
                 "ochre",
             ),
             kpi_card(
