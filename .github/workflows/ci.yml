@@ -5,10 +5,12 @@ on:
     branches:
       - main
       - feature/update-ui-ux
+      - feature/analysis-and-models
   pull_request:
     branches:
       - main
       - feature/update-ui-ux
+      - feature/analysis-and-models
 
 jobs:
   ci:
@@ -30,12 +32,17 @@ jobs:
         # mã cũ được dọn theo từng tệp khi có người sửa tới (team.md — Code Style).
         run: |
           ruff check .
-          ruff format --check src/dashboard/app.py src/integration/tab.py src/integration src/linkage src/common/kpis.py src/common/exceptions.py tests/unit/test_integration_tab.py tests/unit/test_integration_model.py tests/unit/test_integration_schema.py tests/unit/test_integration_load.py tests/unit/test_integration_query.py tests/unit/test_integration_card.py tests/unit/test_integration_selector.py tests/unit/test_integration_rewrite.py tests/unit/test_common_kpis.py tests/unit/test_log_pruning.py tests/unit/test_linkage_models.py tests/unit/test_linkage_index.py tests/unit/test_linkage_score.py tests/unit/test_linkage_result.py
+          ruff format --check src/dashboard/app.py src/dashboard/analysis_tab.py src/integration/tab.py src/integration src/linkage src/common/kpis.py src/common/exceptions.py src/analytics/persistence.py src/analytics/report.py src/analytics/statistics.py src/analytics/model.py src/analytics/service.py tests/unit/test_integration_tab.py tests/unit/test_integration_model.py tests/unit/test_integration_schema.py tests/unit/test_integration_load.py tests/unit/test_integration_query.py tests/unit/test_integration_card.py tests/unit/test_integration_selector.py tests/unit/test_integration_rewrite.py tests/unit/test_common_kpis.py tests/unit/test_log_pruning.py tests/unit/test_linkage_models.py tests/unit/test_linkage_index.py tests/unit/test_linkage_score.py tests/unit/test_linkage_result.py tests/unit/test_analytics_report.py tests/unit/test_analytics_statistics.py tests/unit/test_analytics_model.py tests/unit/test_pipeline_stages.py tests/unit/test_ci_config.py tests/unit/test_dashboard_analysis_tab.py tests/unit/test_analysis_tab_contrast.py tests/unit/test_integrate_facts_columns.py tests/unit/test_integrate_seller_state.py tests/unit/test_analytics_baseline.py tests/unit/test_analytics_training_frame.py tests/unit/test_analytics_features.py tests/unit/test_analytics_split.py tests/unit/test_analytics_threshold.py tests/unit/test_analytics_baseline_block.py tests/unit/test_analytics_report_v3.py tests/unit/test_analytics_persistence.py tests/unit/test_analytics_score_item.py tests/integration/test_u1_stats_end_to_end.py tests/integration/test_u1_mart_columns_end_to_end.py tests/integration/test_u2_model_end_to_end.py src/dashboard/prediction_section.py tests/unit/test_u3_prediction_section.py tests/integration/test_u3_floor_end_to_end.py
 
       - name: Dựng dữ liệu
         # Bắt buộc: bộ test nhanh chưa hermetic (TD-09) nên cần warehouse/ và data/marts/.
         # Không truyền --refresh-ibge: chỉ đọc cache đã commit trong dataset/external/ibge/.
         run: python -X utf8 -m src.pipeline run --stage all
+
+      - name: Sinh báo cáo thống kê
+        # Tầng `stats` đọc data/marts/ và warehouse/olist.duckdb nên phải đứng sau bước dựng dữ liệu;
+        # đứng trước bước test để CI chạy thật tầng mới (NFR4.2). Không test nào đọc tệp bước này sinh ra.
+        run: python -X utf8 -m src.pipeline run --stage stats
 
       - name: Test nhanh
         run: python -X utf8 -m pytest -m "not slow"
