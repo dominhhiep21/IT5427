@@ -6,7 +6,11 @@ import time
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 
+from src.analytics.model import train_model
+from src.analytics.persistence import fit_from_config, save_model
+from src.analytics.report import assemble_report, write_report
 from src.analytics.service import AnalyticsService
+from src.analytics.statistics import build_analysis_report
 from src.clean.pipeline import clean_all
 from src.common.io import AtomicWriter, read_parquet
 from src.common.logging import JsonLogger, new_run_context, prune_logs
@@ -18,7 +22,7 @@ from src.linkage.models import TARGET_ENTITIES
 from src.linkage.result import generate_linkage
 from src.quality.gate import QualityGate
 
-STAGES = ("ingest", "clean", "integrate", "analyze")
+STAGES = ("ingest", "clean", "integrate", "analyze", "stats")
 
 
 @dataclass
@@ -235,6 +239,28 @@ def run_stage(config, stage: str, refresh_ibge: bool = False) -> RunSummary:
                 StageResult(stage, "success", duration_seconds=round(time.perf_counter() - start, 2))
             )
             logger.info("analyze_smoke", **summary_data)
+        elif stage == "stats":
+            report = build_analysis_report(config, logger=logger)
+            # Bước mô hình chạy sau bước thống kê và chỉ trả khối; lần ghi tệp duy nhất nằm ở đây (BR2.8).
+            model = train_model(config, logger=logger)
+            # ADR-008: `assemble_report` là nơi DUY NHẤT dựng `AnalysisReport`.
+            report = assemble_report(config, stats=report.stats, model=model, generated_at=report.generated_at)
+            path = write_report(config, report, writer)
+            # C2b: tệp mô hình là sản phẩm của cùng lượt chạy, ghi sau báo cáo.
+            save_model(fit_from_config(config, logger=logger), config.models_dir, logger=logger)
+            block = report.stats
+            summary.stages.append(
+                StageResult(stage, "success", duration_seconds=round(time.perf_counter() - start, 2))
+            )
+            logger.info(
+                "stats_report_written",
+                path=str(path),
+                skipped=[entry.test for entry in block.skipped] if block else [],
+                comparisons=len(block.comparisons) if block else 0,
+                model_auc=model.auc,
+                model_threshold=model.threshold,
+                model_auc_below_target=model.counts["auc_below_target"],
+            )
         summary.success = True
         summary.finished_at = datetime.now(timezone.utc).isoformat()
         _write_summary(config, summary, writer)

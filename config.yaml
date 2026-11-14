@@ -3,6 +3,7 @@ paths:
   data_dir: data
   marts_dir: data/marts
   reports_dir: data/reports
+  models_dir: data/models
   integration_dir: data/integration
   logs_dir: logs
   temp_dir: data/.tmp

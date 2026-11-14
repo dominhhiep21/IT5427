@@ -21,7 +21,7 @@ def build_parser() -> argparse.ArgumentParser:
     run = sub.add_parser("run", help="Run one stage or the full pipeline")
     run.add_argument(
         "--stage",
-        choices=("all", "ingest", "clean", "integrate", "analyze"),
+        choices=("all", "ingest", "clean", "integrate", "analyze", "stats"),
         default="all",
     )
     run.add_argument("--refresh-ibge", action="store_true")
@@ -43,9 +43,7 @@ def main(argv: list[str] | None = None) -> int:
             if args.stage == "all":
                 summary = run_all(config, refresh_ibge=args.refresh_ibge)
             else:
-                summary = run_stage(
-                    config, args.stage, refresh_ibge=args.refresh_ibge
-                )
+                summary = run_stage(config, args.stage, refresh_ibge=args.refresh_ibge)
             print(f"run_id={summary.run_id} success={summary.success}")
             for stage in summary.stages:
                 print(

@@ -11,3 +11,17 @@ pytest-cov==7.1.0
 dash-mantine-components==2.8.1
 # Lint + format gate (TS-U1-3, NFR3.1): `ruff check .` và `ruff format --check` phải sạch.
 ruff==0.17.4
+# Kiểm định thống kê của tầng `stats` (BR1.1–BR1.4): phân phối chuẩn tắc cho khoảng Wilson/Newcombe
+# và Fisher, phân phối chi bình phương cho phép kiểm vùng × trễ. Ghim đúng bản đang chạy với
+# numpy 2.2.1 mà pandas 2.2.3 kéo theo; không dùng `statsmodels` vì mọi phép ở đây đã có sẵn.
+scipy==1.15.2
+# Mô hình phân loại đơn trễ của u2-model (TS-2): cần AUC, đường cong precision/recall trên lưới
+# ngưỡng và cân trọng số lớp ở mức thuật toán; tự viết là tự viết lại một thư viện. 1.6.1 chạy
+# trên Python 3.13/Windows và nhận cặp numpy 2.2.1 + scipy 1.15.2 đang ghim ở trên; cài nó không
+# được đổi bản numpy/scipy (kiểm bằng `pip show numpy scipy joblib threadpoolctl`).
+scikit-learn==1.6.1
+# `scikit-learn` cần `numpy` nhưng không ghim nó: numpy chỉ có mặt gián tiếp qua pandas 2.2.3, và
+# scipy 1.15.2 ở trên đã được ghim theo đúng numpy 2.2.1. Nếu một lần cài nào đó nâng numpy thì
+# phải ghim lại `numpy==2.2.1` ngay tại đây kèm lý do, rồi chạy lại toàn bộ bộ test `slow` — nâng
+# numpy có thể làm lệch số của các kiểm định đã kiểm chứng ở U1.
+

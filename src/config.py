@@ -24,6 +24,7 @@ class AppConfig:
     cleaned_dir: Path
     marts_dir: Path
     reports_dir: Path
+    models_dir: Path
     integration_dir: Path
     logs_dir: Path
     temp_dir: Path
@@ -82,6 +83,7 @@ def load_config(path: Path | None = None) -> AppConfig:
     data_dir = _resolve(workspace_root, paths.get("data_dir", "data"))
     marts_dir = _resolve(workspace_root, paths.get("marts_dir", "data/marts"))
     reports_dir = _resolve(workspace_root, paths.get("reports_dir", "data/reports"))
+    models_dir = _resolve(workspace_root, paths.get("models_dir", "data/models"))
     integration_dir = _resolve(workspace_root, paths.get("integration_dir", "data/integration"))
     logs_dir = _resolve(workspace_root, paths.get("logs_dir", "logs"))
     temp_dir = _resolve(workspace_root, paths.get("temp_dir", "data/.tmp"))
@@ -111,6 +113,7 @@ def load_config(path: Path | None = None) -> AppConfig:
         cleaned_dir=data_dir / "cleaned",
         marts_dir=marts_dir,
         reports_dir=reports_dir,
+        models_dir=models_dir,
         integration_dir=integration_dir,
         logs_dir=logs_dir,
         temp_dir=temp_dir,
@@ -145,6 +148,7 @@ def load_config(path: Path | None = None) -> AppConfig:
         config.cleaned_dir,
         config.marts_dir,
         config.reports_dir,
+        config.models_dir,
         config.integration_dir,
         config.logs_dir,
         config.temp_dir,
