@@ -349,7 +349,8 @@ def test_model_figures_name_the_line_item_grain():
     # Đích + huấn luyện + kiểm tra + đã gắn cờ.
     assert len(figures) == 4
     assert len(grain) == 3
-    assert not any(" đơn" in figure for figure in figures)
+    assert not any(" đơn" in figure for figure in grain)
+    assert figures[0] == "Đích: đơn giao trễ"
     assert "64.322" in grain[0]
     assert "32.156" in grain[1]
     assert "5.910" in grain[2]

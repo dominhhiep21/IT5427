@@ -24,6 +24,7 @@ from src.analytics.report import (
 from src.analytics.model import AUC_TARGET
 from src.analytics.statistics import MIN_STATE_ORDERS
 from src.dashboard.formatting import format_number, format_percent
+from src.dashboard.labels import target_label
 from src.dashboard.prediction_section import (
     TEXTS3 as PREDICTION_TEXTS,
     build_prediction_body,
@@ -404,7 +405,7 @@ def _model_figures(model: ModelBlock) -> html.Ul:
 
     figures: list[str] = []
     if model.target:
-        figures.append(f"{TEXTS['target']}: {model.target}")
+        figures.append(f"{TEXTS['target']}: {target_label(model.target)}")
     split = model.split
     figures.append(
         f"{TEXTS['train']}: {format_number(split['train_n'])} dòng hàng"
@@ -426,23 +427,18 @@ def build_model_section(report: AnalysisReport) -> html.Section:
         return _section(
             SECTION_MODEL,
             TEXTS["model"],
-            TEXTS["model_caption"],
+            "",
             [_missing_block(TEXTS["missing_model"], "model")],
         )
     return _section(
         SECTION_MODEL,
         TEXTS["model"],
-        TEXTS["model_caption"],
+        "",
         [
-            _item("auc", TEXTS["auc"], format_number(model.auc, 4), _auc_note(model)),
-            _item(
-                "nguong",
-                TEXTS["threshold"],
-                format_number(model.threshold, 2),
-                TEXTS["threshold_readonly"],
-            ),
-            _item("precision", TEXTS["precision"], format_number(model.precision, 4), TEXTS["on_test_split"]),
-            _item("recall", TEXTS["recall"], format_number(model.recall, 4), TEXTS["on_test_split"]),
+            _item("auc", TEXTS["auc"], format_number(model.auc, 4)),
+            _item("nguong", TEXTS["threshold"], format_number(model.threshold, 2)),
+            _item("precision", TEXTS["precision"], format_number(model.precision, 4)),
+            _item("recall", TEXTS["recall"], format_number(model.recall, 4)),
             _model_figures(model),
         ],
     )

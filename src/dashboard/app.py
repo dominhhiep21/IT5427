@@ -26,6 +26,7 @@ from src.dashboard.components import (
     sparse_badge,
 )
 from src.dashboard.formatting import format_brl, format_number
+from src.dashboard.labels import category_label, sort_key
 from src.dashboard.prediction_section import register_prediction_callback
 from src.integrate.connections import ConnectionFactory
 from src.common.exceptions import PipelineError
@@ -89,7 +90,10 @@ def _options(config) -> tuple[list[dict], list[dict], list[dict]]:
         return (
             [{"label": value, "value": value} for value in states],
             [{"label": value, "value": value} for value in regions],
-            [{"label": value, "value": value} for value in categories],
+            sorted(
+                ({"label": category_label(value), "value": value} for value in categories),
+                key=lambda option: sort_key(option["label"]),
+            ),
         )
     except Exception:
         return [], [], []

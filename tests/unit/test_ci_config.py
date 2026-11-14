@@ -27,6 +27,8 @@ NEW_FILES = (
     "tests/integration/test_u1_stats_end_to_end.py",
     "tests/integration/test_u2_model_end_to_end.py",
     "src/analytics/persistence.py",
+    "src/dashboard/labels.py",
+    "tests/unit/test_dashboard_labels.py",
     "tests/unit/test_analytics_training_frame.py",
     "tests/unit/test_analytics_features.py",
     "tests/unit/test_analytics_split.py",
