@@ -23,6 +23,7 @@ from src.common.exceptions import (
 from src.common.kpis import TEMPLATE_IDS, kpi
 from src.common.logging import NullLogger
 from src.dashboard.formatting import format_number, format_percent
+from src.dashboard.labels import category_label
 from src.integration.card import (
     STATE_EMPTY,
     STATE_ERROR,
@@ -326,13 +327,27 @@ def _panel(
     )
 
 
+def _cell(column: str, cell: Any) -> str:
+    """Ô của bảng: danh mục hàng đổi sang nhãn tiếng Việt, còn lại giữ nguyên chữ."""
+
+    text = str(cell)
+    if column in {"ten_danh_muc", "category"}:
+        return category_label(text)
+    return text
+
+
 def _table(columns: list[str], rows: list[list[Any]], *, testid: str, caption: str = "") -> Any:
     """Bảng một dòng tiêu đề; mọi ô là chữ, không có HTML từ hợp đồng (ADR-U6-S4)."""
 
     return dmc.Table(
         [
             dmc.TableThead(dmc.TableTr([dmc.TableTh(column) for column in columns])),
-            dmc.TableTbody([dmc.TableTr([dmc.TableTd(str(cell)) for cell in row]) for row in rows]),
+            dmc.TableTbody(
+                [
+                    dmc.TableTr([dmc.TableTd(_cell(column, cell)) for column, cell in zip(columns, row)])
+                    for row in rows
+                ]
+            ),
         ],
         **{"data-testid": testid, "aria-label": caption or testid},
     )

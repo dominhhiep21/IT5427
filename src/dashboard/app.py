@@ -194,7 +194,7 @@ def _table(frame: pd.DataFrame) -> html.Div:
             html.Tr(
                 [
                     html.Td(str(row["entity_id"])[:18]),
-                    html.Td(str(row.get("category", ""))),
+                    html.Td(category_label(str(row.get("category", "")))),
                     html.Td(format_brl(row["revenue"]), className="num"),
                     html.Td(format_number(row["orders"]), className="num"),
                 ]
@@ -563,6 +563,15 @@ def build_dashboard_outputs(config, data):
     delivery_state = delivery_state.sort_values("late_rate_pct", ascending=False).head(12)
     delivery_category = delivery_category.sort_values("late_rate_pct", ascending=False).head(12)
     delivery_month = delivery_month.sort_values("dimension")
+    # Giá trị gốc vẫn là khoá trong SQL; chỉ đổi chữ hiển thị trên biểu đồ.
+    if not category_frame.empty:
+        category_frame = category_frame.assign(
+            dimension=category_frame["dimension"].map(lambda value: category_label(str(value)))
+        )
+    if not delivery_category.empty:
+        delivery_category = delivery_category.assign(
+            dimension=delivery_category["dimension"].map(lambda value: category_label(str(value)))
+        )
 
     return (
         kpi_strip(summary),
