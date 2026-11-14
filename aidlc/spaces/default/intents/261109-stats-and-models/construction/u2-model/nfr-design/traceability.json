@@ -1,0 +1,12 @@
+{
+  "stage": "nfr-design",
+  "unit": "u2-model",
+  "upstream_ids": ["NFR1.1", "NFR1.2", "NFR1.3", "NFR2.1", "NFR4.1"],
+  "coverage": [
+    { "id": "NFR1.1", "status": "OK", "target": "logical-components.md — `feature-builder` và `trainer` mỗi thành phần một lượt qua dữ liệu, không lặp; ngân sách 15 phút chốt ở tech-stack-decisions.md NFR1.1" },
+    { "id": "NFR1.2", "status": "OK", "target": "logical-components.md — bảy thành phần chạy tuần tự trong một tiến trình, không đọc lại dữ liệu giữa các bước" },
+    { "id": "NFR1.3", "status": "OK", "target": "logical-components.md `trainer` — `random_state` cố định; security-design.md SD-1 hai test kiểm khung đặc trưng; tech-stack-decisions.md TS-9 chốt chuẩn hoá và max_iter" },
+    { "id": "NFR2.1", "status": "N/A", "target": "không phải quyết định thiết kế; cổng phủ do Build and Test cưỡng chế" },
+    { "id": "NFR4.1", "status": "N/A", "target": "không phải quyết định thiết kế; ruff kiểm ở Build and Test và trong CI" }
+  ]
+}

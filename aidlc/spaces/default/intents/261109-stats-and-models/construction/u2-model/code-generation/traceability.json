@@ -1,0 +1,71 @@
+{
+  "stage": "code-generation",
+  "unit": "u2-model",
+  "upstream_ids": [
+    "BR2.1",
+    "BR2.2",
+    "BR2.3",
+    "BR2.4",
+    "BR2.5",
+    "BR2.6",
+    "BR2.7",
+    "BR2.8",
+    "BR2.9"
+  ],
+  "coverage": [
+    {
+      "id": "BR2.1",
+      "status": "OK",
+      "target": "src/analytics/model.py",
+      "evidence": "delivered_population() — lọc `is_delivered` tường minh, dừng khi quần thể khác 96.478 đơn / 7.826 đơn trễ; kiểm trên dữ liệu thật ở tests/integration/test_u2_model_end_to_end.py"
+    },
+    {
+      "id": "BR2.2",
+      "status": "OK",
+      "target": "src/analytics/model.py",
+      "evidence": "split_frame() và split_summary() — mốc 2018-04-01, đơn đúng ngày cắt thuộc tập kiểm tra, không xáo trộn, `train_n + test_n` phải khớp; tests/unit/test_analytics_model.py"
+    },
+    {
+      "id": "BR2.3",
+      "status": "OK",
+      "target": "src/analytics/model.py",
+      "evidence": "FEATURES, FORBIDDEN_COLUMNS, validate_features(), build_feature_frame() — 11 cột đặc trưng, 10 cột bị cấm, hai tập rời nhau, khung đặc trưng thật chỉ có 11 tên; tests/unit/test_analytics_model.py"
+    },
+    {
+      "id": "BR2.4",
+      "status": "OK",
+      "target": "src/analytics/model.py",
+      "evidence": "build_estimator() và train_classifier() — `class_weight=\"balanced\"`, `max_iter=1000`, `random_state=42`; tests/unit/test_analytics_model.py"
+    },
+    {
+      "id": "BR2.5",
+      "status": "OK",
+      "target": "src/analytics/model.py",
+      "evidence": "choose_threshold() — lưới 19 điểm 0,05…0,95, F1 lớn nhất, hoà chọn ngưỡng cao hơn, `threshold_method=\"max_f1_on_test_grid005\"`; tests/unit/test_analytics_model.py"
+    },
+    {
+      "id": "BR2.6",
+      "status": "OK",
+      "target": "src/analytics/model.py",
+      "evidence": "auc_below_target() và build_model_block() — `counts.auc_below_target` luôn có mặt, đúng khi và chỉ khi AUC dưới 0,70; tests/unit/test_analytics_model.py"
+    },
+    {
+      "id": "BR2.7",
+      "status": "OK",
+      "target": "src/analytics/model.py",
+      "evidence": "validate_counts() — `flagged + not_flagged = total` và `total = test_n`, lệch thì dừng trước khi dựng khối; tests/unit/test_analytics_model.py"
+    },
+    {
+      "id": "BR2.8",
+      "status": "OK",
+      "target": "src/pipeline/stages.py",
+      "evidence": "nhánh `stats` ghép khối của src/analytics/model.py:train_model() bằng `dataclasses.replace` rồi gọi `write_report` đúng một lần; model.py không mở tệp báo cáo — tests/unit/test_pipeline_stages.py và tests/unit/test_analytics_model.py"
+    },
+    {
+      "id": "BR2.9",
+      "status": "OK",
+      "target": "src/analytics/model.py",
+      "evidence": "build_model_block() — làm tròn 4 chữ số cho AUC, ngưỡng, precision, recall và từ chối ngưỡng sau làm tròn nằm ngoài (0, 1); tests/unit/test_analytics_model.py"
+    }
+  ]
+}

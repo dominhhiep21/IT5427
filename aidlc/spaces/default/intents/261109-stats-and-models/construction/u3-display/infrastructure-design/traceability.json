@@ -1,0 +1,13 @@
+{
+  "stage": "infrastructure-design",
+  "unit": "u3-display",
+  "upstream_ids": ["NFR5.1", "NFR5.2", "NFR5.3", "NFR5.4", "NFR5.5", "NFR5.6"],
+  "coverage": [
+    { "id": "NFR5.1", "status": "N/A", "target": "tương phản là quyết định thiết kế giao diện (logical-components.md), không phải quyết định hạ tầng; token màu đã có sẵn trong assets/style.css" },
+    { "id": "NFR5.2", "status": "N/A", "target": "nhãn vùng do logical-components.md quyết định và kiểm trong test, không phải quyết định hạ tầng" },
+    { "id": "NFR5.3", "status": "N/A", "target": "thứ tự focus do logical-components.md quyết định, không phải quyết định hạ tầng" },
+    { "id": "NFR5.4", "status": "N/A", "target": "bố cục 1280px do logical-components.md quyết định; kiểm bằng mắt ở bước 4 chuỗi xác nhận, không có quyết định hạ tầng nào bảo đảm nó" },
+    { "id": "NFR5.5", "status": "N/A", "target": "ngân sách 1 giây do performance-design.md quyết định và đo trong test, không phải quyết định hạ tầng" },
+    { "id": "NFR5.6", "status": "N/A", "target": "số lần đọc tệp do logical-components.md quyết định; không có quyết định hạ tầng nào bảo đảm nó" }
+  ]
+}

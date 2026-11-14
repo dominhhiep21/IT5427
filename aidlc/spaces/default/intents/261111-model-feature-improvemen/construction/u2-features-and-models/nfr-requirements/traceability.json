@@ -1,0 +1,13 @@
+{
+  "stage": "nfr-requirements",
+  "unit": "u2-features-and-models",
+  "upstream_ids": ["NFR1.1", "NFR2.1", "NFR3.1", "NFR4.1", "NFR5.1", "NFR6.1"],
+  "coverage": [
+    { "id": "NFR1.1", "status": "OK", "target": "TS2.7" },
+    { "id": "NFR2.1", "status": "OK", "target": "TS2.8" },
+    { "id": "NFR3.1", "status": "OK", "target": "TS2.9" },
+    { "id": "NFR4.1", "status": "OK", "target": "SEC2.1" },
+    { "id": "NFR5.1", "status": "OK", "target": "TS2.5" },
+    { "id": "NFR6.1", "status": "N/A", "target": "đơn vị không có bề mặt giao diện; tiếp cận thuộc u3-prediction-ui" }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "stage": "nfr-design",
+  "unit": "u3-display",
+  "upstream_ids": ["NFR5.1", "NFR5.2", "NFR5.3", "NFR5.4", "NFR5.5", "NFR5.6"],
+  "coverage": [
+    { "id": "NFR5.1", "status": "OK", "target": "logical-components.md `formatter` + `summary-strip` — tab mới dùng --text-2 cho chữ dưới 16px; cặp màu đo được ghi ở performance-requirements.md NFR5.1" },
+    { "id": "NFR5.2", "status": "OK", "target": "logical-components.md — mọi thành phần dựng vùng đều mang aria-label; test đơn vị đếm vùng thiếu nhãn" },
+    { "id": "NFR5.3", "status": "OK", "target": "logical-components.md — thứ tự dựng summary-strip → stats-section → model-section chính là thứ tự focus" },
+    { "id": "NFR5.4", "status": "OK", "target": "logical-components.md — bố cục một cột theo token sẵn có; xem bằng mắt ở 1280px ở bước 4 chuỗi xác nhận" },
+    { "id": "NFR5.5", "status": "OK", "target": "logical-components.md `tab-callback` — một lần đọc, một lần dựng; đo bằng perf_counter trong test, không đặt làm cổng CI" },
+    { "id": "NFR5.6", "status": "OK", "target": "logical-components.md `tab-callback` — chỉ thành phần này mở tệp, đúng một lần mỗi callback" }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "upstream_ids": [
+    "FR1.1", "FR1.2", "FR1.3", "FR1.4", "FR1.5",
+    "FR2.1", "FR2.2", "FR2.3", "FR2.4",
+    "FR3.1", "FR3.2",
+    "FR4.1", "FR4.2", "FR4.3",
+    "FR5.1", "FR5.2", "FR5.3",
+    "NFR1", "NFR2", "NFR3", "NFR4", "NFR5"
+  ],
+  "stories": [
+    { "id": "US1", "covers": ["FR1.1", "FR1.2", "FR1.3", "FR1.4", "FR1.5"] },
+    { "id": "US2", "covers": ["FR2.1", "FR2.2", "FR2.3", "FR2.4"] },
+    { "id": "US3", "covers": ["FR3.1", "FR3.2"] },
+    { "id": "US4", "covers": ["FR4.1", "FR4.2", "FR4.3", "NFR5"] },
+    { "id": "US5", "covers": ["FR5.1", "FR5.2", "FR5.3", "NFR1", "NFR2", "NFR3", "NFR4"] }
+  ]
+}

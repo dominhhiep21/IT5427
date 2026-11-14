@@ -1,0 +1,19 @@
+{
+  "stage": "code-generation",
+  "unit": "u2-model",
+  "version": 1,
+  "writes": [
+    { "path": "src/analytics/model.py" },
+    { "path": "src/analytics/service.py" },
+    { "path": "src/pipeline/stages.py" },
+    { "path": "requirements.txt" },
+    { "path": ".github/workflows/ci.yml" },
+    { "path": "README.md" },
+    { "path": "CHANGELOG.md" },
+    { "path": "tests/unit/test_analytics_model.py" },
+    { "path": "tests/unit/test_pipeline_stages.py" },
+    { "path": "tests/unit/test_ci_config.py" },
+    { "path": "tests/integration/test_u2_model_end_to_end.py" },
+    { "path": "tests/integration/test_u1_stats_end_to_end.py" }
+  ]
+}

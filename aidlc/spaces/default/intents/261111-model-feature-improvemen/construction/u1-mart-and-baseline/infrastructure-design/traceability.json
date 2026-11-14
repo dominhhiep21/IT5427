@@ -1,0 +1,17 @@
+{
+  "stage": "infrastructure-design",
+  "unit": "u1-mart-and-baseline",
+  "upstream_ids": ["NFR4.1"],
+  "coverage": [
+    {
+      "id": "NFR4.1",
+      "status": "OK",
+      "target": "CP0 — bước 5 `run --stage all` trong ci.yml là nơi CI chạy StarSchemaValidator (9 check số dòng) và KpiReconciler (5 KPI) trên dữ liệu thật, tức cổng cưỡng chế bất biến của đơn vị này; CP1, CP2, CP5 là kiểm soát phụ bảo đảm cổng đó không bị vô hiệu"
+    }
+  ],
+  "reverse": [
+    { "id": "CP3", "status": "N/A", "target": "không có bước deploy vì dự án không có môi trường thứ hai; phát hành = chạy từ mã nguồn sau khi CI xanh" },
+    { "id": "CP4", "status": "N/A", "target": "nhánh feature/analysis-and-models đã có trong cả hai danh sách trigger; đơn vị này không mở nhánh mới" }
+  ],
+  "note": "Đơn vị kind=library nên không sinh infrastructure-specification.md và monitoring-design.md — không có hạ tầng nào để mô tả."
+}

@@ -12,5 +12,21 @@
     "scope": "feature",
     "status": "complete",
     "request": "8a500a17"
+  },
+  {
+    "uuid": "01a1c0c5-a988-707d-89b3-d63fa61404e0",
+    "slug": "stats-and-models",
+    "dirName": "261109-stats-and-models",
+    "scope": "feature",
+    "status": "complete",
+    "request": "31e66306"
+  },
+  {
+    "uuid": "01a1ca1d-4e1f-77b1-a8e1-b89030404f53",
+    "slug": "model-feature-improvemen",
+    "dirName": "261111-model-feature-improvemen",
+    "scope": "feature",
+    "status": "complete",
+    "request": "b33d989e"
   }
 ]

@@ -1,0 +1,38 @@
+{
+  "stage": "infrastructure-design",
+  "unit": "u2-features-and-models",
+  "upstream_ids": ["NFR1.1", "NFR2.1", "NFR3.1", "NFR4.1", "NFR5.1", "NFR6.1"],
+  "coverage": [
+    {
+      "id": "NFR1.1",
+      "status": "OK",
+      "target": "CP2.3 — ngân sách tầng `stats` 300 s đang được khai ở **hai** tệp: `tests/integration/test_u1_stats_end_to_end.py:22` (đã có sẵn `300`) và `tests/integration/test_u2_model_end_to_end.py:31` (`900`, U2 hạ về `300` hoặc bỏ bản trùng) — cả hai test `slow` đo cùng một lời gọi `run_stage(config, \"stats\")` nên con số chặt hơn (300) mới có hiệu lực và test của **U1** là canary; CP2.4 giữ cho tầng đó thật sự được chạy ở bước 6"
+    },
+    {
+      "id": "NFR2.1",
+      "status": "OK",
+      "target": "CP2.3 — ngân sách riêng bước mô hình 240 s (`TRAIN_BUDGET_SECONDS` 900 → 240 ở `tests/integration/test_u2_model_end_to_end.py:32`), đo quanh `train_model` lần thứ hai trong cùng test `slow`; 240 s nằm trong 300 s của tầng và bao gồm cả lượt đọc mart; hai con số được ghi vào `team.md` `## Deployment` qua nghi thức learnings ở cổng, không sửa tay"
+    },
+    {
+      "id": "NFR3.1",
+      "status": "OK",
+      "target": "CP2.1 — cổng phủ 80% ở `ci.yml:53` giữ nguyên ngưỡng trên **toàn bộ** bộ test (nhanh + slow), không hạ và không tách sang bộ nhanh; kèm điều kiện giữ cổng: tệp mới phải vào cả danh sách format khai tay `ci.yml:35` lẫn `NEW_FILES` của `tests/unit/test_ci_config.py`, không thêm `per-file-ignores`"
+    },
+    {
+      "id": "NFR4.1",
+      "status": "OK",
+      "target": "CP2.5 — bước 5 `run --stage all` không đổi; U2 không sửa `src/integrate|clean|ingest|quality` và chỉ đọc mart qua kết nối `read_only=True`, nên 5 KPI / 9 bảng mart / 11 view do `StarSchemaValidator` và `KpiReconciler` giữ vẫn nguyên"
+    },
+    {
+      "id": "NFR5.1",
+      "status": "OK",
+      "target": "CP2.6 — mốc sàn `max(MODEL_AUC_FLOOR, baseline_auc)` không có bước CI riêng: test đơn vị hai nhánh của U2 chạy ở bước 7, test `slow` mốc sàn trên tệp thật thuộc U3 và chạy ở bước 8; ngoại lệ với `project.md` `## Forbidden` là cổng của stage, và **hiện chưa được ghi lại** nên mốc sàn chưa có hiệu lực cho tới khi qua nghi thức learnings"
+    },
+    {
+      "id": "NFR6.1",
+      "status": "N/A",
+      "target": "đơn vị không có bề mặt giao diện; tiếp cận thuộc u3-prediction-ui"
+    }
+  ],
+  "reverse": []
+}

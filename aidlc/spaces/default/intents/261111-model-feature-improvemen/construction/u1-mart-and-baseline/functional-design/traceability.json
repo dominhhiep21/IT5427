@@ -1,0 +1,16 @@
+{
+  "stage": "functional-design",
+  "unit": "u1-mart-and-baseline",
+  "upstream_ids": ["AC1.1.1", "AC1.1.2", "AC1.1.3"],
+  "coverage": [
+    { "id": "AC1.1.1", "status": "N/A", "target": "delivered by u2-features-and-models — tiêu chí đọc model.baseline_auc và model.counts.cohort_rows từ báo cáo, cả hai do U2 ghi; U1 chỉ cung cấp hàm đo mà U2 gọi" },
+    { "id": "AC1.1.2", "status": "N/A", "target": "delivered by u2-features-and-models — bốn bộ đếm CohortCounts thuộc U2 vì chỉ đếm được ở grain dòng hàng" },
+    { "id": "AC1.1.3", "status": "OK", "target": "BR1.1, BR1.6, BR1.7" }
+  ],
+  "reverse": [
+    { "id": "BR1.2", "status": "OK", "target": "AC1.1.3 — cột seller_state là phần của hợp đồng ba cột và bất biến số dòng" },
+    { "id": "BR1.3", "status": "Deferred", "target": "u2-features-and-models — FORBIDDEN_COLUMNS và validate_features cưỡng chế luật này" },
+    { "id": "BR1.4", "status": "N/A", "target": "phục vụ AC1.1.1 nhưng phần đọc báo cáo thuộc U2; U1 giao hàm và test của nó" },
+    { "id": "BR1.5", "status": "N/A", "target": "phục vụ AC1.1.1 nhưng phần đọc báo cáo thuộc U2; U1 giao hàm và test của nó" }
+  ]
+}

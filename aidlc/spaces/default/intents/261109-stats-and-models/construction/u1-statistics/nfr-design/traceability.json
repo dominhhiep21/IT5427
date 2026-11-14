@@ -1,0 +1,21 @@
+{
+  "stage": "nfr-design",
+  "unit": "u1-statistics",
+  "upstream_ids": ["NFR1.1", "NFR1.2", "NFR1.3", "NFR1.4", "NFR1.5", "NFR1.6", "NFR1.7", "NFR2.1", "NFR3.1", "NFR3.2", "NFR3.3", "NFR3.4", "NFR4.1", "NFR4.2"],
+  "coverage": [
+    { "id": "NFR1.1", "status": "OK", "target": "performance-design.md PD-1, PD-2, PD-3, PD-5 — đọc một lần mỗi phép, gộp trong SQL, ghi một lần; ngân sách tổng 5 phút" },
+    { "id": "NFR1.2", "status": "OK", "target": "performance-design.md § Ngân sách thời gian — trần 60 s mỗi phép, đo trong test đơn vị" },
+    { "id": "NFR1.3", "status": "OK", "target": "performance-design.md PD-2 và scalability-design.md SCD-3 — bộ nhớ tỉ lệ với số nhóm, đo bằng MemoryProbe" },
+    { "id": "NFR1.4", "status": "OK", "target": "performance-design.md PD-4 — rolling một lượt, chi phí tuyến tính" },
+    { "id": "NFR1.5", "status": "OK", "target": "scalability-design.md SCD-1, SCD-4 — một lần đọc một tiến trình, không chia lô" },
+    { "id": "NFR1.6", "status": "OK", "target": "scalability-design.md SCD-3 — bộ nhớ theo số nhóm, không theo số dòng thô" },
+    { "id": "NFR1.7", "status": "OK", "target": "scalability-design.md § Ngưỡng — biên 27 bang, 36 tháng, 5 vùng" },
+    { "id": "NFR2.1", "status": "N/A", "target": "không phải quyết định thiết kế; cổng phủ do Build and Test cưỡng chế" },
+    { "id": "NFR3.1", "status": "N/A", "target": "không phải quyết định thiết kế; KpiReconciler kiểm ở Build and Test" },
+    { "id": "NFR3.2", "status": "N/A", "target": "không phải quyết định thiết kế; StarSchemaValidator kiểm ở Build and Test" },
+    { "id": "NFR3.3", "status": "N/A", "target": "không phải quyết định thiết kế; quality chế độ full kiểm ở Build and Test" },
+    { "id": "NFR3.4", "status": "OK", "target": "reliability-design.md RD-1, RD-4, RD-5 — thứ tự kiểm cố định, chỉ generated_at được phép khác giữa hai lần chạy" },
+    { "id": "NFR4.1", "status": "N/A", "target": "không phải quyết định thiết kế; ruff kiểm ở Build and Test" },
+    { "id": "NFR4.2", "status": "N/A", "target": "không phải quyết định thiết kế; danh sách tệp trong ci.yml cập nhật ở Code Generation, CI kiểm lại" }
+  ]
+}

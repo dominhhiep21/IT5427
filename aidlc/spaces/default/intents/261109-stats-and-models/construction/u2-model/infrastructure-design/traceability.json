@@ -1,0 +1,12 @@
+{
+  "stage": "infrastructure-design",
+  "unit": "u2-model",
+  "upstream_ids": ["NFR1.1", "NFR1.2", "NFR1.3", "NFR2.1", "NFR4.1"],
+  "coverage": [
+    { "id": "NFR1.1", "status": "OK", "target": "cicd-pipeline.md CI-4 — mô hình chạy trong bước --stage stats đã có, không thêm bước CI làm chạy hai lần" },
+    { "id": "NFR1.2", "status": "N/A", "target": "thời gian toàn bước phụ thuộc dữ liệu và máy, không phải quyết định hạ tầng; đo trong test slow" },
+    { "id": "NFR1.3", "status": "OK", "target": "cicd-pipeline.md CI-2, CI-3 — ghim scikit-learn trước khi import, xác nhận numpy không bị nâng để kết quả U1 không lệch" },
+    { "id": "NFR2.1", "status": "OK", "target": "cicd-pipeline.md § Không thay đổi — cổng phủ 80% giữ nguyên, không hạ ngưỡng để cho bước mới pass" },
+    { "id": "NFR4.1", "status": "OK", "target": "cicd-pipeline.md CI-1 — tệp mới của U2 phải vào danh sách ruff format --check trong ci.yml" }
+  ]
+}

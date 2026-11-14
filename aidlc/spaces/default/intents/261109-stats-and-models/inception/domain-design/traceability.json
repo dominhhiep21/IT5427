@@ -1,0 +1,12 @@
+{
+  "upstream_ids": ["FR1", "FR2", "FR3", "FR4", "FR5", "NFR1", "NFR2", "NFR3", "NFR4", "NFR5"],
+  "coverage": ["FR1", "FR2", "FR3", "FR4", "FR5", "NFR1", "NFR2", "NFR3", "NFR4", "NFR5"],
+  "components": [
+    { "id": "stats-module", "covers": ["FR1"] },
+    { "id": "model-module", "covers": ["FR2"] },
+    { "id": "report-writer", "covers": ["FR3"] },
+    { "id": "report-reader", "covers": ["FR3", "FR4"] },
+    { "id": "stats-stage", "covers": ["FR5", "NFR1"] },
+    { "id": "result-tab", "covers": ["FR4", "NFR5"] }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "stage": "code-generation",
+  "unit": "u3-prediction-ui",
+  "writes": [
+    {
+      "path": "src/dashboard/prediction_section.py"
+    },
+    {
+      "path": "src/dashboard/analysis_tab.py"
+    },
+    {
+      "path": "src/dashboard/app.py"
+    },
+    {
+      "path": "assets/style.css"
+    },
+    {
+      "path": ".github/workflows/ci.yml"
+    },
+    {
+      "path": "tests/unit/test_u3_prediction_section.py"
+    },
+    {
+      "path": "tests/unit/test_dashboard_analysis_tab.py"
+    },
+    {
+      "path": "tests/unit/test_dashboard_smoke.py"
+    },
+    {
+      "path": "tests/unit/test_analysis_tab_contrast.py"
+    },
+    {
+      "path": "tests/unit/test_ci_config.py"
+    },
+    {
+      "path": "tests/integration/test_u3_end_to_end.py"
+    },
+    {
+      "path": "tests/integration/test_u3_floor_end_to_end.py"
+    },
+    {
+      "path": "README.md"
+    },
+    {
+      "path": "CHANGELOG.md"
+    }
+  ]
+}

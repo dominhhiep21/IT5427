@@ -1,0 +1,30 @@
+{
+  "stage": "infrastructure-design",
+  "unit": "u3-prediction-ui",
+  "upstream_ids": ["NFR1.1", "NFR2.1", "NFR3.1", "NFR4.1", "NFR5.1", "NFR6.1"],
+  "coverage": [
+    { "id": "NFR1.1", "status": "N/A", "target": "ngân sách tầng stats thuộc u2-features-and-models; INF3.3/INF3.4 chỉ khai vòng đời tệp, không đổi thời gian lô" },
+    { "id": "NFR2.1", "status": "N/A", "target": "ngân sách bước huấn luyện thuộc u2-features-and-models" },
+    { "id": "NFR3.1", "status": "OK", "target": "CI3.2, CI3.9" },
+    { "id": "NFR4.1", "status": "N/A", "target": "U3 không chạm mart/KPI; INF3.6 chỉ khai rằng giao diện không mở warehouse nên 5 KPI không đổi" },
+    { "id": "NFR5.1", "status": "OK", "target": "CI3.6" },
+    { "id": "NFR6.1", "status": "OK", "target": "INF3.2, CI3.7" }
+  ],
+  "reverse": [
+    { "id": "INF3.3", "status": "OK", "target": "C2, INF3.12" },
+    { "id": "INF3.4", "status": "OK", "target": "C2b, INF3.12" },
+    { "id": "INF3.9", "status": "OK", "target": "luật team.md (UTF-8); không có NFR riêng" },
+    { "id": "INF3.10", "status": "OK", "target": "SR3.12" },
+    { "id": "INF3.11", "status": "OK", "target": "luật .gitignore/project.md" },
+    { "id": "INF3.12", "status": "OK", "target": "BR3.25, C2b" },
+    { "id": "INF3.13", "status": "OK", "target": "SR3.12" },
+    { "id": "INF3.14", "status": "OK", "target": "quy ước cấu hình bất biến (team.md)" },
+    { "id": "MON3.5", "status": "OK", "target": "SD3.4, SR3.4" },
+    { "id": "MON3.6", "status": "OK", "target": "SR3.7" },
+    { "id": "MON3.7", "status": "OK", "target": "SR3.7" },
+    { "id": "CI3.7", "status": "OK", "target": "NFR3.1, BR3.31" },
+    { "id": "CI3.8", "status": "OK", "target": "SR3.1" },
+    { "id": "CI3.9", "status": "OK", "target": "NFR3.1" },
+    { "id": "CI3.10", "status": "OK", "target": "NFR3.1" }
+  ]
+}

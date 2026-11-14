@@ -1,0 +1,21 @@
+{
+  "stage": "nfr-design",
+  "unit": "u1-mart-and-baseline",
+  "upstream_ids": ["NFR4.1"],
+  "coverage": [
+    {
+      "id": "NFR4.1",
+      "status": "OK",
+      "target": "SD2 (hash 9 CSV gốc, phát hiện sau khi chạy) + SD5 (lỗi chỉ mang số) + hai cổng chặn trước khi ghi (StarSchemaValidator 9 check số dòng, KpiReconciler 5 KPI) — bảo đảm 5 KPI, 9 bảng nguồn, 9 bảng mart, 11 view khớp tuyệt đối"
+    }
+  ],
+  "reverse": [
+    { "id": "SEC1", "status": "OK", "target": "SD1 — không thêm lớp xác thực, không để chỗ cắm" },
+    { "id": "SEC2", "status": "OK", "target": "SD2 — bất biến dữ liệu gốc kiểm bằng hash, nêu rõ đây là kiểm soát phát hiện và nêu ngoại lệ cache dataset/external/ibge" },
+    { "id": "SEC3", "status": "OK", "target": "SD3 — cấu hình là biên giới tin cậy duy nhất; không bí mật trong mã" },
+    { "id": "SEC4", "status": "OK", "target": "SD4 — miền giá trị đóng cho seller_state; nói rõ không có cổng runtime kiểm dtype, chỉ có test" },
+    { "id": "SEC5", "status": "OK", "target": "SD3 — mọi đường dẫn từ AppConfig, không từ đầu vào người dùng" },
+    { "id": "SEC6", "status": "OK", "target": "SD5 — thông điệp lỗi chỉ mang check_id, expected, actual" },
+    { "id": "NFR3", "status": "OK", "target": "cổng phủ pytest --cov=src --cov-fail-under=80 tại ci.yml:53 — đơn vị này là library, không có ngân sách riêng, nhưng không được hạ ngưỡng hay tách cổng sang bộ nhanh" }
+  ]
+}

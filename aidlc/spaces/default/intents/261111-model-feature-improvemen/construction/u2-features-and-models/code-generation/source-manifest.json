@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "stage": "code-generation",
+  "unit": "u2-features-and-models",
+  "writes": [
+    {
+      "path": "config.yaml"
+    },
+    {
+      "path": ".github/workflows/ci.yml"
+    },
+    {
+      "path": "src/config.py"
+    },
+    {
+      "path": "src/analytics/service.py"
+    },
+    {
+      "path": "src/analytics/model.py"
+    },
+    {
+      "path": "src/analytics/report.py"
+    },
+    {
+      "path": "src/analytics/statistics.py"
+    },
+    {
+      "path": "src/analytics/persistence.py"
+    },
+    {
+      "path": "src/pipeline/stages.py"
+    },
+    {
+      "path": "tests/unit/test_ci_config.py"
+    },
+    {
+      "path": "tests/unit/test_analytics_model.py"
+    },
+    {
+      "path": "tests/unit/test_analytics_report.py"
+    },
+    {
+      "path": "tests/unit/test_pipeline_stages.py"
+    },
+    {
+      "path": "tests/unit/test_analytics_training_frame.py"
+    },
+    {
+      "path": "tests/unit/test_analytics_features.py"
+    },
+    {
+      "path": "tests/unit/test_analytics_split.py"
+    },
+    {
+      "path": "tests/unit/test_analytics_threshold.py"
+    },
+    {
+      "path": "tests/unit/test_analytics_baseline_block.py"
+    },
+    {
+      "path": "tests/unit/test_analytics_report_v3.py"
+    },
+    {
+      "path": "tests/unit/test_analytics_persistence.py"
+    },
+    {
+      "path": "tests/unit/test_analytics_score_item.py"
+    },
+    {
+      "path": "tests/integration/test_u2_model_end_to_end.py"
+    },
+    {
+      "path": "README.md"
+    }
+  ]
+}

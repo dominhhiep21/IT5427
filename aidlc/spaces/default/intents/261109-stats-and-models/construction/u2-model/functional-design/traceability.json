@@ -1,0 +1,16 @@
+{
+  "stage": "functional-design",
+  "unit": "u2-model",
+  "upstream_ids": ["FR2.1", "FR2.2", "FR2.3", "FR2.4", "NFR1", "NFR2"],
+  "coverage": [
+    { "id": "FR2.1", "status": "OK", "target": "BR2.3, BR2.4" },
+    { "id": "FR2.2", "status": "OK", "target": "BR2.1, BR2.2" },
+    { "id": "FR2.3", "status": "OK", "target": "BR2.6" },
+    { "id": "FR2.4", "status": "OK", "target": "BR2.5, BR2.7, BR2.9" },
+    { "id": "NFR1", "status": "Deferred", "target": "Build and Test — vế huấn luyện dưới 15 phút; vế kiểm định dưới 5 phút thuộc u1-statistics" },
+    { "id": "NFR2", "status": "Deferred", "target": "Build and Test — cổng phủ 80% trên toàn bộ bộ test" }
+  ],
+  "reverse": [
+    { "id": "BR2.8", "status": "N/A", "target": "hệ quả trực tiếp của C1 và yêu cầu một tệp báo cáo dùng chung (FR3.1 thuộc u1-statistics); không có mã FR2 nào riêng cho nó" }
+  ]
+}

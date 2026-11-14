@@ -1,0 +1,12 @@
+{
+  "stage": "nfr-requirements",
+  "unit": "u1-statistics",
+  "upstream_ids": ["NFR1", "NFR2", "NFR3", "NFR4", "NFR5"],
+  "coverage": [
+    { "id": "NFR1", "status": "OK", "target": "NFR1.1–NFR1.7 phủ vế thời gian chạy của tầng stats; vế huấn luyện mô hình dưới 15 phút của NFR1 thuộc u2-model, không thuộc đơn vị này" },
+    { "id": "NFR2", "status": "OK", "target": "NFR2.1" },
+    { "id": "NFR3", "status": "OK", "target": "NFR3.1, NFR3.2, NFR3.3, NFR3.4" },
+    { "id": "NFR4", "status": "OK", "target": "NFR4.1, NFR4.2" },
+    { "id": "NFR5", "status": "N/A", "target": "delivered by u3-display — accessible tab, no user interface in this unit" }
+  ]
+}

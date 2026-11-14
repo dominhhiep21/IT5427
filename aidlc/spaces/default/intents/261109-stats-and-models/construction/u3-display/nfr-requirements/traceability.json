@@ -1,0 +1,12 @@
+{
+  "stage": "nfr-requirements",
+  "unit": "u3-display",
+  "upstream_ids": ["NFR1", "NFR2", "NFR3", "NFR4", "NFR5"],
+  "coverage": [
+    { "id": "NFR1", "status": "N/A", "target": "thời gian chạy của tầng kiểm định và huấn luyện thuộc u1-statistics và u2-model; tab không có ngưỡng thời gian nào được đặt cho người dùng" },
+    { "id": "NFR2", "status": "N/A", "target": "cổng phủ 80% do Build and Test cưỡng chế trên toàn bộ bộ test, không đặt lại ở đây" },
+    { "id": "NFR3", "status": "N/A", "target": "đơn vị này chỉ đọc tệp và dựng thành phần, không chạm dữ liệu nên không thể làm lệch baseline; ba test hình dạng dashboard được cập nhật cùng thay đổi" },
+    { "id": "NFR4", "status": "N/A", "target": "ruff kiểm ở Build and Test và trong CI; tệp mới phải vào danh sách ci.yml" },
+    { "id": "NFR5", "status": "OK", "target": "NFR5.1, NFR5.2, NFR5.3, NFR5.4, NFR5.5, NFR5.6" }
+  ]
+}

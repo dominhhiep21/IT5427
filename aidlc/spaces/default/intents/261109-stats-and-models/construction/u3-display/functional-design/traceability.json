@@ -1,0 +1,14 @@
+{
+  "stage": "functional-design",
+  "unit": "u3-display",
+  "upstream_ids": ["FR4.1", "FR4.2", "FR4.3", "NFR5"],
+  "coverage": [
+    { "id": "FR4.1", "status": "OK", "target": "BR3.2, BR3.3, BR3.7" },
+    { "id": "FR4.2", "status": "OK", "target": "BR3.1, BR3.4, BR3.5" },
+    { "id": "FR4.3", "status": "OK", "target": "BR3.8, BR3.9" },
+    { "id": "NFR5", "status": "OK", "target": "BR3.8" }
+  ],
+  "reverse": [
+    { "id": "BR3.6", "status": "N/A", "target": "hệ quả của FR1.4 và BR1.6 do u1-statistics sinh ra: tab chỉ hiển thị danh sách skipped mà báo cáo mang sẵn, không tính toán" }
+  ]
+}

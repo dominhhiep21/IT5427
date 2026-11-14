@@ -1,0 +1,22 @@
+{
+  "stage": "functional-design",
+  "unit": "u1-statistics",
+  "upstream_ids": ["FR1.1", "FR1.2", "FR1.3", "FR1.4", "FR1.5", "FR3.1", "FR3.2", "FR5.1", "FR5.2", "FR5.3", "NFR1", "NFR2", "NFR3", "NFR4"],
+  "coverage": [
+    { "id": "FR1.1", "status": "OK", "target": "BR1.1, BR1.7" },
+    { "id": "FR1.2", "status": "OK", "target": "BR1.2" },
+    { "id": "FR1.3", "status": "OK", "target": "BR1.3" },
+    { "id": "FR1.4", "status": "OK", "target": "BR1.4, BR1.6" },
+    { "id": "FR1.5", "status": "OK", "target": "BR1.5" },
+    { "id": "FR3.1", "status": "OK", "target": "BR1.8, BR1.9, BR1.10" },
+    { "id": "FR3.2", "status": "OK", "target": "BR1.11" },
+    { "id": "FR5.1", "status": "Deferred", "target": "Code Generation — thêm tầng stats vào STAGES của src/pipeline/stages.py" },
+    { "id": "FR5.2", "status": "Deferred", "target": "Code Generation — thêm nhánh feature/analysis-and-models vào cả on.push.branches và on.pull_request.branches của ci.yml" },
+    { "id": "FR5.3", "status": "Deferred", "target": "Code Generation — cập nhật README mục CI và mục Test, thêm mốc CHANGELOG" },
+    { "id": "NFR1", "status": "Deferred", "target": "Build and Test — đo thời gian chạy tầng stats" },
+    { "id": "NFR2", "status": "Deferred", "target": "Build and Test — cổng phủ 80% trên toàn bộ bộ test" },
+    { "id": "NFR3", "status": "Deferred", "target": "Build and Test — KpiReconciler và quality chế độ full" },
+    { "id": "NFR4", "status": "Deferred", "target": "Build and Test — ruff check và ruff format --check" }
+  ],
+  "reverse": []
+}

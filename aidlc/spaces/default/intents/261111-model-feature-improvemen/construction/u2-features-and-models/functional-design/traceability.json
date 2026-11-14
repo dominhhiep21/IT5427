@@ -1,0 +1,43 @@
+{
+  "stage": "functional-design",
+  "unit": "u2-features-and-models",
+  "upstream_ids": [
+    "AC1.1.1", "AC1.1.2", "AC1.1.3",
+    "AC1.2.1", "AC1.2.2", "AC1.2.3", "AC1.2.4",
+    "AC1.3.1", "AC1.3.2",
+    "AC2.2.1", "AC2.2.2", "AC2.2.3",
+    "AC2.3.1", "AC2.3.2", "AC2.3.3",
+    "AC2.4.1", "AC2.4.2", "AC2.4.3", "AC2.4.4", "AC2.4.5", "AC2.4.6",
+    "AC3.1.1", "AC3.1.2", "AC3.1.3"
+  ],
+  "coverage": [
+    { "id": "AC1.1.1", "status": "OK", "target": "BR2.1, BR2.6" },
+    { "id": "AC1.1.2", "status": "OK", "target": "BR2.1" },
+    { "id": "AC1.1.3", "status": "N/A", "target": "delivered by u1-mart-and-baseline — bất biến số dòng mart" },
+    { "id": "AC1.2.1", "status": "OK", "target": "BR2.6" },
+    { "id": "AC1.2.2", "status": "OK", "target": "BR2.6" },
+    { "id": "AC1.2.3", "status": "OK", "target": "BR2.4" },
+    { "id": "AC1.2.4", "status": "OK", "target": "BR2.7" },
+    { "id": "AC1.3.1", "status": "Deferred", "target": "build-and-test — mục ghi quyết định giữ/hạ mốc nằm trong record của Build and Test" },
+    { "id": "AC1.3.2", "status": "OK", "target": "BR2.6" },
+    { "id": "AC2.2.1", "status": "OK", "target": "BR2.5" },
+    { "id": "AC2.2.2", "status": "N/A", "target": "delivered by u3-prediction-ui — bốn trường mặc định sửa được trên biểu mẫu" },
+    { "id": "AC2.2.3", "status": "N/A", "target": "delivered by u3-prediction-ui — lỗi hiện tại ô" },
+    { "id": "AC2.3.1", "status": "OK", "target": "BR2.10, BR2.11" },
+    { "id": "AC2.3.2", "status": "N/A", "target": "delivered by u3-prediction-ui — nhãn hiển thị" },
+    { "id": "AC2.3.3", "status": "OK", "target": "BR2.10, BR2.11" },
+    { "id": "AC2.4.1", "status": "OK", "target": "BR2.11, BR2.8" },
+    { "id": "AC2.4.2", "status": "OK", "target": "BR2.11, BR2.8" },
+    { "id": "AC2.4.3", "status": "OK", "target": "BR2.8" },
+    { "id": "AC2.4.4", "status": "OK", "target": "BR2.2" },
+    { "id": "AC2.4.5", "status": "OK", "target": "BR2.3" },
+    { "id": "AC2.4.6", "status": "OK", "target": "BR2.4" },
+    { "id": "AC3.1.1", "status": "N/A", "target": "delivered by u3-prediction-ui — thẻ hiển thị cờ; cờ do BR2.6 tính" },
+    { "id": "AC3.1.2", "status": "N/A", "target": "delivered by u3-prediction-ui — thẻ hiển thị cờ; cờ do BR2.6 tính" },
+    { "id": "AC3.1.3", "status": "N/A", "target": "delivered by u3-prediction-ui — thẻ hiển thị cờ; cờ do BR2.6 tính" }
+  ],
+  "reverse": [
+    { "id": "BR2.9", "status": "N/A", "target": "ràng buộc kiến trúc (ADR-008), không truy ngược về một tiêu chí nghiệm thu cụ thể" },
+    { "id": "BR2.12", "status": "N/A", "target": "NFR5 — mốc sàn chống thoái hoá, không phải tiêu chí nghiệm thu; U3 gọi hàm này trong test slow" }
+  ]
+}

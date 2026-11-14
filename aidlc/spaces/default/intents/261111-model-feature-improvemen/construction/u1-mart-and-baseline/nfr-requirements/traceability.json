@@ -1,0 +1,13 @@
+{
+  "stage": "nfr-requirements",
+  "unit": "u1-mart-and-baseline",
+  "upstream_ids": ["NFR1", "NFR2", "NFR3", "NFR4", "NFR5", "NFR6"],
+  "coverage": [
+    { "id": "NFR1", "status": "N/A", "target": "đơn vị không có ngân sách thời gian riêng; ngân sách 300 s của tầng stats thuộc u2-features-and-models" },
+    { "id": "NFR2", "status": "N/A", "target": "ngân sách huấn luyện (< 240 s) thuộc u2-features-and-models" },
+    { "id": "NFR3", "status": "OK", "target": "cổng phủ pytest --cov=src --cov-fail-under=80 tại ci.yml:53; đơn vị này giữ nguyên, không hạ ngưỡng, không tách cổng sang bộ nhanh" },
+    { "id": "NFR4", "status": "OK", "target": "NFR4.1 (5 KPI + 9 bảng nguồn + 9 bảng mart + 11 view khớp tuyệt đối), cộng các kiểm soát SEC1, SEC2, SEC3, SEC4, SEC5, SEC6 để bảo vệ tính toàn vẹn của dữ liệu dẫn xuất" },
+    { "id": "NFR5", "status": "N/A", "target": "mốc sàn AUC thuộc u3-prediction-ui; baseline_auc do u2-features-and-models ghi" },
+    { "id": "NFR6", "status": "N/A", "target": "đơn vị không có bề mặt giao diện; tiếp cận thuộc u3-prediction-ui" }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "stage": "nfr-design",
+  "unit": "u3-prediction-ui",
+  "upstream_ids": ["NFR1.1", "NFR2.1", "NFR3.1", "NFR4.1", "NFR5.1", "NFR6.1"],
+  "coverage": [
+    { "id": "NFR1.1", "status": "N/A", "target": "ngân sách tầng stats thuộc u2-features-and-models; PD3.1/PD3.5 chỉ định hình tải tương tác của khối dự đoán" },
+    { "id": "NFR2.1", "status": "N/A", "target": "ngân sách bước huấn luyện thuộc u2-features-and-models" },
+    { "id": "NFR3.1", "status": "OK", "target": "LC3.1, LC3.6" },
+    { "id": "NFR4.1", "status": "N/A", "target": "U3 không chạm dữ liệu; LC3.4 chỉ đọc tệp báo cáo nên không ảnh hưởng 5 KPI" },
+    { "id": "NFR5.1", "status": "OK", "target": "LC3.10" },
+    { "id": "NFR6.1", "status": "OK", "target": "LC3.1, LC3.7, LC3.9" }
+  ],
+  "reverse": [
+    { "id": "PD3.1", "status": "OK", "target": "PR3.5" },
+    { "id": "PD3.2", "status": "OK", "target": "PR3.2" },
+    { "id": "PD3.3", "status": "OK", "target": "PR3.3, PR3.5" },
+    { "id": "PD3.4", "status": "OK", "target": "PR3.1" },
+    { "id": "PD3.5", "status": "OK", "target": "PR3.3" },
+    { "id": "PD3.6", "status": "N/A", "target": "ADR-005: không thêm trạng thái ẩn/Output thứ hai" },
+    { "id": "SD3.1", "status": "OK", "target": "SR3.2, SR3.9" },
+    { "id": "SD3.2", "status": "OK", "target": "SR3.2" },
+    { "id": "SD3.3", "status": "OK", "target": "SR3.3, SR3.4" },
+    { "id": "SD3.4", "status": "OK", "target": "SR3.4, SR3.10" },
+    { "id": "SD3.5", "status": "OK", "target": "SR3.7" },
+    { "id": "SD3.6", "status": "OK", "target": "SR3.4, SR3.5" },
+    { "id": "SD3.7", "status": "OK", "target": "SR3.8" },
+    { "id": "SD3.8", "status": "OK", "target": "SR3.11, SR3.12" },
+    { "id": "SD3.9", "status": "OK", "target": "SR3.6" },
+    { "id": "SD3.10", "status": "OK", "target": "SR3.1" }
+  ]
+}

@@ -1,0 +1,28 @@
+## Review
+
+**Verdict:** READY
+**Reviewer:** aidlc-architecture-reviewer-agent
+**Date:** 2026-11-13T02:07:13Z
+**Iteration:** 1
+**Verdict Dictated:** no
+
+### Findings
+
+| ID | Severity | Location | Finding | Required action | Status |
+|---|---|---|---|---|---|
+| R-01 | Minor | aidlc/spaces/default/intents/261111-model-feature-improvemen/construction/u2-features-and-models/functional-design/entities.md > entity TrainingFrame > attributes | `TrainingFrame` liệt kê 18 cột và thiếu `is_delivered`, trong khi `unit-of-work.md` (mục U2) và `components.md` (ModelModule → TrainingFrame) khai **19** cột có `is_delivered`; `rules.md` `not_features` cũng liệt kê `is_delivered` như một cột phải bị từ chối nếu lọt vào ma trận. Ba artifact đang nói ba hình dạng hơi khác nhau cho cùng một khung. | Thêm `is_delivered` (`role: internal`, ghi rõ chỉ dùng lọc quần thể và không bao giờ vào ma trận) vào `TrainingFrame`, hoặc bỏ nó khỏi `not_features` và ghi rõ khung mới không mang cột đó — chọn một hướng và sửa cả `entities.md` lẫn `rules.md` trong cùng thay đổi. | New |
+| R-02 | Minor | aidlc/spaces/default/intents/261111-model-feature-improvemen/construction/u2-features-and-models/functional-design/functional-spec.md > W1 — Dựng khung huấn luyện > đoạn "Hình dạng trả về đã chốt" | Câu "`CohortCounts` … đi vào `BaselineMeasurement` và `counts` của báo cáo, rồi dừng — không đi tiếp vào W2–W6" (và câu tương ứng trong `entities.md` > `CohortCounts`) mâu thuẫn với chính các bước sau: W2 bước 5 kiểm `train_n + test_n == CohortCounts.cohort_rows`, W4 bước 2 lấy `cohort_rows` từ nó, W4 bước 5 dựng `counts` chín khoá từ nó. Người thi công phải tự đoán câu nào đúng. | Viết lại thành "chỉ dùng cho phép kiểm quần thể và `counts` của báo cáo; không đi vào ma trận đặc trưng và không có mặt ở lúc chấm điểm", rồi sửa câu tương ứng trong `entities.md`. | New |
+| R-03 | Minor | aidlc/spaces/default/intents/261111-model-feature-improvemen/construction/u2-features-and-models/functional-design/functional-spec.md > Mô hình quan hệ | Dòng quan hệ cuối có hai dấu nháy đóng: `PredictionContribution : "ba đóng góp, gộp theo trường""`. Khối mermaid vì thế không parse được ở dòng đó — trái quy ước "kiểm cú pháp Mermaid trước khi ghi" của workspace. | Xoá dấu nháy thừa và render lại để xác nhận sơ đồ hiện đúng. | New |
+| R-04 | Minor | aidlc/spaces/default/intents/261111-model-feature-improvemen/construction/u2-features-and-models/functional-design/functional-spec.md > W5 — Ghi báo cáo và lưu mô hình > bước 4 | Bước 4 chỉ nói ghi vào `data/models/`; không artifact nào trong ba tệp nói thư mục đó đến từ trường `AppConfig.models_dir` **mới** cộng khoá `models_dir` trong `config.yaml` — quyết định này chỉ nằm ở `functional-design-questions.md`. Người thi công theo functional-spec sẽ hard-code đường dẫn, trái quy ước cấu hình tập trung của repo (`config.py:83-84,146-147` đọc đường dẫn từ `config.yaml` và tạo sẵn thư mục đầu ra). | Nêu trong W5 (hoặc thêm một luật) rằng U2 thêm `models_dir` vào `AppConfig` và `config.yaml`, `load_config` tạo thư mục, và `ModelPersistence` nhận thư mục qua tham số chứ không tự dựng đường dẫn. | New |
+| R-05 | Minor | aidlc/spaces/default/intents/261111-model-feature-improvemen/construction/u2-features-and-models/functional-design/rules.md > feature_contract > serve_inputs.mapping và order_level_aggregates.rationale | Lập luận "cùng ba con số này còn tính được ở lúc chấm điểm từ hai giá trị nhập `item_price` và `item_count`" chỉ đúng với `item_count` và `item_total`. Với `item_price_max`, mapping lấy `item_price_max ← item_price`, tức chỉ bằng MAX của đơn khi món nhập vào là món đắt nhất. Sai lệch phí vận chuyển của `item_total` được ghi nhận rõ, sai lệch này thì không. | Hoặc ghi nhận `item_price_max ← item_price` là **xấp xỉ** (kèm điều kiện đúng) ngay cạnh dòng mapping, hoặc bỏ `item_price_max` khỏi câu "ba con số tính được ở lúc chấm điểm" để lập luận không hứa quá. | New |
+| R-06 | Minor | aidlc/spaces/default/intents/261111-model-feature-improvemen/construction/u2-features-and-models/functional-design/functional-spec.md > W6 — Chấm điểm một dòng hàng > bước 2 | Bước 2 và `BR2.11` đòi `ModelError` khi đầu vào "sai miền", nhưng không artifact nào định nghĩa miền và kiểu hợp lệ của 11 khoá: `handling_days`/`approval_days` có được âm hay không, `item_price` có bắt buộc lớn hơn 0, `item_count` có tối thiểu là 1, `payment_type` và hai trường bang nhận tập giá trị nào. Test đòi hỏi duy nhất hiện có là "thiếu một trường thì `ModelError` nêu đúng tên trường". | Liệt kê 11 khoá kèm kiểu và miền chấp nhận (hoặc nói rõ chỉ kiểm sự có mặt và ép được sang số, mọi giá trị số đều nhận) để phần kiểm biên và test có cùng một chuẩn. | New |
+
+### Validation Tool Results
+
+| Tool | Result | Interpretation |
+|---|---|---|
+| — (stage không khai công cụ kiểm tra) | Không có công cụ nào để chạy | Tôi đối chiếu tay thay cho công cụ: 24 dòng `coverage` trong `traceability.json`, mọi đích `BR2.1`–`BR2.12` đều tồn tại trong `rules.md`, bốn bộ đếm quần thể khớp số đã xác nhận (110.195 / 96.476 / 8.713 / 2), và ba nhóm đặc trưng cộng lại đúng 14 cột. |
+
+### Summary
+
+Năm điểm sửa của vòng trước đều đã đóng đúng: hợp đồng 14 đặc trưng khai một chỗ kèm thứ tự và danh sách cấm có cả hai cột mốc thô, `score_item` có đủ chủ (entity, W6, `BR2.11`, `AC2.4.1`), `MODEL_AUC_FLOOR` cùng hàm so mốc sàn thuộc U2 và khớp `unit-of-work.md` lẫn C3, hai đặc trưng ngày đúng chiều với độ phân giải ngày và đánh đổi dưới một ngày được ghi ở cả ba tệp, ba cột tổng hợp theo đơn có lý do không rò rỉ. Sáu phát hiện còn lại đều mức Nhỏ và chỉ là chỗ cần nói rõ thêm, nên đơn vị này thi công được.

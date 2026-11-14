@@ -1,0 +1,168 @@
+{
+  "stage": "code-generation",
+  "unit": "u1-statistics",
+  "upstream_ids": [
+    "NFR1.1",
+    "NFR1.2",
+    "NFR1.3",
+    "NFR1.4",
+    "NFR1.5",
+    "NFR1.6",
+    "NFR1.7",
+    "NFR3.1",
+    "NFR3.2",
+    "NFR3.3",
+    "NFR3.4",
+    "NFR2.1",
+    "BR1.1",
+    "BR1.2",
+    "BR1.3",
+    "BR1.4",
+    "BR1.5",
+    "BR1.6",
+    "BR1.7",
+    "BR1.8",
+    "BR1.9",
+    "BR1.10",
+    "BR1.11"
+  ],
+  "coverage": [
+    {
+      "id": "NFR1.1",
+      "status": "OK",
+      "target": "tests/integration/test_u1_stats_end_to_end.py",
+      "note": "test_u1_stats_end_to_end đo elapsed của run_stage(real_config, \"stats\") và khẳng định dưới STAGE_BUDGET_SECONDS = 300."
+    },
+    {
+      "id": "NFR1.2",
+      "status": "Deferred",
+      "target": "Build and Test — đo thời gian quanh năm hàm kiểm định trong test slow; bộ hiện tại chỉ đo năm lời gọi đọc dữ liệu, không đo từng hàm",
+      "target": "tests/integration/test_u1_stats_end_to_end.py",
+      "note": "Cùng test đo riêng năm lời gọi đọc dữ liệu (kpi_summary, late_rates_by_state, price_freight_pairs, late_rates_by_region, revenue_by_period) trên mart thật, mỗi lời gọi dưới 60 giây; năm phép tính thuần chạy trong bộ nhớ dưới ngưỡng đó."
+    },
+    {
+      "id": "NFR1.3",
+      "status": "OK",
+      "target": "tests/integration/test_u1_stats_end_to_end.py",
+      "note": "MemoryProbe().reset_peak() đặt quanh run_stage và khẳng định peak_mb < real_config.memory_fail_mb — dùng lại ngưỡng quality.memory_fail_mb, không đặt số thứ hai."
+    },
+    {
+      "id": "NFR1.4",
+      "status": "Deferred",
+      "target": "Build and Test — đo chi phí phân rã ở hai độ dài chuỗi dựng tại chỗ trong test slow, không đặt ngưỡng thời gian tuyệt đối để khỏi chập chờn trong CI",
+      "reason": "Code dùng một lượt Series.rolling(center=True, min_periods=1) nên chi phí tuyến tính theo số tháng (PD-4); phép đo thuộc Build and Test."
+    },
+    {
+      "id": "NFR1.5",
+      "status": "N/A",
+      "target": "giả định về cỡ dữ liệu 5 lần; dataset/ bất biến và chỉ có một cỡ nên không có gì để đo ở bất kỳ tầng nào — Build and Test chỉ ghi lại giả định, không kiểm được"
+    },
+    {
+      "id": "NFR1.6",
+      "status": "Deferred",
+      "target": "Build and Test — đo bộ nhớ đỉnh trên khung dữ liệu tổng hợp nhân đôi dựng trong test slow"
+    },
+    {
+      "id": "NFR1.7",
+      "status": "OK",
+      "target": "tests/integration/test_u1_stats_end_to_end.py",
+      "note": "Cùng test khẳng định late_rates_by_state trả tối đa 27 nhóm và revenue_by_period trả tối đa 36 nhóm trên 99.441 đơn — số nhóm theo chiều bang/tháng, không theo số dòng (PD-2)."
+    },
+    {
+      "id": "NFR3.1",
+      "status": "OK",
+      "target": "tests/integration/test_u1_stats_end_to_end.py",
+      "note": "Khẳng định lại 5 KPI baseline: doanh thu 15.419.773,75 BRL, 96.478 đơn, AOV qua kpi_summary, 7.826 đơn trễ, tỉ lệ trễ 8,11% qua summary_kpis. KpiReconciler vẫn chạy trong bước `--stage all` của CI."
+    },
+    {
+      "id": "NFR3.2",
+      "status": "OK",
+      "target": "tests/integration/test_u2_end_to_end.py",
+      "note": "Đơn vị này không chạm src/integrate/**: StarSchemaValidator và 11 view vẫn do test_u2_end_to_end khẳng định (len(views) == 11), số dòng 9 bảng nguồn và 11 bảng mart không đổi."
+    },
+    {
+      "id": "NFR3.3",
+      "status": "OK",
+      "target": "src/pipeline/stages.py",
+      "note": "run_all (và nhánh `integrate` của run_stage) vẫn gọi QualityGate.run(mode=\"full\") rồi gate.enforce; tầng `stats` đứng sau và không thay hai cổng này. Cổng giữ nguyên, được CI chạy ở bước `--stage all`."
+    },
+    {
+      "id": "NFR3.4",
+      "status": "OK",
+      "target": "tests/integration/test_u1_stats_end_to_end.py",
+      "note": "Cùng test chạy run_stage hai lần và so hai khối stats sau khi bỏ generated_at; chỉ trường đó được phép khác (RD-5)."
+    },
+    {
+      "id": "NFR2.1",
+      "status": "OK",
+      "target": ".github/workflows/ci.yml",
+      "note": "Cổng phủ 80% giữ nguyên --cov-fail-under=80 trên toàn bộ bộ test; test_ci_config.py::test_the_coverage_gate_is_not_weakened khẳng định cổng không bị hạ và không bị tách sang bộ nhanh."
+    },
+    {
+      "id": "BR1.1",
+      "status": "OK",
+      "target": "src/analytics/statistics.py",
+      "note": "late_rate() và wilson_interval() dựng ProportionResult; total = 0 thì ném và tầng dừng. Test: tests/unit/test_analytics_statistics.py (wilson_interval khớp phép tính độc lập; late_rate(0, 0) ném)."
+    },
+    {
+      "id": "BR1.2",
+      "status": "OK",
+      "target": "src/analytics/statistics.py",
+      "note": "compare_states() lọc bang >= 100 đơn đã giao, chọn đúng cặp cao nhất/thấp nhất, z gộp, p hai phía, khoảng Newcombe, và ghi excluded = tổng đơn của bang bị loại. Test: tests/unit/test_analytics_statistics.py."
+    },
+    {
+      "id": "BR1.3",
+      "status": "OK",
+      "target": "src/analytics/statistics.py",
+      "note": "price_freight_correlation() trả r, n và khoảng Fisher; n < 4 hoặc một chuỗi không đổi thì trả None kèm SkipEntry. Test: tests/unit/test_analytics_statistics.py."
+    },
+    {
+      "id": "BR1.4",
+      "status": "OK",
+      "target": "src/analytics/statistics.py",
+      "note": "region_late_test() dựng bảng dự phòng vùng × trễ, tính ô kỳ vọng nhỏ nhất, chỉ chạy chi2_contingency(correction=False) khi mọi ô >= 5; dof = số vùng - 1. Test: tests/unit/test_analytics_statistics.py."
+    },
+    {
+      "id": "BR1.5",
+      "status": "OK",
+      "target": "src/analytics/statistics.py",
+      "note": "seasonal_decomposition() dựng trục tháng liên tục, điền 0, trung bình động giữa có cửa sổ thu hẹp, method = classical_additive_12, revenue_definition = REVENUE_DEFINITION; dưới 24 tháng thì None + SkipEntry. Test: tests/unit/test_analytics_statistics.py và hằng đẳng thức observed = trend + seasonal + residual trên giá trị chưa làm tròn."
+    },
+    {
+      "id": "BR1.6",
+      "status": "OK",
+      "target": "src/analytics/statistics.py",
+      "note": "ordered_skips() và collect_stats() gom đúng một SkipEntry mỗi kiểm định bị bỏ, theo thứ tự cố định, không ném ra ngoài. Test: tests/unit/test_analytics_statistics.py."
+    },
+    {
+      "id": "BR1.7",
+      "status": "OK",
+      "target": "src/analytics/statistics.py",
+      "note": "ALPHA = 0.05, CONFIDENCE = confidence_for(ALPHA); collect_stats gắn cả hai vào StatsBlock. Test: tests/unit/test_analytics_statistics.py::test_confidence_comes_from_the_single_alpha_constant."
+    },
+    {
+      "id": "BR1.8",
+      "status": "OK",
+      "target": "src/analytics/report.py",
+      "note": "to_dict() của từng kiểu làm tròn 4 chữ số (tỉ lệ, p-value, khoảng tin cậy) và 3 chữ số cho hệ số tương quan; chỉ làm tròn khi ghi. Test: tests/unit/test_analytics_report.py::test_write_rounds_numbers_to_the_agreed_digits."
+    },
+    {
+      "id": "BR1.9",
+      "status": "OK",
+      "target": "src/analytics/report.py",
+      "note": "read_report() theo thứ tự tồn tại → parse → phiên bản → trường → khối, trả bốn trạng thái rong/day-du/mot-phan/loi và không ném. Test: tests/unit/test_analytics_report.py (sáu mẫu)."
+    },
+    {
+      "id": "BR1.10",
+      "status": "OK",
+      "target": "src/analytics/report.py",
+      "note": "Nhánh version != REPORT_VERSION trả loi với thông điệp nêu phiên bản và lệnh chạy lại, kiểm trước nhánh thiếu trường. Test: tests/unit/test_analytics_report.py::test_read_version_one_asks_for_a_rerun_before_checking_fields."
+    },
+    {
+      "id": "BR1.11",
+      "status": "OK",
+      "target": "src/analytics/report.py",
+      "note": "write_report() ghi tệp tạm qua AtomicWriter.write_json, gọi _verify_pending() (parse, kiểm version, kiểm hai khối không cùng null), rồi mới os.replace; hỏng thì xoá tệp tạm và ném ReportError. Test: tests/unit/test_analytics_report.py (giữ tệp cũ, không để tệp tạm)."
+    }
+  ]
+}

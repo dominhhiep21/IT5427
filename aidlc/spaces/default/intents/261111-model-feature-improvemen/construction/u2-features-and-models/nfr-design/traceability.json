@@ -1,0 +1,14 @@
+{
+  "stage": "nfr-design",
+  "unit": "u2-features-and-models",
+  "upstream_ids": ["NFR1.1", "NFR2.1", "NFR3.1", "NFR4.1", "NFR5.1", "NFR6.1"],
+  "coverage": [
+    { "id": "NFR1.1", "status": "OK", "target": "LC2.16" },
+    { "id": "NFR2.1", "status": "OK", "target": "LC2.16" },
+    { "id": "NFR3.1", "status": "OK", "target": "LC2.17" },
+    { "id": "NFR4.1", "status": "OK", "target": "SD2.1, SD2.8" },
+    { "id": "NFR5.1", "status": "OK", "target": "LC2.11, LC2.17" },
+    { "id": "NFR6.1", "status": "N/A", "target": "đơn vị không có bề mặt giao diện; tiếp cận thuộc u3-prediction-ui" }
+  ],
+  "reverse": []
+}

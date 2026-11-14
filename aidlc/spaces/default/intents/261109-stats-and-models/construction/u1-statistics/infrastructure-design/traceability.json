@@ -1,0 +1,21 @@
+{
+  "stage": "infrastructure-design",
+  "unit": "u1-statistics",
+  "upstream_ids": ["NFR1.1", "NFR1.2", "NFR1.3", "NFR1.4", "NFR1.5", "NFR1.6", "NFR1.7", "NFR2.1", "NFR3.1", "NFR3.2", "NFR3.3", "NFR3.4", "NFR4.1", "NFR4.2"],
+  "coverage": [
+    { "id": "NFR1.1", "status": "OK", "target": "cicd-pipeline.md CI-3, CI-4 — tầng stats chạy được trong CI sau --stage all" },
+    { "id": "NFR1.2", "status": "N/A", "target": "không phải quyết định hạ tầng; đo trong test đơn vị" },
+    { "id": "NFR1.3", "status": "N/A", "target": "không có quyết định hạ tầng nào bảo đảm mốc bộ nhớ; MemoryProbe đo ở test slow" },
+    { "id": "NFR1.4", "status": "N/A", "target": "không phải quyết định hạ tầng; đo trong test đơn vị" },
+    { "id": "NFR1.5", "status": "N/A", "target": "là giả định về cỡ dữ liệu, không phải quyết định hạ tầng" },
+    { "id": "NFR1.6", "status": "N/A", "target": "không phải quyết định hạ tầng; đo trong test slow" },
+    { "id": "NFR1.7", "status": "N/A", "target": "không phải quyết định hạ tầng; kiểm trong test đơn vị" },
+    { "id": "NFR2.1", "status": "N/A", "target": "không phải quyết định hạ tầng; cổng phủ đã có sẵn trong ci.yml và giữ nguyên" },
+    { "id": "NFR3.1", "status": "N/A", "target": "không phải quyết định hạ tầng; KpiReconciler kiểm trong --stage all" },
+    { "id": "NFR3.2", "status": "N/A", "target": "không phải quyết định hạ tầng; StarSchemaValidator kiểm trong --stage all" },
+    { "id": "NFR3.3", "status": "N/A", "target": "không phải quyết định hạ tầng; quality chế độ full kiểm trong --stage all" },
+    { "id": "NFR3.4", "status": "OK", "target": "infrastructure-specification.md IND-4 — không trạng thái hạ tầng nào thay đổi giữa hai lần chạy" },
+    { "id": "NFR4.1", "status": "OK", "target": "cicd-pipeline.md — bước ruff vẫn là bước đầu của workflow, không đổi" },
+    { "id": "NFR4.2", "status": "OK", "target": "cicd-pipeline.md CI-2 — tệp mới phải vào danh sách ruff format --check" }
+  ]
+}

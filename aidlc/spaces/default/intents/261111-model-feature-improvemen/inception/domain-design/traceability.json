@@ -1,0 +1,16 @@
+{
+  "stage": "domain-design",
+  "upstream_ids": ["US1.1", "US1.2", "US1.3", "US2.1", "US2.2", "US2.3", "US2.4", "US2.5", "US3.1", "US3.2"],
+  "coverage": [
+    { "id": "US1.1", "status": "OK", "target": "AnalyticsService, MartOrder, MartOrderItem, TrainingFrame, ModelModule, BaselineMeasurement" },
+    { "id": "US1.2", "status": "OK", "target": "ModelModule, ModelBlock" },
+    { "id": "US1.3", "status": "OK", "target": "ModelModule, ModelBlock, PipelineStages" },
+    { "id": "US2.1", "status": "OK", "target": "AnalysisTab, DashboardApp" },
+    { "id": "US2.2", "status": "OK", "target": "AnalysisTab, PredictionInput" },
+    { "id": "US2.3", "status": "OK", "target": "AnalysisTab, PredictionResult" },
+    { "id": "US2.4", "status": "OK", "target": "ModelPersistence, FittedModel, SplitPlan" },
+    { "id": "US2.5", "status": "OK", "target": "AnalysisTab, PanelState, ModelPersistence" },
+    { "id": "US3.1", "status": "OK", "target": "AnalysisTab, ModelBlock" },
+    { "id": "US3.2", "status": "OK", "target": "ModelModule, BaselineMeasurement, ModelBlock" }
+  ]
+}

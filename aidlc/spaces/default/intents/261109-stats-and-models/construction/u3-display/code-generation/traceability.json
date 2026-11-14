@@ -1,0 +1,120 @@
+{
+  "stage": "code-generation",
+  "unit": "u3-display",
+  "upstream_ids": [
+    "NFR5.1",
+    "NFR5.2",
+    "NFR5.3",
+    "NFR5.4",
+    "NFR5.5",
+    "NFR5.6",
+    "BR3.1",
+    "BR3.2",
+    "BR3.3",
+    "BR3.4",
+    "BR3.5",
+    "BR3.6",
+    "BR3.7",
+    "BR3.8",
+    "BR3.9",
+    "BR3.10"
+  ],
+  "coverage": [
+    {
+      "id": "NFR5.1",
+      "status": "OK",
+      "target": "src/dashboard/analysis_tab.py",
+      "evidence": "summary_cards() và build_stats_items() nhân `late_rate.rate` (phân số 0–1) với 100 trước khi gọi `format_percent`, vì `format_percent` không tự nhân. tests/unit/test_dashboard_analysis_tab.py::test_late_rate_is_shown_as_a_percentage_of_the_fraction khẳng định thẻ ghi đúng \"8,11%\" và không có \"0,08\"; ca end-to-end trên dữ liệu thật cũng khẳng định \"8,11%\". Tương phản: assets/style.css có khối phạm vi `.analysis-tab` đặt `--text-2` cho sáu lớp chữ nhỏ và hai nhánh huy hiệu chua-chay/rong; tests/unit/test_analysis_tab_contrast.py đọc token từ chính tệp CSS, tính tỉ lệ và khẳng định mọi cặp (--text, --text-2 × --surface, --surface-sunken, --paper) đạt ≥4,5:1, đồng thời khẳng định khối `.analysis-tab` không dùng `--text-3`."
+    },
+    {
+      "id": "NFR5.2",
+      "status": "OK",
+      "target": "src/dashboard/analysis_tab.py",
+      "evidence": "AnalysisPanel() mang `role=\"region\"` + `aria-label`, `_section()` mang `aria-label` và một `html.H3` ngữ nghĩa, tiêu đề tab là `dmc.Title(order=3)`. AnalysisTab() tự bọc `dmc.MantineProvider` vì gốc ứng dụng không có provider. tests/unit/test_dashboard_analysis_tab.py::test_every_region_has_a_label_and_no_positive_tabindex, ::test_each_section_heading_is_a_real_heading và ::test_tab_layout_wraps_its_content_in_a_mantine_provider."
+    },
+    {
+      "id": "NFR5.3",
+      "status": "OK",
+      "target": "src/dashboard/analysis_tab.py",
+      "evidence": "Tab không có phần tử tương tác nào và không đặt `tabIndex` dương; thứ tự đọc do thứ tự DOM quyết định: sections_for() trả tóm tắt → thống kê → mô hình. tests/unit/test_dashboard_analysis_tab.py::test_every_region_has_a_label_and_no_positive_tabindex và ::test_sections_keep_the_reading_order. Trên trình duyệt thật ở 1280px: 0 phần tử a/button/input/select/textarea/[tabindex] trong panel."
+    },
+    {
+      "id": "NFR5.4",
+      "status": "OK",
+      "target": "src/dashboard/analysis_tab.py",
+      "evidence": "Bố cục một cột: thân mỗi khối là lưới một cột `chart-stack` có sẵn trong assets/style.css, dải tóm tắt là `.kpi-strip` bốn cột; không đặt chiều rộng cố định theo px cho khối chữ. Kiểm bằng mắt ở 1280px trên dữ liệu thật (đã ghi trong code-summary.md): `documentElement.scrollWidth == clientWidth` (không tràn ngang) và không phần tử nào có `scrollWidth > clientWidth` (không cắt chữ)."
+    },
+    {
+      "id": "NFR5.5",
+      "status": "OK",
+      "target": "src/dashboard/analysis_tab.py",
+      "evidence": "Một callback đọc tệp một lần rồi dựng toàn bộ nội dung từ một `ReportView` cục bộ; không cache, không dựng lại thành phần có sẵn. Đo trên tệp báo cáo thật 20 lần: median 1,06 ms, max 2,97 ms cho cả lần đọc và lần dựng, dưới ngân sách 1 s. Đúng như performance-design, không đặt ngưỡng thời gian làm cổng CI."
+    },
+    {
+      "id": "NFR5.6",
+      "status": "OK",
+      "target": "src/dashboard/analysis_tab.py",
+      "evidence": "render_analysis() gọi `read_report` đúng một lần (tham số `reader` để test đếm) và trả `no_update` trước khi đọc khi tab khác đang được chọn. tests/unit/test_dashboard_analysis_tab.py::test_callback_reads_the_report_exactly_once, ::test_each_render_uses_the_first_read_and_ignores_a_second, ::test_other_tab_values_do_not_read_the_report."
+    },
+    {
+      "id": "BR3.1",
+      "status": "OK",
+      "target": "src/dashboard/analysis_tab.py",
+      "evidence": "state_for() trả `ResultTabState.token = view.status` không ánh xạ lại và không dò chuỗi thông điệp; pending_state() là chỗ duy nhất sinh token `chua-chay`. tests/unit/test_dashboard_analysis_tab.py::test_status_maps_straight_to_the_result_token, ::test_only_the_loading_token_is_generated_by_the_tab, ::test_tab_layout_starts_in_the_loading_state."
+    },
+    {
+      "id": "BR3.2",
+      "status": "OK",
+      "target": "src/dashboard/analysis_tab.py",
+      "evidence": "sections_for() trả cố định `SECTION_IDS = (tom-tat, thong-ke, mo-hinh)`; khối thiếu vẫn giữ chỗ nên thứ tự không đổi theo dữ liệu. tests/unit/test_dashboard_analysis_tab.py::test_sections_keep_the_reading_order (kiểm cả day-du và hai kiểu mot-phan) và ::test_section_ids_are_the_three_blocks_in_reading_order."
+    },
+    {
+      "id": "BR3.3",
+      "status": "OK",
+      "target": "src/dashboard/analysis_tab.py",
+      "evidence": "summary_cards() dựng thẻ theo đúng thứ tự ti-le-tre, so-don, so-bo-qua, auc; nguồn duy nhất là `late_rate.rate` (nhân 100), `late_rate.total`, `len(skipped)` và `model.auc`; thiếu khối model thì thẻ auc ghi \"chưa có\" và không có dấu, thiếu khối stats thì chỉ còn thẻ auc. Dấu đạt/không đạt lấy từ `counts.auc_below_target` của tệp (_auc_note). tests/unit/test_dashboard_analysis_tab.py::test_complete_report_shows_four_cards_in_order, ::test_summary_strip_renders_the_four_cards_with_values, ::test_auc_card_reports_both_verdicts, ::test_auc_card_falls_back_to_the_value_when_the_flag_is_absent, ::test_missing_model_block_marks_the_auc_card_as_absent, ::test_missing_stats_block_leaves_only_the_auc_card."
+    },
+    {
+      "id": "BR3.4",
+      "status": "OK",
+      "target": "src/dashboard/analysis_tab.py",
+      "evidence": "mot-phan không bị coi là lỗi: _partial_notice() gọi tên khối thiếu, _missing_block() giữ chỗ khối đó kèm câu \"chưa chạy bước …\" và lệnh `run --stage stats`, còn khối đang có vẫn dựng đầy đủ. tests/unit/test_dashboard_analysis_tab.py::test_partial_report_without_model_still_shows_the_whole_stats_block và ::test_partial_report_without_stats_still_shows_the_whole_model_block."
+    },
+    {
+      "id": "BR3.5",
+      "status": "OK",
+      "target": "src/dashboard/analysis_tab.py",
+      "evidence": "Ba câu chữ tách biệt: rong nêu chưa có báo cáo + lệnh, mot-phan nêu phần thiếu, loi nêu lý do + đường dẫn do `read_report` trả về; day-du không có notice. tests/unit/test_dashboard_analysis_tab.py::test_the_three_states_use_three_different_sentences, ::test_empty_state_names_the_command_to_run, ::test_error_state_names_the_reason_and_the_path, ::test_complete_state_has_no_notice_and_no_command."
+    },
+    {
+      "id": "BR3.6",
+      "status": "OK",
+      "target": "src/dashboard/analysis_tab.py",
+      "evidence": "build_skipped_banner() trả None khi `skipped` rỗng và dựng một `html.Li` cho mỗi phần tử (tên phép — lý do) khi có. tests/unit/test_dashboard_analysis_tab.py::test_no_skipped_entries_means_no_banner và ::test_two_skipped_entries_make_two_lines."
+    },
+    {
+      "id": "BR3.7",
+      "status": "OK",
+      "target": "src/dashboard/analysis_tab.py",
+      "evidence": "build_model_section() chỉ dựng bốn số đọc (AUC, ngưỡng, precision, recall) và các viên nhãn; không `dcc.Slider`, không `dcc.Input`, không tính lại precision/recall. tests/unit/test_dashboard_analysis_tab.py::test_model_block_offers_no_input_control. Trên trình duyệt thật: panel có 0 phần tử tương tác."
+    },
+    {
+      "id": "BR3.8",
+      "status": "OK",
+      "target": "src/dashboard/analysis_tab.py",
+      "evidence": "Mỗi vùng mang `aria-label` và một tiêu đề `H3`; không có `tabIndex` dương; màu chữ và nền lấy từ token đã có nên tương phản giữ nguyên các tab cũ. tests/unit/test_dashboard_analysis_tab.py::test_every_region_has_a_label_and_no_positive_tabindex, ::test_each_section_heading_is_a_real_heading. Bố cục 1280px: không tràn ngang, không cắt chữ (xem code-summary.md § \"Xem bằng mắt ở 1280px\")."
+    },
+    {
+      "id": "BR3.9",
+      "status": "OK",
+      "target": "src/dashboard/analysis_tab.py",
+      "evidence": "Không thêm **token màu** nào. Tab dùng lại `.chart-stack`, `.chart-card`, `.chart-header`, `.chart-subtitle`, `.kpi-strip`, `.kpi-card`, `.kpi-label`, `.kpi-value`, `.kpi-detail`, `.integration-*`, `.empty-state`, và `assets/style.css` chỉ nhận thêm khối phạm vi `.analysis-tab` để đặt `--text-2` cho chữ nhỏ (NFR5.1) — không luật nào rò sang ba tab cũ vì mọi selector đều mang tiền tố `.analysis-tab`. tests/unit/test_dashboard_analysis_tab.py::test_every_class_is_defined_in_the_stylesheet đọc assets/style.css và khẳng định mọi className của tab đều có selector ở đó."
+    },
+    {
+      "id": "BR3.10",
+      "status": "OK",
+      "target": "src/dashboard/analysis_tab.py",
+      "evidence": "_missing_item() + _skip_reason() hiện tên phép kèm \"không chạy được\" và lý do đọc từ `skipped` cùng tên phép (không có dòng thì dùng câu chung); _comparison_item() với `comparisons` rỗng nêu câu thiếu hai bang đạt ngưỡng `MIN_STATE_ORDERS` đơn. tests/unit/test_dashboard_analysis_tab.py::test_null_stats_item_shows_the_test_name_with_the_skip_reason, ::test_empty_comparisons_explain_the_missing_states, ::test_null_group_test_and_seasonal_stay_written_out, ::test_a_null_item_without_a_recorded_reason_still_says_so."
+    }
+  ]
+}

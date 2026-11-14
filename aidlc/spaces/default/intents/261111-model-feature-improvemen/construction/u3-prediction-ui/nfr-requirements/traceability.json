@@ -1,0 +1,13 @@
+{
+  "stage": "nfr-requirements",
+  "unit": "u3-prediction-ui",
+  "upstream_ids": ["NFR1", "NFR2", "NFR3", "NFR4", "NFR5", "NFR6"],
+  "coverage": [
+    { "id": "NFR1", "status": "N/A", "target": "ngân sách tầng stats thuộc u2-features-and-models; xem dòng NFR1 của performance-requirements.md — ngân sách tương tác của U3 là PR3.1–PR3.5" },
+    { "id": "NFR2", "status": "N/A", "target": "ngân sách bước huấn luyện thuộc u2-features-and-models; xem dòng NFR2 của performance-requirements.md" },
+    { "id": "NFR3", "status": "OK", "target": "TS3.11" },
+    { "id": "NFR4", "status": "OK", "target": "TS3.13" },
+    { "id": "NFR5", "status": "OK", "target": "TS3.12" },
+    { "id": "NFR6", "status": "OK", "target": "TS3.14" }
+  ]
+}

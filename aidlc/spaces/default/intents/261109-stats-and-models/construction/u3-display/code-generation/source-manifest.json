@@ -1,0 +1,16 @@
+{
+  "stage": "code-generation",
+  "unit": "u3-display",
+  "version": 1,
+  "writes": [
+    { "path": "src/dashboard/analysis_tab.py" },
+    { "path": "src/dashboard/app.py" },
+    { "path": "tests/unit/test_dashboard_analysis_tab.py" },
+    { "path": "tests/unit/test_dashboard_smoke.py" },
+    { "path": "tests/unit/test_ci_config.py" },
+    { "path": "tests/integration/test_u3_end_to_end.py" },
+    { "path": ".github/workflows/ci.yml" },
+    { "path": "README.md" },
+    { "path": "CHANGELOG.md" }
+  ]
+}

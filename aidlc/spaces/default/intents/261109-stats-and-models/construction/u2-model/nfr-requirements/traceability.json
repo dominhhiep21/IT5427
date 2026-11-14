@@ -1,0 +1,12 @@
+{
+  "stage": "nfr-requirements",
+  "unit": "u2-model",
+  "upstream_ids": ["NFR1", "NFR2", "NFR3", "NFR4", "NFR5"],
+  "coverage": [
+    { "id": "NFR1", "status": "OK", "target": "NFR1.1, NFR1.2, NFR1.3 — huấn luyện và cả bước dưới 15 phút, tái lập được; vế kiểm định dưới 5 phút thuộc u1-statistics" },
+    { "id": "NFR2", "status": "OK", "target": "NFR2.1" },
+    { "id": "NFR3", "status": "N/A", "target": "đơn vị này chỉ đọc mart và ghi một khối JSON nên không đổi số dòng hay số bảng; rủi ro duy nhất nó tạo ra là nâng numpy khi cài, và rủi ro đó được chặn ở tech-stack-decisions.md § Điều còn phải xác nhận khi cài" },
+    { "id": "NFR4", "status": "OK", "target": "NFR4.1" },
+    { "id": "NFR5", "status": "N/A", "target": "thuộc u3-display — tab có thể truy cập; đơn vị này không có giao diện" }
+  ]
+}
