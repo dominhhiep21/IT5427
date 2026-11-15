@@ -110,6 +110,8 @@ function Invoke-Setup {
 }
 
 function Invoke-Data {
+    # Dashboard giữ khoá warehouse/olist.duckdb; phải tắt trước khi dựng lại mart.
+    Stop-Dashboard
     Invoke-Py 'Dựng dữ liệu: mart + KPI' @('-m', 'src.pipeline', 'run', '--stage', 'all')
     if (Test-StatsStage) {
         Invoke-Py 'Sinh báo cáo phân tích + tệp mô hình' @('-m', 'src.pipeline', 'run', '--stage', 'stats')
