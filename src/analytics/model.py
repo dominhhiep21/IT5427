@@ -13,7 +13,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_auc_score
 from sklearn.preprocessing import StandardScaler
 
-from src.analytics.report import ModelBlock
+from src.analytics.report_contract import ModelBlock
 from src.analytics.service import AnalyticsService
 from src.common.exceptions import PipelineError
 from src.common.logging import NullLogger

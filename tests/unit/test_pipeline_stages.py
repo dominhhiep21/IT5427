@@ -10,7 +10,7 @@ import pytest
 
 from src.analytics import statistics as statistics_module
 from src.analytics.model import train_from_frame
-from src.analytics.report import (
+from src.analytics.report_contract import (
     REPORT_VERSION,
     AnalysisReport,
     ModelBlock,

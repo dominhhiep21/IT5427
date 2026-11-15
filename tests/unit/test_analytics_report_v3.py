@@ -6,7 +6,7 @@ import json
 
 
 from src.analytics.model import build_model_block
-from src.analytics.report import (
+from src.analytics.report_contract import (
     REPORT_VERSION,
     STATUS_ERROR,
     assemble_report,
@@ -102,12 +102,13 @@ def test_assemble_report_keeps_the_previous_model_block(config) -> None:  # noqa
 
 
 def test_only_one_place_builds_the_report() -> None:
-    """ADR-008 — `AnalysisReport(` chỉ xuất hiện trong `report.py`."""
+    """ADR-008 — `AnalysisReport(` chỉ xuất hiện trong khung báo cáo JSON (report_contract.py)."""
     from pathlib import Path
 
+    builders = {"report.py", "report_contract.py"}
     offenders = []
     for path in Path("src").rglob("*.py"):
-        if path.name == "report.py":
+        if path.name in builders:
             continue
         text = path.read_text(encoding="utf-8")
         if "AnalysisReport(" in text and "def " in text:

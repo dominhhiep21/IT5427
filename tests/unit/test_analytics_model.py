@@ -436,8 +436,8 @@ def test_the_block_builder_never_reaches_for_the_report_file(monkeypatch):
     def forbidden(*args, **kwargs):
         raise AssertionError("U2 không được đọc hay ghi tệp báo cáo (BR2.8)")
 
-    monkeypatch.setattr("src.analytics.report.write_report", forbidden)
-    monkeypatch.setattr("src.analytics.report.read_report", forbidden)
+    monkeypatch.setattr("src.analytics.report_contract.write_report", forbidden)
+    monkeypatch.setattr("src.analytics.report_contract.read_report", forbidden)
 
     block = train_from_frame(make_frame(ROWS), expected_delivered=ROWS, expected_late=LATE_ROWS)
 

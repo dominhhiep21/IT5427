@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 from dash import dcc
 
-from src.analytics.report import read_report, report_path
+from src.analytics.report_contract import read_report, report_path
 from src.analytics.model import AUC_TARGET
 from src.analytics.service import AnalyticsService
 from src.clean.pipeline import clean_all

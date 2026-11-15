@@ -7,8 +7,8 @@ from pathlib import Path
 
 import pytest
 
-from src.analytics import report as report_module
-from src.analytics.report import (
+from src.analytics import report_contract as report_module
+from src.analytics.report_contract import (
     CORRELATION_DIGITS,
     INTERVAL_DIGITS,
     P_VALUE_DIGITS,

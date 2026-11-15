@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 
 from src.analytics.model import train_model
 from src.analytics.persistence import fit_from_config, save_model
-from src.analytics.report import assemble_report, write_report
+from src.analytics.report_contract import assemble_report, write_report
 from src.analytics.service import AnalyticsService
 from src.analytics.statistics import build_analysis_report
 from src.clean.pipeline import clean_all

@@ -12,12 +12,12 @@ BRANCH = "feature/analysis-and-models"
 
 # Mọi tệp nguồn và tệp test mới của đơn vị này, phải có mặt trong danh sách format khai tay.
 NEW_FILES = (
-    "src/analytics/report.py",
+    "src/analytics/report_contract.py",
     "src/analytics/statistics.py",
     "src/analytics/model.py",
     "src/analytics/service.py",
     "src/dashboard/analysis_tab.py",
-    "tests/unit/test_analytics_report.py",
+    "tests/unit/test_analytics_report_contract.py",
     "tests/unit/test_analytics_statistics.py",
     "tests/unit/test_analytics_model.py",
     "tests/unit/test_pipeline_stages.py",

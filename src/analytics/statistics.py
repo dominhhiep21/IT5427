@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 import pandas as pd
 from scipy import stats as scipy_stats
 
-from src.analytics.report import (
+from src.analytics.report_contract import (
     STATUS_ERROR,
     AnalysisReport,
     ComparisonResult,

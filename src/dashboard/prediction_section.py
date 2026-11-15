@@ -21,7 +21,7 @@ from src.analytics.model import (
     score_item,
 )
 from src.analytics.persistence import load_model
-from src.analytics.report import (
+from src.analytics.report_contract import (
     RUN_STATS_HINT,
     AnalysisReport,
     ReportView,

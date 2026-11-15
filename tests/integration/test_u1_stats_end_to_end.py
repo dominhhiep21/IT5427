@@ -7,7 +7,7 @@ import time
 
 import pytest
 
-from src.analytics.report import RATE_DIGITS, REPORT_VERSION, read_report, report_path
+from src.analytics.report_contract import RATE_DIGITS, REPORT_VERSION, read_report, report_path
 from src.analytics.service import AnalyticsService
 from src.clean.pipeline import clean_all
 from src.common.io import AtomicWriter

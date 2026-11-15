@@ -12,7 +12,7 @@ from pathlib import Path
 import pytest
 from dash import dcc, html, no_update
 
-from src.analytics.report import (
+from src.analytics.report_contract import (
     RUN_STATS_HINT,
     AnalysisReport,
     ComparisonResult,

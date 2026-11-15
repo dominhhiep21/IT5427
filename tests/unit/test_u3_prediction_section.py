@@ -26,7 +26,7 @@ from src.analytics.model import (
     encode_features,
 )
 from src.analytics.persistence import MODEL_FILE_NAME, fit_persistable, save_model
-from src.analytics.report import (
+from src.analytics.report_contract import (
     RUN_STATS_HINT,
     AnalysisReport,
     ModelBlock,

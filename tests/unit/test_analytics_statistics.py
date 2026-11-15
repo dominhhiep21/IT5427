@@ -34,7 +34,7 @@ from src.analytics.statistics import (
     wilson_interval,
     z_critical,
 )
-from src.analytics.report import SkipEntry
+from src.analytics.report_contract import SkipEntry
 from src.common.kpis import REVENUE_DEFINITION
 from src.common.types import KpiFilters
 from src.integrate.catalog import VIEW_TABLES

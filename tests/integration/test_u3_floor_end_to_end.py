@@ -5,7 +5,7 @@ from __future__ import annotations
 import pytest
 
 from src.analytics.model import beats_floor
-from src.analytics.report import read_report, report_path
+from src.analytics.report_contract import read_report, report_path
 from src.clean.pipeline import clean_all
 from src.common.io import AtomicWriter
 from src.common.logging import JsonLogger, new_run_context

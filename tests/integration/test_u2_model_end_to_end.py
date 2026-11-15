@@ -20,7 +20,7 @@ from src.analytics.model import (
     train_model,
 )
 from src.analytics.persistence import load_model
-from src.analytics.report import read_report, report_path
+from src.analytics.report_contract import read_report, report_path
 from src.analytics.service import AnalyticsService
 from src.clean.pipeline import clean_all
 from src.common.io import AtomicWriter

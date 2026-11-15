@@ -8,7 +8,7 @@ from typing import Any
 import dash_mantine_components as dmc
 from dash import Dash, Input, Output, dcc, html, no_update
 
-from src.analytics.report import (
+from src.analytics.report_contract import (
     RUN_STATS_HINT,
     STATUS_EMPTY,
     STATUS_ERROR,
